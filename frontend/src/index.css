@@ -786,10 +786,121 @@ body {
   cursor: default;
 }
 
+/* ---------- Missão e objetivos do setor ---------- */
+.setor-sobre {
+  margin-bottom: 24px;
+  border-left: 3px solid var(--verde);
+}
+
+.setor-sobre-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.setor-sobre-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.setor-sobre-rotulo {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--verde);
+}
+
+.setor-sobre-item p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--texto);
+}
+
+/* ---------- Boas-vindas (toast pós-login) ---------- */
+.boas-vindas {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 40;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 360px;
+  padding: 14px 16px;
+  background: var(--card);
+  border: 1px solid var(--borda);
+  border-left: 4px solid var(--azul);
+  border-radius: var(--raio);
+  box-shadow: 0 12px 32px rgba(30, 42, 52, 0.16);
+  animation: bv-entrada 0.35s ease;
+}
+
+@keyframes bv-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.boas-vindas-icone {
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.boas-vindas-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.boas-vindas-texto strong {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--texto);
+}
+
+.boas-vindas-texto span {
+  font-size: 13px;
+  color: var(--texto-fraco);
+  line-height: 1.45;
+}
+
+.boas-vindas-fechar {
+  background: none;
+  border: none;
+  color: var(--texto-fraco);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+  margin-left: 4px;
+  transition: color 0.15s ease;
+}
+
+.boas-vindas-fechar:hover {
+  color: var(--texto);
+}
+
 /* ---------- Responsivo ---------- */
 @media (max-width: 900px) {
   .conteudo {
     padding: 24px 18px;
+  }
+  .setor-sobre-grid {
+    grid-template-columns: 1fr;
+  }
+  .boas-vindas {
+    left: 16px;
+    right: 16px;
+    max-width: none;
   }
   .kpis {
     grid-template-columns: repeat(2, 1fr);

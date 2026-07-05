@@ -54,6 +54,8 @@ export default function Dashboard() {
       .finally(() => setCarregando(false))
   }, [setorId])
 
+  const setorSelecionado = setorId ? setores.find((s) => String(s.id) === setorId) : undefined
+
   return (
     <div className="app">
       <header className="topbar">
@@ -86,6 +88,26 @@ export default function Dashboard() {
       </header>
 
       <main className="conteudo">
+        {setorSelecionado && (setorSelecionado.missao || setorSelecionado.objetivos) && (
+          <section className="setor-sobre card">
+            <h2>Missão e objetivos — {setorSelecionado.nome}</h2>
+            <div className="setor-sobre-grid">
+              {setorSelecionado.missao && (
+                <div className="setor-sobre-item">
+                  <span className="setor-sobre-rotulo">Missão</span>
+                  <p>{setorSelecionado.missao}</p>
+                </div>
+              )}
+              {setorSelecionado.objetivos && (
+                <div className="setor-sobre-item">
+                  <span className="setor-sobre-rotulo">Objetivos</span>
+                  <p>{setorSelecionado.objetivos}</p>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
         {kpis && (
           <div className="resumo-ia">
             <span className="ia-badge">IA · resumo</span>

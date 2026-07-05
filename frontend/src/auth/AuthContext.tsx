@@ -12,6 +12,8 @@ export interface Usuario {
 interface AuthCtx {
   usuario: Usuario | null
   carregando: boolean
+  recemLogado: boolean
+  confirmarSaudacao: () => void
   login: (email: string, senha: string) => Promise<Usuario>
   logout: () => void
 }
@@ -22,6 +24,9 @@ export const useAuth = () => useContext(Ctx)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [usuario, setUsuario] = useState<Usuario | null>(null)
   const [carregando, setCarregando] = useState(true)
+  // Sinaliza que o usuário ACABOU de logar (não é reidratação de sessão),
+  // para exibir a saudação de boas-vindas apenas uma vez após o login.
+  const [recemLogado, setRecemLogado] = useState(false)
 
   // Ao abrir o app, tenta reidratar a sessão a partir do token salvo.
   useEffect(() => {
@@ -42,15 +47,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('token', r.data.access_token)
     const me = await api.get('/api/me')
     setUsuario(me.data)
+    setRecemLogado(true)
     return me.data
+  }
+
+  function confirmarSaudacao() {
+    setRecemLogado(false)
   }
 
   function logout() {
     localStorage.removeItem('token')
     setUsuario(null)
+    setRecemLogado(false)
   }
 
   return (
-    <Ctx.Provider value={{ usuario, carregando, login, logout }}>{children}</Ctx.Provider>
+    <Ctx.Provider
+      value={{ usuario, carregando, recemLogado, confirmarSaudacao, login, logout }}
+    >
+      {children}
+    </Ctx.Provider>
   )
 }

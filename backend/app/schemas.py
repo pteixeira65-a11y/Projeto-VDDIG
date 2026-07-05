@@ -26,6 +26,8 @@ class UserOut(BaseModel):
 class SetorOut(BaseModel):
     id: int
     nome: str
+    missao: str = ""
+    objetivos: str = ""
 
 
 class KpisOut(BaseModel):
@@ -104,6 +106,8 @@ class MetaCriadaOut(BaseModel):
 class SetorMetricasOut(BaseModel):
     setor_id: int
     setor: str
+    missao: str = ""
+    objetivos: str = ""
     total_metas: int
     metas_concluidas: int
     pct_metas_concluidas: float

@@ -102,6 +102,26 @@ export default function EspacoSetorial() {
       </header>
 
       <main className="conteudo">
+        {metricas && (metricas.missao || metricas.objetivos) && (
+          <section className="setor-sobre card">
+            <h2>Missão e objetivos — {metricas.setor}</h2>
+            <div className="setor-sobre-grid">
+              {metricas.missao && (
+                <div className="setor-sobre-item">
+                  <span className="setor-sobre-rotulo">Missão</span>
+                  <p>{metricas.missao}</p>
+                </div>
+              )}
+              {metricas.objetivos && (
+                <div className="setor-sobre-item">
+                  <span className="setor-sobre-rotulo">Objetivos</span>
+                  <p>{metricas.objetivos}</p>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
         {metricas && (
           <div className="resumo-ia">
             <span className="ia-badge">IA · resumo</span>

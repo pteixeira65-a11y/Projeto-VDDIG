@@ -67,6 +67,8 @@ def metricas(
     payload = {
         "setor_id": sid,
         "setor": setor.nome,
+        "missao": setor.missao,
+        "objetivos": setor.objetivos,
         "total_metas": total,
         "metas_concluidas": concluidas,
         "pct_metas_concluidas": round(concluidas / total * 100, 1) if total else 0.0,

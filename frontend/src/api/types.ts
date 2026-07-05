@@ -1,6 +1,8 @@
 export interface Setor {
   id: number
   nome: string
+  missao: string
+  objetivos: string
 }
 
 export interface Kpis {
@@ -70,6 +72,8 @@ export interface DlpFinding {
 export interface SetorMetricas {
   setor_id: number
   setor: string
+  missao: string
+  objetivos: string
   total_metas: number
   metas_concluidas: number
   pct_metas_concluidas: number

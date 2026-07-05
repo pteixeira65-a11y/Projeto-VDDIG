@@ -10,6 +10,40 @@ from .models import Demanda, Meta, RecursoLOAS, Setor, User
 
 SETORES = ["Compras", "Biossegurança", "Patrimônio", "Planejamento", "Riscos"]
 
+# Missão e objetivos mínimos de cada setor (contexto ENSP/Fiocruz — governança LOAS).
+DESCRICOES = {
+    "Compras": {
+        "missao": "Prover à ENSP aquisições e contratações públicas eficientes, "
+                  "transparentes e em conformidade com a legislação.",
+        "objetivos": "Reduzir prazos de contratação, assegurar conformidade legal e "
+                     "otimizar a aplicação dos recursos LOAS em compras e contratos.",
+    },
+    "Biossegurança": {
+        "missao": "Assegurar ambientes de trabalho e pesquisa seguros, protegendo "
+                  "pessoas, comunidade e meio ambiente contra riscos biológicos.",
+        "objetivos": "Manter protocolos de biossegurança atualizados, capacitar as "
+                     "equipes e monitorar a conformidade das instalações.",
+    },
+    "Patrimônio": {
+        "missao": "Zelar pela gestão, pelo controle e pela preservação dos bens "
+                  "públicos sob responsabilidade da ENSP.",
+        "objetivos": "Manter o inventário atualizado, controlar a movimentação de "
+                     "bens e maximizar o aproveitamento dos ativos.",
+    },
+    "Planejamento": {
+        "missao": "Coordenar o planejamento estratégico e orçamentário, alinhando as "
+                  "metas setoriais aos objetivos institucionais.",
+        "objetivos": "Consolidar indicadores, acompanhar a execução das metas e apoiar "
+                     "decisões baseadas em dados.",
+    },
+    "Riscos": {
+        "missao": "Fortalecer a governança institucional por meio da identificação, "
+                  "avaliação e mitigação de riscos.",
+        "objetivos": "Mapear riscos críticos, monitorar os planos de tratamento e "
+                     "disseminar a cultura de gestão de riscos.",
+    },
+}
+
 # Slug para compor o e-mail do funcionário de cada setor.
 FUNC_SLUG = {
     "Compras": "compras",
@@ -34,7 +68,9 @@ def seed() -> None:
 
         setores: dict[str, Setor] = {}
         for nome in SETORES:
-            setor = Setor(nome=nome)
+            desc = DESCRICOES.get(nome, {})
+            setor = Setor(nome=nome, missao=desc.get("missao", ""),
+                          objetivos=desc.get("objetivos", ""))
             s.add(setor)
             s.commit()
             s.refresh(setor)

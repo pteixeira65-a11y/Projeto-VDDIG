@@ -4,6 +4,7 @@ import { useAuth } from './auth/AuthContext'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import EspacoSetorial from './pages/EspacoSetorial'
+import BoasVindas from './components/BoasVindas'
 
 export function rotaPadrao(role: string) {
   return role === 'estrategico' ? '/dashboard' : '/setor'
@@ -25,7 +26,9 @@ function Home() {
 
 export default function App() {
   return (
-    <Routes>
+    <>
+      <BoasVindas />
+      <Routes>
       <Route path="/login" element={<Login />} />
       <Route
         path="/dashboard"
@@ -44,6 +47,7 @@ export default function App() {
         }
       />
       <Route path="*" element={<Home />} />
-    </Routes>
+      </Routes>
+    </>
   )
 }
