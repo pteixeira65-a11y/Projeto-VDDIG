@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
-import { rotaPadrao } from '../App'
+import TopNav from '../components/TopNav'
 
 /* ------------------------------------------------------------------ *
  * Banco de Prompts — biblioteca de prompts prontos para o setor,
@@ -204,11 +203,7 @@ export default function BancoPrompts() {
           </div>
         </div>
         <div className="topbar-right">
-          {usuario && (
-            <Link className="link-nav" to={rotaPadrao(usuario.role)}>
-              ← Voltar
-            </Link>
-          )}
+          <TopNav />
           <div className="usuario">
             <span>{usuario?.nome}</span>
             <button className="link" onClick={logout}>

@@ -101,7 +101,8 @@ export default function Chatbot({ aberto, onToggle, gatilhoDlp }: Props) {
   if (!aberto) {
     return (
       <button className="chat-fab" onClick={onToggle} aria-label="Abrir assistente">
-        <RobotIcon size={30} />
+        <RobotIcon size={26} />
+        <span className="chat-fab-label">Assistente</span>
       </button>
     )
   }

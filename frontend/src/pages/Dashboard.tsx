@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { api } from '../api/client'
+import TopNav from '../components/TopNav'
 import { useAuth } from '../auth/AuthContext'
 import {
   DemandaTimeline,
@@ -67,18 +67,7 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="topbar-right">
-          <Link className="link-nav" to="/prompts">
-            Banco de Prompts
-          </Link>
-          <Link className="link-nav" to="/curadoria">
-            Curadoria de IAs
-          </Link>
-          <Link className="link-nav" to="/bussola">
-            🧭 Bússola do Saber
-          </Link>
-          <Link className="link-nav" to="/setor">
-            Espaço Setorial →
-          </Link>
+          <TopNav />
           <select value={setorId} onChange={(e) => setSetorId(e.target.value)}>
             <option value="">Todos os setores</option>
             {setores.map((s) => (

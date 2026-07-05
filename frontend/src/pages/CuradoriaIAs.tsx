@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
-import { rotaPadrao } from '../App'
+import TopNav from '../components/TopNav'
 
 /* ------------------------------------------------------------------ *
  * Curadoria de IAs — aba de avaliação de ferramentas de IA do setor.
@@ -374,11 +373,7 @@ export default function CuradoriaIAs() {
           </div>
         </div>
         <div className="topbar-right">
-          {usuario && (
-            <Link className="link-nav" to={rotaPadrao(usuario.role)}>
-              ← Voltar
-            </Link>
-          )}
+          <TopNav />
           <div className="usuario">
             <span>{usuario?.nome}</span>
             <button className="link" onClick={logout}>

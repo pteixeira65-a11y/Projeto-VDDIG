@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { api } from '../api/client'
 import { useAuth } from '../auth/AuthContext'
 import { Meta, NovaMeta, Setor, SetorMetricas } from '../api/types'
@@ -7,6 +6,7 @@ import KpiCard from '../components/KpiCard'
 import MetasChart from '../components/MetasChart'
 import NovaMetaForm from '../components/NovaMetaForm'
 import Chatbot from '../components/Chatbot'
+import TopNav from '../components/TopNav'
 import { formatarData } from '../utils/formato'
 
 const brl = (v: number) =>
@@ -78,28 +78,15 @@ export default function EspacoSetorial() {
           </div>
         </div>
         <div className="topbar-right">
-          <Link className="link-nav" to="/prompts">
-            Banco de Prompts
-          </Link>
-          <Link className="link-nav" to="/curadoria">
-            Curadoria de IAs
-          </Link>
-          <Link className="link-nav" to="/bussola">
-            🧭 Bússola do Saber
-          </Link>
+          <TopNav />
           {estrategico && (
-            <>
-              <Link className="link-nav" to="/dashboard">
-                ← Dashboard
-              </Link>
-              <select value={setorId} onChange={(e) => setSetorId(e.target.value)}>
-                {setores.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {s.nome}
-                  </option>
-                ))}
-              </select>
-            </>
+            <select value={setorId} onChange={(e) => setSetorId(e.target.value)}>
+              {setores.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.nome}
+                </option>
+              ))}
+            </select>
           )}
           <div className="usuario">
             <span>{usuario?.nome}</span>

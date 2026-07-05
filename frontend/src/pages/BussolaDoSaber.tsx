@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { api } from '../api/client'
 import { useAuth } from '../auth/AuthContext'
 import { Termo } from '../api/types'
-import { rotaPadrao } from '../App'
+import TopNav from '../components/TopNav'
 
 const CATEGORIA_ROTULO: Record<string, string> = {
   normativo: 'Normativo',
@@ -65,11 +65,7 @@ export default function BussolaDoSaber() {
           </div>
         </div>
         <div className="topbar-right">
-          {usuario && (
-            <Link className="link-nav" to={rotaPadrao(usuario.role)}>
-              ← Voltar
-            </Link>
-          )}
+          <TopNav />
           <div className="usuario">
             <span>{usuario?.nome}</span>
             <button className="link" onClick={logout}>
