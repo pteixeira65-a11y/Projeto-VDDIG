@@ -466,8 +466,8 @@ body {
 
 .loading-fixo {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 88px;
+  right: 24px;
   background: var(--texto);
   color: #fff;
   padding: 9px 15px;
@@ -475,6 +475,7 @@ body {
   font-size: 13px;
   opacity: 0.9;
   box-shadow: var(--sombra);
+  z-index: 21;
 }
 
 /* ---------- Espaço Setorial ---------- */

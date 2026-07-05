@@ -5,8 +5,8 @@ import { Meta, NovaMeta, Setor, SetorMetricas } from '../api/types'
 import KpiCard from '../components/KpiCard'
 import MetasChart from '../components/MetasChart'
 import NovaMetaForm from '../components/NovaMetaForm'
-import Chatbot from '../components/Chatbot'
 import TopNav from '../components/TopNav'
+import { useChat } from '../chat/ChatContext'
 import { formatarData } from '../utils/formato'
 
 const brl = (v: number) =>
@@ -28,8 +28,7 @@ export default function EspacoSetorial() {
   const [metricas, setMetricas] = useState<SetorMetricas | null>(null)
   const [metas, setMetas] = useState<Meta[]>([])
 
-  const [chatAberto, setChatAberto] = useState(false)
-  const [gatilhoDlp, setGatilhoDlp] = useState(0)
+  const { pedirAjudaDlp } = useChat()
 
   // Estratégico escolhe o setor; funcionário usa sempre o próprio.
   useEffect(() => {
@@ -60,11 +59,6 @@ export default function EspacoSetorial() {
   async function removerMeta(id: number) {
     await api.delete(`/api/setor/metas/${id}`)
     carregar()
-  }
-
-  function pedirAjudaDlp() {
-    setChatAberto(true)
-    setGatilhoDlp((g) => g + 1)
   }
 
   return (
@@ -208,8 +202,6 @@ export default function EspacoSetorial() {
           )}
         </section>
       </main>
-
-      <Chatbot aberto={chatAberto} onToggle={() => setChatAberto((o) => !o)} gatilhoDlp={gatilhoDlp} />
     </div>
   )
 }

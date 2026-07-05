@@ -2,19 +2,14 @@ import { FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'reac
 import { useNavigate } from 'react-router-dom'
 import { api } from '../api/client'
 import { ChatMsg } from '../api/types'
+import { useChat } from '../chat/ChatContext'
 import RobotIcon from './RobotIcon'
 
 const escaparRegex = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
-interface Props {
-  aberto: boolean
-  onToggle: () => void
-  gatilhoDlp: number
-}
-
 const BOAS_VINDAS: ChatMsg = {
   autor: 'bot',
-  texto: 'Olá! Sou o assistente do Espaço Setorial. Posso ajudar a cadastrar metas, entender os status/métricas e orientar sobre proteção de dados (LGPD). Sobre o que você tem dúvida?',
+  texto: 'Olá! Sou o assistente do vddig. Posso ajudar a usar a plataforma, entender status e métricas, orientar sobre proteção de dados (LGPD) e explicar termos. Sobre o que você tem dúvida?',
 }
 
 const PERGUNTAS_RAPIDAS = [
@@ -23,7 +18,8 @@ const PERGUNTAS_RAPIDAS = [
   'Quando uma meta fica em risco?',
 ]
 
-export default function Chatbot({ aberto, onToggle, gatilhoDlp }: Props) {
+export default function Chatbot() {
+  const { aberto, gatilhoDlp, toggle } = useChat()
   const [mensagens, setMensagens] = useState<ChatMsg[]>([BOAS_VINDAS])
   const [texto, setTexto] = useState('')
   const [pensando, setPensando] = useState(false)
@@ -100,7 +96,7 @@ export default function Chatbot({ aberto, onToggle, gatilhoDlp }: Props) {
 
   if (!aberto) {
     return (
-      <button className="chat-fab" onClick={onToggle} aria-label="Abrir assistente">
+      <button className="chat-fab" onClick={toggle} aria-label="Abrir assistente">
         <RobotIcon size={26} />
         <span className="chat-fab-label">Assistente</span>
       </button>
@@ -115,7 +111,7 @@ export default function Chatbot({ aberto, onToggle, gatilhoDlp }: Props) {
           <strong>Assistente</strong>
           <span className="chat-badge">IA</span>
         </div>
-        <button className="chat-fechar" onClick={onToggle} aria-label="Fechar">
+        <button className="chat-fechar" onClick={toggle} aria-label="Fechar">
           ×
         </button>
       </header>

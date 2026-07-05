@@ -8,6 +8,7 @@ import BussolaDoSaber from './pages/BussolaDoSaber'
 import CuradoriaIAs from './pages/CuradoriaIAs'
 import BancoPrompts from './pages/BancoPrompts'
 import BoasVindas from './components/BoasVindas'
+import Chatbot from './components/Chatbot'
 
 export function rotaPadrao(role: string) {
   return role === 'estrategico' ? '/dashboard' : '/setor'
@@ -28,6 +29,7 @@ function Home() {
 }
 
 export default function App() {
+  const { usuario } = useAuth()
   return (
     <>
       <BoasVindas />
@@ -75,6 +77,7 @@ export default function App() {
       />
       <Route path="*" element={<Home />} />
       </Routes>
+      {usuario && <Chatbot />}
     </>
   )
 }
