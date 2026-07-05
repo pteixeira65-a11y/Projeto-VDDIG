@@ -1,6 +1,9 @@
-import { FormEvent, useEffect, useRef, useState } from 'react'
+import { FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { api } from '../api/client'
 import { ChatMsg } from '../api/types'
+
+const escaparRegex = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 interface Props {
   aberto: boolean
@@ -23,11 +26,47 @@ export default function Chatbot({ aberto, onToggle, gatilhoDlp }: Props) {
   const [mensagens, setMensagens] = useState<ChatMsg[]>([BOAS_VINDAS])
   const [texto, setTexto] = useState('')
   const [pensando, setPensando] = useState(false)
+  const [siglas, setSiglas] = useState<string[]>([])
   const fimRef = useRef<HTMLDivElement | null>(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     fimRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [mensagens, aberto])
+
+  // Siglas do glossário para tornar termos clicáveis nas respostas da IA.
+  useEffect(() => {
+    api
+      .get('/api/bussola/termos')
+      .then((r) => setSiglas(r.data.map((t: { sigla: string }) => t.sigla).filter(Boolean)))
+      .catch(() => setSiglas([]))
+  }, [])
+
+  const regexSiglas = useMemo(
+    () => (siglas.length ? new RegExp(`\\b(${siglas.map(escaparRegex).join('|')})\\b`, 'g') : null),
+    [siglas],
+  )
+
+  // Quebra o texto do bot, transformando siglas conhecidas em links para a Bússola.
+  function renderResposta(texto: string): ReactNode {
+    if (!regexSiglas) return texto
+    const partes = texto.split(regexSiglas)
+    return partes.map((parte, i) =>
+      siglas.includes(parte) ? (
+        <button
+          key={i}
+          type="button"
+          className="termo-inline"
+          title={`Ver "${parte}" na Bússola do Saber`}
+          onClick={() => navigate(`/bussola?termo=${encodeURIComponent(parte)}`)}
+        >
+          {parte}
+        </button>
+      ) : (
+        parte
+      ),
+    )
+  }
 
   // Gatilho da camada DLP: abre e injeta orientação de anonimização.
   useEffect(() => {
@@ -81,7 +120,7 @@ export default function Chatbot({ aberto, onToggle, gatilhoDlp }: Props) {
       <div className="chat-corpo">
         {mensagens.map((m, i) => (
           <div key={i} className={`chat-msg chat-${m.autor}`}>
-            {m.texto}
+            {m.autor === 'bot' ? renderResposta(m.texto) : m.texto}
           </div>
         ))}
         {pensando && <div className="chat-msg chat-bot chat-pensando">digitando…</div>}

@@ -78,6 +78,9 @@ export default function EspacoSetorial() {
           </div>
         </div>
         <div className="topbar-right">
+          <Link className="link-nav" to="/bussola">
+            🧭 Bússola do Saber
+          </Link>
           {estrategico && (
             <>
               <Link className="link-nav" to="/dashboard">

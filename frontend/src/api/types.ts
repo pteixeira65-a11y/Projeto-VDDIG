@@ -91,3 +91,14 @@ export interface ChatMsg {
   autor: 'user' | 'bot'
   texto: string
 }
+
+export interface Termo {
+  id: number
+  termo: string
+  sigla: string
+  categoria: string // normativo | gestao | ia
+  definicao: string
+  exemplo: string
+  fonte: string
+  sinonimos: string
+}

@@ -4,6 +4,7 @@ import { useAuth } from './auth/AuthContext'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import EspacoSetorial from './pages/EspacoSetorial'
+import BussolaDoSaber from './pages/BussolaDoSaber'
 import BoasVindas from './components/BoasVindas'
 
 export function rotaPadrao(role: string) {
@@ -43,6 +44,14 @@ export default function App() {
         element={
           <Protegido roles={['funcionario', 'estrategico']}>
             <EspacoSetorial />
+          </Protegido>
+        }
+      />
+      <Route
+        path="/bussola"
+        element={
+          <Protegido>
+            <BussolaDoSaber />
           </Protegido>
         }
       />

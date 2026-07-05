@@ -889,12 +889,191 @@ body {
   color: var(--texto);
 }
 
+/* ---------- Bússola do Saber ---------- */
+.bussola-intro {
+  font-size: 14px;
+  color: var(--texto-fraco);
+  max-width: 640px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.bussola-busca {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card);
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+  padding: 4px 14px;
+  max-width: 640px;
+  box-shadow: var(--sombra);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bussola-busca:focus-within {
+  border-color: var(--azul);
+  box-shadow: 0 0 0 3px rgba(74, 107, 130, 0.15);
+}
+
+.bussola-busca-icone {
+  font-size: 20px;
+}
+
+.bussola-busca input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 12px 0;
+  font-size: 16px;
+  color: var(--texto);
+  font-family: inherit;
+}
+
+.bussola-limpar {
+  background: none;
+  border: none;
+  color: var(--texto-fraco);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.bussola-limpar:hover {
+  color: var(--texto);
+}
+
+.bussola-contagem {
+  font-size: 12px;
+  color: var(--texto-fraco);
+  letter-spacing: 0.03em;
+  margin: 14px 2px 12px;
+}
+
+.bussola-vazio {
+  color: var(--texto-fraco);
+  font-size: 15px;
+  padding: 28px 0;
+  max-width: 520px;
+}
+
+.bussola-lista {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.termo-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.termo-cabecalho {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.termo-card h2 {
+  margin: 0;
+  font-size: 16px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.termo-sigla {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--azul);
+  background: var(--info-bg);
+  border: 1px solid var(--info-borda);
+  border-radius: 6px;
+  padding: 1px 7px;
+}
+
+.termo-categoria {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.cat-normativo {
+  background: #f2e2db;
+  color: #8f4d3b;
+}
+.cat-gestao {
+  background: #e6ece1;
+  color: #556b4f;
+}
+.cat-ia {
+  background: var(--info-bg);
+  color: var(--info-texto);
+}
+
+.termo-def {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--texto);
+}
+
+.termo-exemplo {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--texto-fraco);
+}
+
+.termo-exemplo strong {
+  color: var(--texto);
+}
+
+.termo-fonte {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--texto-fraco);
+  font-style: italic;
+}
+
+/* Sigla clicável dentro do chat da IA */
+.termo-inline {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--azul);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+}
+
+.chat-bot .termo-inline:hover {
+  color: var(--azul-escuro);
+}
+
 /* ---------- Responsivo ---------- */
 @media (max-width: 900px) {
   .conteudo {
     padding: 24px 18px;
   }
   .setor-sobre-grid {
+    grid-template-columns: 1fr;
+  }
+  .bussola-lista {
     grid-template-columns: 1fr;
   }
   .boas-vindas {

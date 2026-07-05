@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .database import init_db
-from .routers import auth, chat, dashboard, setor, setores
+from .routers import auth, bussola, chat, dashboard, setor, setores
 from .seed import seed
 
 
@@ -39,6 +39,7 @@ app.include_router(setores.router)
 app.include_router(dashboard.router)
 app.include_router(setor.router)
 app.include_router(chat.router)
+app.include_router(bussola.router)
 
 
 @app.get("/")

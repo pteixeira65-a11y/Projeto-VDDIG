@@ -30,6 +30,18 @@ class SetorOut(BaseModel):
     objetivos: str = ""
 
 
+class TermoOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    termo: str
+    sigla: str = ""
+    categoria: str
+    definicao: str
+    exemplo: str = ""
+    fonte: str = ""
+    sinonimos: str = ""
+
+
 class KpisOut(BaseModel):
     total_metas: int
     metas_concluidas: int

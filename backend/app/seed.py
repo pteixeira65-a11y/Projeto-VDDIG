@@ -6,7 +6,7 @@ from sqlmodel import Session, select
 
 from .auth import hash_senha
 from .database import engine
-from .models import Demanda, Meta, RecursoLOAS, Setor, User
+from .models import Demanda, Meta, RecursoLOAS, Setor, Termo, User
 
 SETORES = ["Compras", "Biossegurança", "Patrimônio", "Planejamento", "Riscos"]
 
@@ -59,7 +59,7 @@ HOJE = date(2026, 7, 4)
 SENHA_PADRAO = "fiocruz123"
 
 
-def seed() -> None:
+def _seed_operacional() -> None:
     with Session(engine) as s:
         if s.exec(select(Setor)).first():
             return  # já populado
@@ -131,3 +131,87 @@ def seed() -> None:
                               valor_previsto=previsto, valor_aplicado=aplicado, periodo="2026"))
 
         s.commit()
+
+
+# --- Glossário da "Bússola do Saber" (linguagem simples, sem jargão) ---
+GLOSSARIO = [
+    {"termo": "LOAS", "sigla": "LOAS", "categoria": "normativo",
+     "definicao": "Lei Orgânica da Assistência Social. Define quem tem direito à "
+                  "assistência social no Brasil e como os recursos são aplicados.",
+     "exemplo": "As verbas LOAS acompanhadas na plataforma seguem essa lei.",
+     "fonte": "Lei nº 8.742/1993",
+     "sinonimos": "lei organica assistencia social, verba loas, recurso assistencial"},
+    {"termo": "LGPD", "sigla": "LGPD", "categoria": "normativo",
+     "definicao": "Lei Geral de Proteção de Dados. Regras para coletar, usar e guardar "
+                  "dados pessoais com segurança e transparência.",
+     "exemplo": "Ao digitar um CPF numa meta, a plataforma alerta por causa da LGPD.",
+     "fonte": "Lei nº 13.709/2018",
+     "sinonimos": "protecao de dados, privacidade, dados pessoais"},
+    {"termo": "DLP (prevenção de vazamento)", "sigla": "DLP", "categoria": "ia",
+     "definicao": "Camada que identifica dados sensíveis (CPF, e-mail, telefone) no texto "
+                  "e avisa antes que sejam expostos indevidamente.",
+     "exemplo": "O alerta amarelo ao salvar uma meta vem da camada DLP.",
+     "fonte": "", "sinonimos": "prevencao de vazamento, data loss prevention, alerta de dados sensiveis"},
+    {"termo": "RAG (busca aumentada)", "sigla": "RAG", "categoria": "ia",
+     "definicao": "Técnica em que a IA consulta documentos confiáveis antes de responder, "
+                  "reduzindo erros e citando a fonte.",
+     "exemplo": "O assistente usará RAG para responder com base nas normas do setor.",
+     "fonte": "", "sinonimos": "retrieval augmented generation, busca aumentada, geracao aumentada"},
+    {"termo": "RBAC (acesso por papel)", "sigla": "RBAC", "categoria": "gestao",
+     "definicao": "Controle de acesso por papel: cada usuário vê apenas o que seu perfil "
+                  "permite.",
+     "exemplo": "Um funcionário só acessa o próprio setor; a Direção vê todos.",
+     "fonte": "", "sinonimos": "controle de acesso, permissao por perfil, papel de usuario"},
+    {"termo": "Revisão humana (human-in-the-loop)", "sigla": "", "categoria": "ia",
+     "definicao": "A IA sugere, mas uma pessoa revisa e aprova antes de o resultado ser usado.",
+     "exemplo": "Uma minuta gerada pela IA passa por revisão humana antes de valer.",
+     "fonte": "", "sinonimos": "human in the loop, validacao humana, humano no circuito, revisao humana"},
+    {"termo": "Anonimização", "sigla": "", "categoria": "normativo",
+     "definicao": "Remover ou mascarar dados que identificam uma pessoa, para proteger a "
+                  "privacidade.",
+     "exemplo": "Trocar o CPF por 'servidor do setor' é anonimizar.",
+     "fonte": "LGPD, art. 12", "sinonimos": "anonimizar, mascarar dados, despersonalizar"},
+    {"termo": "KPI (indicador)", "sigla": "KPI", "categoria": "gestao",
+     "definicao": "Indicador-chave que mostra rapidamente como algo vai, em número.",
+     "exemplo": "'% de metas concluídas' é um KPI do painel.",
+     "fonte": "", "sinonimos": "indicador, metrica, key performance indicator"},
+    {"termo": "Meta", "sigla": "", "categoria": "gestao",
+     "definicao": "Objetivo do setor com prazo e progresso acompanhados na plataforma.",
+     "exemplo": "'Concluir o inventário até dezembro' é uma meta.",
+     "fonte": "", "sinonimos": "objetivo, meta setorial"},
+    {"termo": "Demanda", "sigla": "", "categoria": "gestao",
+     "definicao": "Solicitação ou tarefa registrada pelo setor, com status e prioridade.",
+     "exemplo": "Um pedido de compra em aberto é uma demanda.",
+     "fonte": "", "sinonimos": "solicitacao, tarefa, chamado"},
+    {"termo": "Meta em risco", "sigla": "", "categoria": "gestao",
+     "definicao": "Meta atrasada ou que passou do prazo sem ser concluída.",
+     "exemplo": "Uma meta com prazo vencido aparece como 'em risco'.",
+     "fonte": "", "sinonimos": "meta atrasada, risco de meta, fora do prazo"},
+    {"termo": "ENSP", "sigla": "ENSP", "categoria": "gestao",
+     "definicao": "Escola Nacional de Saúde Pública Sergio Arouca, unidade da Fiocruz.",
+     "exemplo": "A plataforma vddig atende a gestão da ENSP.",
+     "fonte": "", "sinonimos": "escola nacional de saude publica"},
+    {"termo": "Fiocruz", "sigla": "", "categoria": "gestao",
+     "definicao": "Fundação Oswaldo Cruz, instituição pública de ciência e saúde ligada ao "
+                  "Ministério da Saúde.",
+     "exemplo": "A ENSP faz parte da Fiocruz.",
+     "fonte": "", "sinonimos": "fundacao oswaldo cruz"},
+    {"termo": "JWT (token de acesso)", "sigla": "JWT", "categoria": "ia",
+     "definicao": "Credencial digital que comprova quem é o usuário logado durante a sessão.",
+     "exemplo": "Ao entrar, você recebe um token que autentica suas ações.",
+     "fonte": "", "sinonimos": "token, autenticacao, json web token"},
+]
+
+
+def _seed_glossario() -> None:
+    with Session(engine) as s:
+        if s.exec(select(Termo)).first():
+            return  # glossário já populado
+        for t in GLOSSARIO:
+            s.add(Termo(**t))
+        s.commit()
+
+
+def seed() -> None:
+    _seed_operacional()
+    _seed_glossario()

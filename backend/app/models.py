@@ -48,3 +48,15 @@ class RecursoLOAS(SQLModel, table=True):
     valor_previsto: float
     valor_aplicado: float
     periodo: str  # ex.: "2026"
+
+
+class Termo(SQLModel, table=True):
+    """Verbete do glossário da 'Bússola do Saber'."""
+    id: Optional[int] = Field(default=None, primary_key=True)
+    termo: str
+    sigla: str = Field(default="")
+    categoria: str  # normativo | gestao | ia
+    definicao: str  # explicação em linguagem simples, sem jargão
+    exemplo: str = Field(default="")
+    fonte: str = Field(default="")
+    sinonimos: str = Field(default="")  # variações p/ busca, separadas por vírgula
