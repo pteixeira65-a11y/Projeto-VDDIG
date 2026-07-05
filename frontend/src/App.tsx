@@ -5,6 +5,8 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import EspacoSetorial from './pages/EspacoSetorial'
 import BussolaDoSaber from './pages/BussolaDoSaber'
+import CuradoriaIAs from './pages/CuradoriaIAs'
+import BancoPrompts from './pages/BancoPrompts'
 import BoasVindas from './components/BoasVindas'
 
 export function rotaPadrao(role: string) {
@@ -52,6 +54,22 @@ export default function App() {
         element={
           <Protegido>
             <BussolaDoSaber />
+          </Protegido>
+        }
+      />
+      <Route
+        path="/curadoria"
+        element={
+          <Protegido>
+            <CuradoriaIAs />
+          </Protegido>
+        }
+      />
+      <Route
+        path="/prompts"
+        element={
+          <Protegido>
+            <BancoPrompts />
           </Protegido>
         }
       />

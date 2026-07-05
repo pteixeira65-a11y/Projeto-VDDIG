@@ -627,8 +627,10 @@ body {
   border: none;
   background: var(--azul);
   color: #fff;
-  font-size: 24px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 8px 22px rgba(51, 73, 90, 0.35);
   transition: background 0.15s ease, transform 0.15s ease;
   z-index: 20;
@@ -664,6 +666,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.chat-titulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .chat-badge {
@@ -1065,6 +1073,389 @@ body {
   color: var(--azul-escuro);
 }
 
+/* ---------- Curadoria de IAs ---------- */
+.curad-intro {
+  font-size: 14px;
+  color: var(--texto-fraco);
+  max-width: 680px;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.curad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.curad-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+  background: var(--card);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 22px;
+  box-shadow: var(--sombra);
+  cursor: pointer;
+  font: inherit;
+  color: var(--texto);
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.curad-card:hover {
+  transform: translateY(-2px);
+  border-color: #d8d2c6;
+  box-shadow: 0 2px 4px rgba(45, 52, 58, 0.06), 0 12px 28px rgba(45, 52, 58, 0.07);
+}
+
+.curad-card-topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.curad-picto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #edeae3;
+  color: var(--texto);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.curad-card:hover .curad-picto {
+  background: var(--azul-escuro);
+  color: #fff;
+}
+
+.curad-picto.grande {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+}
+
+.curad-picto-svg {
+  width: 26px;
+  height: 26px;
+}
+
+.curad-picto.grande .curad-picto-svg {
+  width: 30px;
+  height: 30px;
+}
+
+.curad-card-nome {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.curad-card-resumo {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--texto-fraco);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.curad-ver {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto-fraco);
+  transition: color 0.2s ease;
+}
+
+.curad-card:hover .curad-ver {
+  color: var(--azul);
+}
+
+/* Badge de status */
+.curad-status {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.st-ativo {
+  background: #e6ece1;
+  color: #556b4f;
+}
+.st-em_avaliacao {
+  background: var(--ocre-bg);
+  color: var(--ocre-texto);
+}
+.st-desativado {
+  background: #eae6dd;
+  color: #6b7178;
+}
+
+/* Detalhe */
+.curad-voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-bottom: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--texto-fraco);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.curad-voltar:hover {
+  color: var(--texto);
+}
+
+.curad-detalhe-cabecalho {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.curad-detalhe-titulo {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+}
+
+.curad-secoes {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 760px;
+}
+
+.curad-secoes .card h2 {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--texto-fraco);
+}
+
+.curad-texto {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--texto);
+}
+
+.curad-lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.curad-lista li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--texto);
+}
+
+.curad-lista li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--verde);
+}
+
+.curad-passos {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.curad-passos li {
+  display: flex;
+  gap: 12px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--texto);
+}
+
+.curad-passo-num {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #edeae3;
+  color: var(--texto-fraco);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.curad-acao {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.curad-selecionar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 10px;
+  background: var(--azul);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.curad-selecionar:hover:not(:disabled) {
+  background: var(--azul-escuro);
+}
+
+.curad-selecionar.selecionada {
+  background: var(--verde);
+}
+
+.curad-selecionar:disabled {
+  background: #e4e0d8;
+  color: #a7a196;
+  cursor: not-allowed;
+}
+
+.curad-indisponivel {
+  font-size: 13px;
+  color: var(--texto-fraco);
+}
+
+/* ---------- Banco de Prompts ---------- */
+.bussola-intro code {
+  background: var(--info-bg);
+  border: 1px solid var(--info-borda);
+  border-radius: 5px;
+  padding: 0 5px;
+  font-size: 12px;
+}
+
+.prompts-lista {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.prompt-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.prompt-card-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.prompt-cat {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  background: var(--info-bg);
+  color: var(--info-texto);
+}
+
+.prompt-copiar {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--texto-fraco);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.prompt-copiar:hover {
+  border-color: var(--azul);
+  color: var(--azul);
+}
+
+.prompt-copiar.copiado {
+  border-color: var(--verde);
+  color: #fff;
+  background: var(--verde);
+}
+
+.prompt-titulo {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--texto);
+}
+
+.prompt-texto {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--texto);
+  background: #f4f2ec;
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  padding: 12px 14px;
+  white-space: pre-wrap;
+}
+
+.prompt-dica {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--texto-fraco);
+  font-style: italic;
+}
+
 /* ---------- Responsivo ---------- */
 @media (max-width: 900px) {
   .conteudo {
@@ -1074,6 +1465,12 @@ body {
     grid-template-columns: 1fr;
   }
   .bussola-lista {
+    grid-template-columns: 1fr;
+  }
+  .curad-grid {
+    grid-template-columns: 1fr;
+  }
+  .prompts-lista {
     grid-template-columns: 1fr;
   }
   .boas-vindas {

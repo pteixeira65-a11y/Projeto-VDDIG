@@ -2,6 +2,7 @@ import { FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'reac
 import { useNavigate } from 'react-router-dom'
 import { api } from '../api/client'
 import { ChatMsg } from '../api/types'
+import RobotIcon from './RobotIcon'
 
 const escaparRegex = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
@@ -100,7 +101,7 @@ export default function Chatbot({ aberto, onToggle, gatilhoDlp }: Props) {
   if (!aberto) {
     return (
       <button className="chat-fab" onClick={onToggle} aria-label="Abrir assistente">
-        💬
+        <RobotIcon size={30} />
       </button>
     )
   }
@@ -108,7 +109,8 @@ export default function Chatbot({ aberto, onToggle, gatilhoDlp }: Props) {
   return (
     <div className="chat-janela">
       <header className="chat-topo">
-        <div>
+        <div className="chat-titulo">
+          <RobotIcon size={20} />
           <strong>Assistente</strong>
           <span className="chat-badge">IA</span>
         </div>

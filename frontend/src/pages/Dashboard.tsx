@@ -67,6 +67,12 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="topbar-right">
+          <Link className="link-nav" to="/prompts">
+            Banco de Prompts
+          </Link>
+          <Link className="link-nav" to="/curadoria">
+            Curadoria de IAs
+          </Link>
           <Link className="link-nav" to="/bussola">
             🧭 Bússola do Saber
           </Link>
