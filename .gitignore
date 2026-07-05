@@ -1,0 +1,32 @@
+# Dependências
+node_modules/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Build / saída
+dist/
+build/
+*.local
+
+# Ferramentas locais (Claude Code, preview) e IDEs
+.claude/
+.vscode/
+.idea/
+
+# Ambiente
+.env
+.env.*
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
