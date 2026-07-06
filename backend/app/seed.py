@@ -21,10 +21,13 @@ SETORES = [
         "nome": "Serviço de Planejamento (SEPLAN)",
         "sigla": "SEPLAN",
         "slug": "seplan",
-        "missao": "Coordenar o planejamento estratégico e orçamentário da VDDIG, "
-                  "alinhando as metas setoriais aos objetivos institucionais.",
-        "objetivos": "Consolidar indicadores, acompanhar a execução das metas e "
-                     "apoiar decisões baseadas em dados.",
+        "responsavel": "Rodrigo Sá de Alverga",
+        "missao": "Coordenar o planejamento e o desenvolvimento institucional, alinhando "
+                  "o Plano Quadrienal da ENSP ao da Fiocruz e disseminando o pensamento "
+                  "estratégico.",
+        "objetivos": "Subsidiar a construção, o acompanhamento e a avaliação do plano "
+                     "institucional, coordenar indicadores de desempenho e apoiar a "
+                     "formulação estratégica.",
         "metas": [
             "Consolidar o Plano Anual de Trabalho 2026",
             "Revisar os indicadores institucionais do PDI",
@@ -36,12 +39,13 @@ SETORES = [
     },
     {
         "nome": "Serviço de Orçamento e Finanças",
-        "sigla": "Finanças",
+        "sigla": "SEOF",
         "slug": "financas",
-        "missao": "Planejar, executar e controlar os recursos orçamentários e "
-                  "financeiros com transparência e conformidade.",
-        "objetivos": "Garantir a execução orçamentária, otimizar a aplicação dos "
-                     "recursos LOAS e assegurar a prestação de contas.",
+        "responsavel": "Marcelo Jacomo Lemos",
+        "missao": "Coordenar e controlar a execução orçamentária e financeira dos "
+                  "recursos da ENSP, fornecendo informações para a tomada de decisão.",
+        "objetivos": "Registrar os atos contábeis no Siafi, corrigir inconsistências, "
+                     "gerir diárias e passagens, executar pagamentos e controlar créditos.",
         "metas": [
             "Executar o orçamento aprovado para 2026",
             "Reduzir os restos a pagar do exercício anterior",
@@ -52,12 +56,14 @@ SETORES = [
     },
     {
         "nome": "Serviço de Gestão de Contratos",
-        "sigla": "Contratos",
+        "sigla": "GESCON",
         "slug": "contratos",
-        "missao": "Gerir o ciclo de vida dos contratos administrativos, assegurando "
-                  "conformidade legal e eficiência.",
-        "objetivos": "Reduzir riscos contratuais, acompanhar a execução e otimizar "
-                     "os prazos de renovação.",
+        "responsavel": "Rafaela dos Santos Silva",
+        "missao": "Gerenciar administrativamente os contratos de serviços continuados "
+                  "da ENSP, do cadastramento à supervisão.",
+        "objetivos": "Analisar as informações contratuais, orientar a fiscalização, "
+                     "avaliar medições, aplicar penalidades e gerir repactuações, "
+                     "acréscimos e supressões.",
         "metas": [
             "Revisar os contratos com vigência a vencer",
             "Implantar rotina de fiscalização de contratos",
@@ -70,10 +76,12 @@ SETORES = [
         "nome": "Serviço de Gestão de Materiais (SEGEM)",
         "sigla": "SEGEM",
         "slug": "segem",
-        "missao": "Assegurar o suprimento de materiais com eficiência, evitando "
-                  "desperdícios e rupturas de estoque.",
-        "objetivos": "Manter o estoque equilibrado, controlar entradas e saídas e "
-                     "otimizar as aquisições.",
+        "responsavel": "Simone Delmondes Moreira",
+        "missao": "Gerir de forma centralizada os materiais e EPIs da instituição — "
+                  "recebimento, armazenagem e fornecimento aos setores requisitantes.",
+        "objetivos": "Receber e armazenar materiais, abastecer os setores, controlar "
+                     "cadastros (CATMAT/SIAD) e gerir produtos controlados e o "
+                     "desfazimento de materiais.",
         "metas": [
             "Realizar o inventário anual do almoxarifado",
             "Reduzir a ruptura de estoque de itens críticos",
@@ -86,10 +94,12 @@ SETORES = [
         "nome": "Serviço de Gestão Patrimonial (SGPAT)",
         "sigla": "SGPAT",
         "slug": "sgpat",
-        "missao": "Zelar pela gestão, pelo controle e pela preservação dos bens "
-                  "públicos sob responsabilidade da ENSP.",
-        "objetivos": "Manter o inventário atualizado, controlar a movimentação de "
-                     "bens e maximizar o aproveitamento dos ativos.",
+        "responsavel": "Levi Jefferson Batista",
+        "missao": "Atender com excelência às demandas dos usuários internos, criando "
+                  "procedimentos e controles para a gestão dos bens patrimoniais.",
+        "objetivos": "Coordenar os inventários de bens móveis e imóveis, os processos "
+                     "de incorporação e desincorporação e manter atualizada a situação "
+                     "patrimonial da instituição.",
         "metas": [
             "Atualizar o inventário patrimonial",
             "Concluir o desfazimento de bens inservíveis",
@@ -102,10 +112,12 @@ SETORES = [
         "nome": "Serviço de Infraestrutura (SEINFRA)",
         "sigla": "SEINFRA",
         "slug": "seinfra",
-        "missao": "Manter e desenvolver a infraestrutura física, garantindo "
-                  "instalações seguras e funcionais.",
-        "objetivos": "Priorizar a manutenção preventiva, reduzir falhas e melhorar "
-                     "a eficiência das instalações.",
+        "responsavel": "Marivaldo Vitorino dos Santos Silva",
+        "missao": "Gerir a manutenção predial, os equipamentos e os serviços de "
+                  "condomínio, definindo diretrizes técnicas de infraestrutura.",
+        "objetivos": "Coordenar e executar a manutenção e os equipamentos prediais, "
+                     "acompanhar a limpeza, supervisionar serviços de engenharia e "
+                     "gerir os materiais da área.",
         "metas": [
             "Executar o plano de manutenção predial preventiva",
             "Modernizar a rede elétrica do bloco principal",
@@ -116,12 +128,13 @@ SETORES = [
     },
     {
         "nome": "Serviço de Gestão do Trabalho",
-        "sigla": "Trabalho",
+        "sigla": "SGT",
         "slug": "trabalho",
-        "missao": "Promover a gestão de pessoas com foco no desenvolvimento, no "
-                  "bem-estar e na valorização dos servidores.",
-        "objetivos": "Aprimorar os processos de gestão do trabalho, capacitar as "
-                     "equipes e melhorar o clima organizacional.",
+        "responsavel": "Andrea Marcia de Oliveira Couto",
+        "missao": "Planejar, coordenar, executar e avaliar as ações de administração "
+                  "de pessoal, desenvolvimento humano e qualidade de vida no trabalho.",
+        "objetivos": "Alinhar a gestão de pessoas às políticas estratégicas da Fiocruz, "
+                     "promovendo o desenvolvimento e o bem-estar dos servidores.",
         "metas": [
             "Atualizar o dimensionamento da força de trabalho",
             "Implantar programa de qualidade de vida",
@@ -132,12 +145,13 @@ SETORES = [
     },
     {
         "nome": "Serviço de Gestão da Qualidade",
-        "sigla": "Qualidade",
+        "sigla": "SGQ",
         "slug": "qualidade",
-        "missao": "Promover a melhoria contínua dos processos, com foco em "
-                  "eficiência e na satisfação dos usuários.",
-        "objetivos": "Padronizar processos, monitorar indicadores de qualidade e "
-                     "tratar as não conformidades.",
+        "responsavel": "Leticia Alves da Silva",
+        "missao": "Coordenar a implementação do sistema de gestão da qualidade, em "
+                  "consonância com a política da qualidade da ENSP.",
+        "objetivos": "Subsidiar o Comitê Gestor da Qualidade, implementar a gestão por "
+                     "processos e auxiliar as subunidades na definição de indicadores.",
         "metas": [
             "Mapear e padronizar os processos críticos",
             "Implantar indicadores de qualidade por setor",
@@ -150,10 +164,11 @@ SETORES = [
         "nome": "Serviço de Gestão da Sustentabilidade (SGS)",
         "sigla": "SGS",
         "slug": "sustentabilidade",
-        "missao": "Integrar a sustentabilidade à gestão institucional, promovendo "
-                  "práticas ambientais responsáveis.",
-        "objetivos": "Reduzir impactos ambientais, promover o uso racional de "
-                     "recursos e engajar as equipes.",
+        "responsavel": "Flávia Ramos Guimarães",
+        "missao": "Formular e implementar as políticas de sustentabilidade da ENSP, "
+                  "integrando critérios socioambientais ao planejamento institucional.",
+        "objetivos": "Definir e monitorar indicadores de sustentabilidade, coordenar "
+                     "ações sustentáveis e disseminar essa cultura internamente.",
         "metas": [
             "Implantar a coleta seletiva em todos os prédios",
             "Reduzir o consumo de água e de energia",
@@ -164,12 +179,14 @@ SETORES = [
     },
     {
         "nome": "Serviço de Biossegurança",
-        "sigla": "Biosseg.",
+        "sigla": "SEBIO",
         "slug": "biosseguranca",
-        "missao": "Assegurar ambientes de trabalho e pesquisa seguros, protegendo "
-                  "pessoas, comunidade e meio ambiente contra riscos biológicos.",
-        "objetivos": "Manter protocolos atualizados, capacitar as equipes e "
-                     "monitorar a conformidade das instalações.",
+        "responsavel": "Deborah Chein",
+        "missao": "Coordenar a formulação das políticas de biossegurança da ENSP e "
+                  "disseminar a cultura de prevenção de riscos e de boas práticas.",
+        "objetivos": "Elaborar políticas de biossegurança, integrar normas ao "
+                     "planejamento, definir indicadores, capacitar profissionais e "
+                     "implementar medidas de saúde e segurança.",
         "metas": [
             "Revisar os protocolos de biossegurança dos laboratórios",
             "Capacitar as equipes no manejo de resíduos",
