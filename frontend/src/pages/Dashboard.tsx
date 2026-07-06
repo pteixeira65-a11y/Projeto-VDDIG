@@ -89,6 +89,9 @@ export default function Dashboard() {
         {setorSelecionado && (setorSelecionado.missao || setorSelecionado.objetivos) && (
           <section className="setor-sobre card">
             <h2>Missão e objetivos — {setorSelecionado.nome}</h2>
+            {setorSelecionado.responsavel && (
+              <p className="setor-responsavel">Responsável: {setorSelecionado.responsavel}</p>
+            )}
             <div className="setor-sobre-grid">
               {setorSelecionado.missao && (
                 <div className="setor-sobre-item">

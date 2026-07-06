@@ -82,7 +82,7 @@ def metas_por_setor(setor_id: Optional[int] = Query(None), session: Session = De
         for m in metas:
             if m.status in counts:
                 counts[m.status] += 1
-        out.append(MetasPorSetorItem(setor=setor.nome, **counts))
+        out.append(MetasPorSetorItem(setor=setor.sigla or setor.nome, **counts))
     return out
 
 
@@ -92,7 +92,7 @@ def recursos(setor_id: Optional[int] = Query(None), session: Session = Depends(g
     for setor in _setores_filtrados(session, setor_id):
         rs = session.exec(select(RecursoLOAS).where(RecursoLOAS.setor_id == setor.id)).all()
         out.append(RecursoItem(
-            setor=setor.nome,
+            setor=setor.sigla or setor.nome,
             previsto=sum(r.valor_previsto for r in rs),
             aplicado=sum(r.valor_aplicado for r in rs),
         ))

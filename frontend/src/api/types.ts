@@ -1,6 +1,8 @@
 export interface Setor {
   id: number
   nome: string
+  sigla: string
+  responsavel: string
   missao: string
   objetivos: string
 }
@@ -72,6 +74,7 @@ export interface DlpFinding {
 export interface SetorMetricas {
   setor_id: number
   setor: string
+  responsavel: string
   missao: string
   objetivos: string
   total_metas: number

@@ -863,6 +863,12 @@ body {
   border-left: 3px solid var(--verde);
 }
 
+.setor-responsavel {
+  margin: -6px 0 16px;
+  font-size: 13px;
+  color: var(--texto-fraco);
+}
+
 .setor-sobre-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -8,8 +8,10 @@ from sqlmodel import Field, SQLModel
 class Setor(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     nome: str
+    sigla: str = Field(default="")       # rótulo curto (usado nos gráficos)
+    responsavel: str = Field(default="") # chefia/coordenação do setor
     missao: str = Field(default="")      # missão institucional do setor
-    objetivos: str = Field(default="")   # objetivos principais do setor
+    objetivos: str = Field(default="")   # objetivos/competências principais
 
 
 class User(SQLModel, table=True):

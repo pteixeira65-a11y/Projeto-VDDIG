@@ -67,6 +67,7 @@ def metricas(
     payload = {
         "setor_id": sid,
         "setor": setor.nome,
+        "responsavel": setor.responsavel,
         "missao": setor.missao,
         "objetivos": setor.objetivos,
         "total_metas": total,
@@ -78,7 +79,7 @@ def metricas(
         "valor_previsto": previsto,
         "valor_aplicado": aplicado,
         "pct_recursos_aplicados": round(aplicado / previsto * 100, 1) if previsto else 0.0,
-        "metas_por_status": [MetasPorSetorItem(setor=setor.nome, **counts)],
+        "metas_por_status": [MetasPorSetorItem(setor=setor.sigla or setor.nome, **counts)],
     }
     payload["resumo_gestor"] = gerar_resumo_gestor(payload)
     return payload

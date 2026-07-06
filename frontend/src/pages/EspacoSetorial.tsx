@@ -95,6 +95,9 @@ export default function EspacoSetorial() {
         {metricas && (metricas.missao || metricas.objetivos) && (
           <section className="setor-sobre card">
             <h2>Missão e objetivos — {metricas.setor}</h2>
+            {metricas.responsavel && (
+              <p className="setor-responsavel">Responsável: {metricas.responsavel}</p>
+            )}
             <div className="setor-sobre-grid">
               {metricas.missao && (
                 <div className="setor-sobre-item">

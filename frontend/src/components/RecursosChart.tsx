@@ -18,7 +18,14 @@ export default function RecursosChart({ dados }: { dados: Recurso[] }) {
     <ResponsiveContainer width="100%" height={280}>
       <BarChart data={dados} margin={{ top: 8, right: 8, left: 8, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="#e6e1d8" />
-        <XAxis dataKey="setor" tick={{ fontSize: 12, fill: '#7c8590' }} />
+        <XAxis
+          dataKey="setor"
+          tick={{ fontSize: 11, fill: '#7c8590' }}
+          interval={0}
+          angle={-35}
+          textAnchor="end"
+          height={68}
+        />
         <YAxis tickFormatter={fmtEixo} tick={{ fontSize: 12, fill: '#7c8590' }} />
         <Tooltip formatter={fmtTooltip} />
         <Legend />

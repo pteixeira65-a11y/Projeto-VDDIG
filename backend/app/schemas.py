@@ -26,6 +26,8 @@ class UserOut(BaseModel):
 class SetorOut(BaseModel):
     id: int
     nome: str
+    sigla: str = ""
+    responsavel: str = ""
     missao: str = ""
     objetivos: str = ""
 
@@ -118,6 +120,7 @@ class MetaCriadaOut(BaseModel):
 class SetorMetricasOut(BaseModel):
     setor_id: int
     setor: str
+    responsavel: str = ""
     missao: str = ""
     objetivos: str = ""
     total_metas: int
