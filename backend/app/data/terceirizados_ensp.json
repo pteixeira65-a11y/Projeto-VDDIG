@@ -1,0 +1,747 @@
+{
+  "referencia": "Abril/2026",
+  "fonte": "Relação de Terceirizados por Contrato — DIRH/Fiocruz",
+  "total": 224,
+  "custo_total": 1403275.42,
+  "num_setores": 39,
+  "num_empresas": 2,
+  "num_contratos": 2,
+  "por_setor": [
+    {
+      "setor": "CESTEH",
+      "total": 26,
+      "custo": 164501.09,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 6
+        },
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 3",
+          "n": 4
+        },
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 2",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "setor": "SECA",
+      "total": 17,
+      "custo": 104570.13,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 2",
+          "n": 13
+        },
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 3",
+          "n": 3
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "CSEGSF",
+      "total": 16,
+      "custo": 84496.15,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 3",
+          "n": 5
+        },
+        {
+          "cargo": "TÉCNICO DE LABORATORIO 3",
+          "n": 2
+        },
+        {
+          "cargo": "TÉCNICO EM FARMÁCIA 3",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "setor": "CRPHF",
+      "total": 14,
+      "custo": 102108.52,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "BIÓLOGO 3",
+          "n": 3
+        },
+        {
+          "cargo": "ENFERMEIRO 4",
+          "n": 3
+        },
+        {
+          "cargo": "FARMACÊUTICO 4 (INSAL)",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "setor": "VDE",
+      "total": 14,
+      "custo": 88731.5,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 2",
+          "n": 10
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 2
+        },
+        {
+          "cargo": "AUXILIAR ADM. DE DIREÇÃO 2",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "SGT",
+      "total": 11,
+      "custo": 64122.97,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 2",
+          "n": 7
+        },
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 2",
+          "n": 2
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "DSSA",
+      "total": 8,
+      "custo": 43032.27,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 2",
+          "n": 3
+        },
+        {
+          "cargo": "TÉCNICO DE LABORATORIO 3",
+          "n": 2
+        },
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 3",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "SECOM",
+      "total": 8,
+      "custo": 57843.81,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 4",
+          "n": 4
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 2",
+          "n": 2
+        },
+        {
+          "cargo": "AUXILIAR ADM. DE DIREÇÃO 2",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "EAD",
+      "total": 8,
+      "custo": 50014.93,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 3",
+          "n": 3
+        },
+        {
+          "cargo": "ORIENTADOR EDUCACIONAL 3",
+          "n": 2
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "setor": "VDEGS",
+      "total": 7,
+      "custo": 42392.72,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 2",
+          "n": 3
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 2
+        },
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 2",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "SEAC",
+      "total": 7,
+      "custo": 31960.07,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 3",
+          "n": 3
+        },
+        {
+          "cargo": "OPERADOR DE ÁUDIO 2",
+          "n": 2
+        },
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 2",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "GAB",
+      "total": 6,
+      "custo": 38146.23,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "AUXILIAR ADM. DE DIREÇÃO 2",
+          "n": 2
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 2
+        },
+        {
+          "cargo": "BIBLIOTECÁRIO 2",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "SEGEM",
+      "total": 6,
+      "custo": 39121.95,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 2",
+          "n": 2
+        },
+        {
+          "cargo": "AUXILIAR ADM. DE DIREÇÃO 2",
+          "n": 1
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 4",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "VDDIG",
+      "total": 5,
+      "custo": 32367.6,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 2
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 2",
+          "n": 2
+        },
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 3",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "CAAP",
+      "total": 5,
+      "custo": 37952.82,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 3
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 4",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "setor": "DAPS",
+      "total": 5,
+      "custo": 30248.7,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 2",
+          "n": 4
+        },
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 3",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "GESCON",
+      "total": 5,
+      "custo": 37637.49,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 4",
+          "n": 4
+        },
+        {
+          "cargo": "AUXILIAR ADM. DE DIREÇÃO 2",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "SGPAT",
+      "total": 5,
+      "custo": 26905.94,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 3",
+          "n": 2
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 1
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 2",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "INFRA",
+      "total": 4,
+      "custo": 24322.56,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 3",
+          "n": 2
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "setor": "DCB",
+      "total": 4,
+      "custo": 19165.86,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "TÉCNICO DE LABORATORIO 3",
+          "n": 2
+        },
+        {
+          "cargo": "AUXILIAR ADM. DE DIREÇÃO 2",
+          "n": 1
+        },
+        {
+          "cargo": "AUXILIAR DE LABORATORIO 3",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "SEOF",
+      "total": 4,
+      "custo": 30883.14,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 4",
+          "n": 3
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "SGS",
+      "total": 3,
+      "custo": 21034.17,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 4",
+          "n": 1
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 1
+        },
+        {
+          "cargo": "NUTRICIONISTA 3",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "VDAL",
+      "total": 3,
+      "custo": 20452.82,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 4",
+          "n": 2
+        },
+        {
+          "cargo": "TÉCNICO DE LABORATORIO 3",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "CSP",
+      "total": 3,
+      "custo": 18543.57,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 1
+        },
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 3",
+          "n": 1
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 2",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "BIOSSEG",
+      "total": 3,
+      "custo": 21577.2,
+      "empresas": 2,
+      "cargos_top": [
+        {
+          "cargo": "ENGENHEIRO SEGURANÇA DO TRABALHO 2",
+          "n": 1
+        },
+        {
+          "cargo": "TÉCNICO SEGURANÇA DO TRABALHO 2",
+          "n": 1
+        },
+        {
+          "cargo": "Assistente Administrativo II",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "VDPI",
+      "total": 3,
+      "custo": 20206.32,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 2",
+          "n": 2
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "SEPROT",
+      "total": 3,
+      "custo": 19146.87,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "AUXILIAR ADM. DE DIREÇÃO 2",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "setor": "DIHS",
+      "total": 3,
+      "custo": 18543.57,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 1
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 2",
+          "n": 1
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 1",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "DEMQS",
+      "total": 2,
+      "custo": 11101.83,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 2",
+          "n": 1
+        },
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 3",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "DENSP",
+      "total": 2,
+      "custo": 14883.48,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "setor": "SGTI",
+      "total": 2,
+      "custo": 10025.12,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 2",
+          "n": 1
+        },
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 2",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "CEP",
+      "total": 2,
+      "custo": 12161.28,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 3",
+          "n": 1
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "DCS",
+      "total": 2,
+      "custo": 14883.48,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "setor": "CLAVES",
+      "total": 2,
+      "custo": 13824.03,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 2",
+          "n": 1
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "SGQ",
+      "total": 2,
+      "custo": 15255.54,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 1
+        },
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 4",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "CCI",
+      "total": 1,
+      "custo": 7441.74,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 3",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "NAF",
+      "total": 1,
+      "custo": 6382.29,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ANALISTA ADMINISTRATIVO 2",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "RADIS",
+      "total": 1,
+      "custo": 3642.83,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 2",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "setor": "(sem setor)",
+      "total": 1,
+      "custo": 3642.83,
+      "empresas": 1,
+      "cargos_top": [
+        {
+          "cargo": "ASSISTENTE ADM. INSTITUCIONAL 2",
+          "n": 1
+        }
+      ]
+    }
+  ],
+  "por_empresa": [
+    {
+      "empresa": "ESPAÇO SERVIÇOS ESPECIALIZADOS LTDA",
+      "total": 223
+    },
+    {
+      "empresa": "IPPP - INSTITUTO DE PROFESSORES PUBLICOS E PARTICULARES",
+      "total": 1
+    }
+  ],
+  "por_cargo": [
+    {
+      "cargo": "ANALISTA ADMINISTRATIVO 2",
+      "total": 57
+    },
+    {
+      "cargo": "ANALISTA ADMINISTRATIVO 3",
+      "total": 40
+    },
+    {
+      "cargo": "ASSISTENTE ADM. INSTITUCIONAL 3",
+      "total": 32
+    },
+    {
+      "cargo": "ANALISTA ADMINISTRATIVO 4",
+      "total": 18
+    },
+    {
+      "cargo": "ASSISTENTE ADM. INSTITUCIONAL 2",
+      "total": 14
+    },
+    {
+      "cargo": "AUXILIAR ADM. DE DIREÇÃO 2",
+      "total": 13
+    },
+    {
+      "cargo": "TÉCNICO DE LABORATORIO 3",
+      "total": 9
+    },
+    {
+      "cargo": "ENFERMEIRO 4",
+      "total": 6
+    },
+    {
+      "cargo": "BIÓLOGO 3",
+      "total": 4
+    },
+    {
+      "cargo": "AUXILIAR DE LABORATORIO 3 (INSAL)",
+      "total": 3
+    },
+    {
+      "cargo": "MÉDICO 4",
+      "total": 3
+    },
+    {
+      "cargo": "TÉCNICO DE ENFERMAGEM 3",
+      "total": 3
+    }
+  ]
+}

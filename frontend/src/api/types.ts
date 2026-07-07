@@ -105,3 +105,29 @@ export interface Termo {
   fonte: string
   sinonimos: string
 }
+
+export interface TercCargo {
+  cargo: string
+  n: number
+}
+
+export interface TercSetor {
+  setor: string
+  total: number
+  custo: number
+  empresas: number
+  cargos_top: TercCargo[]
+}
+
+export interface TercDiagnostico {
+  referencia: string
+  fonte: string
+  total: number
+  custo_total: number
+  num_setores: number
+  num_empresas: number
+  num_contratos: number
+  por_setor: TercSetor[]
+  por_empresa: { empresa: string; total: number }[]
+  por_cargo: { cargo: string; total: number }[]
+}

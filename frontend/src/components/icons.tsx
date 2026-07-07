@@ -53,3 +53,12 @@ export const IconBussola = ({ className }: IconProps) => (
     <path d="M15.8 8.2 L10.6 10.6 L8.2 15.8 L13.4 13.4 Z" />
   </svg>
 )
+
+export const IconTerceirizados = ({ className }: IconProps) => (
+  <svg {...base} className={className}>
+    <circle cx="9" cy="8" r="3.2" />
+    <path d="M3.5 19 a5.5 5.5 0 0 1 11 0" />
+    <path d="M16 5.2 a3 3 0 0 1 0 5.6" />
+    <path d="M17 13.5 a5.5 5.5 0 0 1 3.5 5.1" />
+  </svg>
+)

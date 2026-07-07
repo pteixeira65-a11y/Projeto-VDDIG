@@ -1,5 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { api } from '../api/client'
 import { useAuth } from '../auth/AuthContext'
+import { DlpFinding, Setor } from '../api/types'
+import { analisarDlp } from '../utils/dlp'
+import { useChat } from '../chat/ChatContext'
 import TopNav from '../components/TopNav'
 
 /* ------------------------------------------------------------------ *
@@ -115,6 +119,39 @@ const IconChevron = () => (
 const IconCheck = () => (
   <svg {...iconBase}>
     <polyline points="20 6 9 17 4 12" />
+  </svg>
+)
+
+const IconFolder = () => (
+  <svg {...iconBase}>
+    <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" />
+  </svg>
+)
+
+const IconMic = () => (
+  <svg {...iconBase}>
+    <rect x="9" y="3" width="6" height="11" rx="3" />
+    <path d="M6 11a6 6 0 0 0 12 0" />
+    <line x1="12" y1="17" x2="12" y2="21" />
+  </svg>
+)
+
+const IconStop = () => (
+  <svg {...iconBase}>
+    <rect x="6" y="6" width="12" height="12" rx="2" />
+  </svg>
+)
+
+const IconDoc = () => (
+  <svg {...iconBase}>
+    <path d="M6 3h8l4 4v14H6Z" />
+    <polyline points="14 3 14 7 18 7" />
+  </svg>
+)
+
+const IconSparkTab = () => (
+  <svg {...iconBase}>
+    <path d="M12 4 L13.2 9.4 L18 11 L13.2 12.6 L12 18 L10.8 12.6 L6 11 L10.8 9.4 Z" />
   </svg>
 )
 
@@ -355,10 +392,207 @@ function ListaCuradoria({ onAbrir }: { onAbrir: (id: string) => void }) {
   )
 }
 
-/* ---------- Componente raiz (roteamento por estado interno) ---------- */
+/* ---------- Organizador por setor (mock local, todos os setores) ---------- */
+
+function Organizador() {
+  const [setores, setSetores] = useState<Setor[]>([])
+  const [aberto, setAberto] = useState<number | null>(null)
+  const [notas, setNotas] = useState<Record<number, string>>({})
+  const { pedirAjudaDlp } = useChat()
+
+  useEffect(() => {
+    api.get('/api/setores').then((r) => setSetores(r.data))
+  }, [])
+
+  return (
+    <>
+      <p className="org-intro">
+        Memória de gestão por setor: insira aqui os <strong>documentos internos</strong> e as
+        informações geradas pela IA. Uma camada de proteção (LGPD) avisa se houver dados
+        sensíveis. As anotações ficam neste navegador (protótipo).
+      </p>
+      {setores.map((s) => {
+        const isOpen = aberto === s.id
+        const rotulo = s.sigla || s.nome
+        const achados: DlpFinding[] = isOpen ? analisarDlp(notas[s.id] ?? '') : []
+        return (
+          <div key={s.id} className={`org-item${isOpen ? ' aberto' : ''}`}>
+            <button className="org-cab" onClick={() => setAberto(isOpen ? null : s.id)}>
+              <span className="org-ic">
+                <IconFolder />
+              </span>
+              <span>
+                <span className="org-sigla">{rotulo}</span>
+                {s.sigla && <span className="org-nome"> · {s.nome}</span>}
+              </span>
+              <span className="org-chev">
+                <IconChevron />
+              </span>
+            </button>
+            {isOpen && (
+              <div className="org-corpo">
+                <textarea
+                  value={notas[s.id] ?? ''}
+                  onChange={(e) => setNotas((n) => ({ ...n, [s.id]: e.target.value }))}
+                  placeholder={`Cole um documento interno ou anote o conteúdo do setor ${rotulo}…`}
+                />
+                {achados.length > 0 && (
+                  <div className="dlp-alerta" style={{ marginTop: 12 }}>
+                    <div className="dlp-cabecalho">
+                      <span>🛡️</span>
+                      <strong>Atenção à proteção de dados (LGPD)</strong>
+                    </div>
+                    <p className="dlp-texto">
+                      Detectamos possível dado sensível neste documento. Revise antes de salvar:
+                    </p>
+                    <ul>
+                      {achados.map((a, i) => (
+                        <li key={i}>
+                          <strong>{a.tipo}:</strong> {a.orientacao}
+                        </li>
+                      ))}
+                    </ul>
+                    <button type="button" className="dlp-botao" onClick={pedirAjudaDlp}>
+                      Falar com o assistente sobre anonimização
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )
+      })}
+    </>
+  )
+}
+
+/* ---------- Reunião → Ata (transcrição simulada) ---------- */
+
+type EstadoGrav = 'idle' | 'gravando' | 'processando' | 'pronto'
+const ONDA = Array.from({ length: 32 })
+
+function ReuniaoAta() {
+  const [estado, setEstado] = useState<EstadoGrav>('idle')
+  const [seg, setSeg] = useState(0)
+  const timer = useRef<number | null>(null)
+
+  useEffect(() => {
+    if (estado === 'gravando') {
+      timer.current = window.setInterval(() => setSeg((s) => s + 1), 1000)
+    } else if (timer.current) {
+      clearInterval(timer.current)
+    }
+    return () => {
+      if (timer.current) clearInterval(timer.current)
+    }
+  }, [estado])
+
+  const mmss = `${String(Math.floor(seg / 60)).padStart(2, '0')}:${String(seg % 60).padStart(2, '0')}`
+
+  return (
+    <>
+      <div className="rec-box">
+        {estado === 'idle' && (
+          <>
+            <button className="rec-btn" onClick={() => { setSeg(0); setEstado('gravando') }}>
+              <IconMic /> Gravar reunião em tempo real
+            </button>
+            <span className="rec-dica">
+              A IA transcreve e formata automaticamente na Ata padrão da VDDIG.
+            </span>
+          </>
+        )}
+        {estado === 'gravando' && (
+          <>
+            <div className="rec-wave">
+              {ONDA.map((_, i) => (
+                <span
+                  key={i}
+                  style={{
+                    animationDelay: `${(i % 8) * 0.09}s`,
+                    animationDuration: `${0.7 + (i % 5) * 0.12}s`,
+                  }}
+                />
+              ))}
+            </div>
+            <button className="rec-btn gravando" onClick={() => { setEstado('processando'); setTimeout(() => setEstado('pronto'), 2400) }}>
+              <IconStop /> Parar e transcrever · {mmss}
+            </button>
+          </>
+        )}
+        {estado === 'processando' && (
+          <div className="rec-proc">
+            <span className="rec-spin" /> Transcrevendo o áudio e formatando a ata…
+          </div>
+        )}
+        {estado === 'pronto' && (
+          <button className="rec-btn" onClick={() => { setSeg(0); setEstado('idle') }}>
+            <IconMic /> Nova gravação
+          </button>
+        )}
+      </div>
+      {estado === 'pronto' && <Ata />}
+    </>
+  )
+}
+
+function Ata() {
+  return (
+    <article className="ata-doc">
+      <div className="ata-cab">
+        <div className="ata-logo">FIOCRUZ</div>
+        <div className="ata-cab-tit">
+          <strong>Fundação Oswaldo Cruz — ENSP</strong>
+          <span>Vice-Direção de Desenvolvimento Institucional e Gestão (VDDIG)</span>
+        </div>
+        <div className="ata-logo">ENSP</div>
+      </div>
+
+      <h1>ATA DE REUNIÃO</h1>
+
+      <div className="ata-grid">
+        <div><b>Data:</b> 07/07/2026</div>
+        <div><b>Horário:</b> 10h00 – 11h20</div>
+        <div><b>Local:</b> Sala da VDDIG / videoconferência</div>
+        <div><b>Nº da ata:</b> 014/2026</div>
+        <div><b>Modalidade:</b> Híbrida</div>
+        <div><b>Secretariado por:</b> Assistente (transcrição automática)</div>
+      </div>
+
+      <h3>Participantes</h3>
+      <p>Representantes de SEPLAN, SEOF, GESCON e SGTI; convidados de Compras e SGPAT.</p>
+
+      <h3>Pauta</h3>
+      <ul>
+        <li>Consolidação do Plano de Contratações Anual (PCA) 2026.</li>
+        <li>Andamento das metas setoriais em risco.</li>
+        <li>Diagnóstico de terceirizados por setor.</li>
+      </ul>
+
+      <h3>Deliberações e encaminhamentos</h3>
+      <ul>
+        <li>SEPLAN consolidará os indicadores até <b>18/07</b> — resp. Rodrigo Sá de Alverga.</li>
+        <li>Compras revisará o PCA com as áreas requisitantes — resp. Tatiana Moreira da Silva.</li>
+        <li>SGTI apresentará o plano de help desk na próxima reunião — resp. Marcus Vinicius Del Sarto.</li>
+      </ul>
+
+      <h3>Próximos passos</h3>
+      <p>Nova reunião em 21/07/2026. A minuta segue para validação humana antes da publicação.</p>
+
+      <div className="ata-acoes">
+        <button className="ata-btn primario"><IconDoc /> Exportar ata (PDF)</button>
+        <button className="ata-btn">Copiar texto</button>
+        <button className="ata-btn">Salvar no Organizador</button>
+      </div>
+    </article>
+  )
+}
+
+/* ---------- Componente raiz (workspace com abas) ---------- */
 
 export default function CuradoriaIAs() {
   const { usuario, logout } = useAuth()
+  const [aba, setAba] = useState<'ferramentas' | 'organizador' | 'ata'>('ferramentas')
   const [selecionadaId, setSelecionadaId] = useState<string | null>(null)
   const iaSelecionada = IAS.find((ia) => ia.id === selecionadaId)
 
@@ -368,8 +602,8 @@ export default function CuradoriaIAs() {
         <div className="topbar-left">
           <span className="brand-badge">vddig</span>
           <div>
-            <strong>Curadoria de IAs</strong>
-            <div className="topbar-sub">ENSP · Fiocruz — ferramentas de IA avaliadas</div>
+            <strong>Curadoria</strong>
+            <div className="topbar-sub">ENSP · Fiocruz — curadoria de IA e apoio à gestão</div>
           </div>
         </div>
         <div className="topbar-right">
@@ -384,11 +618,35 @@ export default function CuradoriaIAs() {
       </header>
 
       <main className="conteudo curad">
-        {iaSelecionada ? (
-          <DetalheIA ia={iaSelecionada} onVoltar={() => setSelecionadaId(null)} />
-        ) : (
-          <ListaCuradoria onAbrir={setSelecionadaId} />
-        )}
+        <div className="wkspace-tabs">
+          <button
+            className={`wkspace-tab${aba === 'ferramentas' ? ' ativo' : ''}`}
+            onClick={() => setAba('ferramentas')}
+          >
+            <IconSparkTab /> Ferramentas de IA
+          </button>
+          <button
+            className={`wkspace-tab${aba === 'organizador' ? ' ativo' : ''}`}
+            onClick={() => setAba('organizador')}
+          >
+            <IconFolder /> Organizador por setor
+          </button>
+          <button
+            className={`wkspace-tab${aba === 'ata' ? ' ativo' : ''}`}
+            onClick={() => setAba('ata')}
+          >
+            <IconMic /> Reunião → Ata
+          </button>
+        </div>
+
+        {aba === 'ferramentas' &&
+          (iaSelecionada ? (
+            <DetalheIA ia={iaSelecionada} onVoltar={() => setSelecionadaId(null)} />
+          ) : (
+            <ListaCuradoria onAbrir={setSelecionadaId} />
+          ))}
+        {aba === 'organizador' && <Organizador />}
+        {aba === 'ata' && <ReuniaoAta />}
       </main>
     </div>
   )

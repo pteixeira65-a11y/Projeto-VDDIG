@@ -869,6 +869,12 @@ body {
   color: var(--texto-fraco);
 }
 
+.terc-cargos {
+  font-size: 12px;
+  color: var(--texto-fraco);
+  max-width: 320px;
+}
+
 .setor-sobre-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1525,12 +1531,316 @@ body {
   font-style: italic;
 }
 
+/* ---------- Curadoria: workspace (abas) ---------- */
+.wkspace-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--borda);
+  flex-wrap: wrap;
+}
+.wkspace-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--texto-fraco);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.wkspace-tab svg {
+  width: 16px;
+  height: 16px;
+}
+.wkspace-tab:hover {
+  color: var(--texto);
+}
+.wkspace-tab.ativo {
+  color: var(--azul);
+  border-bottom-color: var(--azul);
+}
+
+/* Organizador por setor */
+.org-intro {
+  font-size: 14px;
+  color: var(--texto-fraco);
+  max-width: 640px;
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+.org-item {
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  background: var(--card);
+  margin-bottom: 10px;
+  overflow: hidden;
+  box-shadow: var(--sombra);
+}
+.org-cab {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 13px 16px;
+  background: none;
+  border: none;
+  font: inherit;
+  color: var(--texto);
+  cursor: pointer;
+  text-align: left;
+}
+.org-cab:hover {
+  background: #faf9f6;
+}
+.org-ic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #edeae3;
+  color: var(--azul);
+}
+.org-ic svg {
+  width: 17px;
+  height: 17px;
+}
+.org-sigla {
+  font-size: 14px;
+  font-weight: 600;
+}
+.org-nome {
+  font-size: 12px;
+  color: var(--texto-fraco);
+}
+.org-chev {
+  margin-left: auto;
+  color: var(--texto-fraco);
+  display: flex;
+  transition: transform 0.15s ease;
+}
+.org-chev svg {
+  width: 16px;
+  height: 16px;
+}
+.org-item.aberto .org-chev {
+  transform: rotate(90deg);
+}
+.org-corpo {
+  padding: 0 16px 16px;
+}
+.org-corpo textarea {
+  width: 100%;
+  min-height: 90px;
+  resize: vertical;
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--texto);
+  background: #fff;
+}
+.org-corpo textarea:focus {
+  outline: none;
+  border-color: var(--azul);
+  box-shadow: 0 0 0 3px rgba(74, 107, 130, 0.15);
+}
+
+/* Reunião → Ata */
+.rec-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 30px;
+  border: 1px dashed var(--borda);
+  border-radius: var(--raio);
+  background: #faf9f6;
+  margin-bottom: 18px;
+}
+.rec-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 26px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--azul);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.rec-btn:hover {
+  background: var(--azul-escuro);
+}
+.rec-btn svg {
+  width: 18px;
+  height: 18px;
+}
+.rec-dica {
+  font-size: 13px;
+  color: var(--texto-fraco);
+}
+.rec-wave {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 46px;
+}
+.rec-wave span {
+  width: 4px;
+  border-radius: 4px;
+  background: var(--azul);
+  animation: rec-wave 1s ease-in-out infinite;
+}
+@keyframes rec-wave {
+  0%, 100% { height: 8px; opacity: 0.55; }
+  50% { height: 40px; opacity: 1; }
+}
+.rec-proc {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--azul);
+  font-weight: 600;
+  font-size: 14px;
+}
+.rec-spin {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--info-bg);
+  border-top-color: var(--azul);
+  border-radius: 50%;
+  animation: rec-spin 0.8s linear infinite;
+}
+@keyframes rec-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Documento da ata */
+.ata-doc {
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 26px 30px;
+  box-shadow: var(--sombra);
+}
+.ata-cab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--azul);
+}
+.ata-logo {
+  height: 40px;
+  min-width: 64px;
+  padding: 0 12px;
+  border: 1px dashed var(--texto-fraco);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--texto-fraco);
+}
+.ata-cab-tit {
+  text-align: center;
+}
+.ata-cab-tit strong {
+  font-size: 14px;
+  display: block;
+}
+.ata-cab-tit span {
+  font-size: 11px;
+  color: var(--texto-fraco);
+}
+.ata-doc h1 {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.02em;
+  margin: 16px 0;
+}
+.ata-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 20px;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+.ata-grid b {
+  color: var(--azul);
+}
+.ata-doc h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--azul);
+  margin: 14px 0 5px;
+}
+.ata-doc p,
+.ata-doc li {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--texto);
+}
+.ata-doc ul {
+  margin: 4px 0;
+  padding-left: 18px;
+}
+.ata-acoes {
+  display: flex;
+  gap: 9px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.ata-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid var(--borda);
+  background: var(--card);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto);
+  cursor: pointer;
+}
+.ata-btn svg {
+  width: 15px;
+  height: 15px;
+}
+.ata-btn.primario {
+  background: var(--azul);
+  color: #fff;
+  border-color: var(--azul);
+}
+
 /* ---------- Responsivo ---------- */
 @media (max-width: 900px) {
   .conteudo {
     padding: 24px 18px;
   }
   .setor-sobre-grid {
+    grid-template-columns: 1fr;
+  }
+  .ata-grid {
     grid-template-columns: 1fr;
   }
   .bussola-lista {

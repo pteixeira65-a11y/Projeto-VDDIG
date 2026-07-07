@@ -7,6 +7,8 @@ import EspacoSetorial from './pages/EspacoSetorial'
 import BussolaDoSaber from './pages/BussolaDoSaber'
 import CuradoriaIAs from './pages/CuradoriaIAs'
 import BancoPrompts from './pages/BancoPrompts'
+import TerceirizadosDiagnostico from './pages/TerceirizadosDiagnostico'
+import ColaboraAI from './pages/ColaboraAI'
 import BoasVindas from './components/BoasVindas'
 import Chatbot from './components/Chatbot'
 
@@ -35,6 +37,7 @@ export default function App() {
       <BoasVindas />
       <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/colabora" element={<ColaboraAI />} />
       <Route
         path="/dashboard"
         element={
@@ -72,6 +75,14 @@ export default function App() {
         element={
           <Protegido>
             <BancoPrompts />
+          </Protegido>
+        }
+      />
+      <Route
+        path="/terceirizados"
+        element={
+          <Protegido roles={['estrategico']}>
+            <TerceirizadosDiagnostico />
           </Protegido>
         }
       />
