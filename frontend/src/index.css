@@ -1566,6 +1566,121 @@ body {
   border-bottom-color: var(--azul);
 }
 
+/* Colabora AI — interface estilo Gemini (entrada por setor) */
+.colabhero-wrap {
+  max-width: 720px;
+  margin: 8px auto 28px;
+}
+.colabhero-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  margin-bottom: 18px;
+}
+.colabhero-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  background: #f26419;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.colabhero-mark svg {
+  width: 23px;
+  height: 23px;
+}
+.colabhero-nome {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #0f4c5c;
+}
+.colabhero-titulo {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--texto);
+  margin: 0 0 6px;
+}
+.colabhero-sub {
+  text-align: center;
+  font-size: 14px;
+  color: var(--texto-fraco);
+  margin: 0 auto 20px;
+  max-width: 520px;
+  line-height: 1.5;
+}
+.colabhero-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card);
+  border: 1px solid var(--borda);
+  border-radius: 28px;
+  padding: 6px 8px;
+  box-shadow: var(--sombra);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.colabhero-input:focus-within {
+  border-color: #0f4c5c;
+  box-shadow: 0 0 0 3px rgba(15, 76, 92, 0.12);
+}
+.colabhero-input select {
+  border: none;
+  background: #e5eef1;
+  color: #0f4c5c;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 9px 12px;
+  cursor: pointer;
+}
+.colabhero-input select:focus {
+  outline: none;
+}
+.colabhero-input input {
+  flex: 1;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 15px;
+  color: var(--texto);
+  padding: 9px 6px;
+}
+.colabhero-input input:focus {
+  outline: none;
+}
+.colabhero-enviar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: #f26419;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: filter 0.15s ease;
+}
+.colabhero-enviar:hover:not(:disabled) {
+  filter: brightness(0.94);
+}
+.colabhero-enviar:disabled {
+  background: var(--borda);
+  color: var(--texto-fraco);
+  cursor: default;
+}
+.colabhero-enviar svg {
+  width: 18px;
+  height: 18px;
+}
+
 /* Organizador por setor */
 .org-intro {
   font-size: 14px;

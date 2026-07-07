@@ -155,6 +155,12 @@ const IconSparkTab = () => (
   </svg>
 )
 
+const IconSend = () => (
+  <svg {...iconBase}>
+    <path d="M4 12l16-7-7 16-2-6-7-3Z" />
+  </svg>
+)
+
 /* ---------- Dados mockados ---------- */
 
 const IAS: IA[] = [
@@ -394,22 +400,110 @@ function ListaCuradoria({ onAbrir }: { onAbrir: (id: string) => void }) {
 
 /* ---------- Organizador por setor (mock local, todos os setores) ---------- */
 
+function AlertaDlp({ achados, onAjuda }: { achados: DlpFinding[]; onAjuda: () => void }) {
+  if (achados.length === 0) return null
+  return (
+    <div className="dlp-alerta" style={{ marginTop: 12 }}>
+      <div className="dlp-cabecalho">
+        <span>🛡️</span>
+        <strong>Atenção à proteção de dados (LGPD)</strong>
+      </div>
+      <p className="dlp-texto">
+        Detectamos possível dado sensível. Revise antes de registrar:
+      </p>
+      <ul>
+        {achados.map((a, i) => (
+          <li key={i}>
+            <strong>{a.tipo}:</strong> {a.orientacao}
+          </li>
+        ))}
+      </ul>
+      <button type="button" className="dlp-botao" onClick={onAjuda}>
+        Falar com o assistente sobre anonimização
+      </button>
+    </div>
+  )
+}
+
 function Organizador() {
   const [setores, setSetores] = useState<Setor[]>([])
   const [aberto, setAberto] = useState<number | null>(null)
   const [notas, setNotas] = useState<Record<number, string>>({})
+  const [setorSel, setSetorSel] = useState<number | ''>('')
+  const [entrada, setEntrada] = useState('')
   const { pedirAjudaDlp } = useChat()
 
   useEffect(() => {
-    api.get('/api/setores').then((r) => setSetores(r.data))
+    api.get('/api/setores').then((r) => {
+      setSetores(r.data)
+      if (r.data[0]) setSetorSel(r.data[0].id)
+    })
   }, [])
+
+  const achadosEntrada: DlpFinding[] = analisarDlp(entrada)
+
+  function adicionar() {
+    const txt = entrada.trim()
+    if (!txt || !setorSel) return
+    setNotas((n) => ({
+      ...n,
+      [setorSel]: n[setorSel] ? `${n[setorSel]}\n\n${txt}` : txt,
+    }))
+    setAberto(Number(setorSel))
+    setEntrada('')
+  }
 
   return (
     <>
+      {/* Interface estilo Gemini — Colabora AI, para entrada de informações por setor */}
+      <div className="colabhero-wrap">
+        <div className="colabhero-logo">
+          <span className="colabhero-mark">
+            <IconSparkTab />
+          </span>
+          <span className="colabhero-nome">Colabora AI</span>
+        </div>
+        <h2 className="colabhero-titulo">Por onde começamos?</h2>
+        <p className="colabhero-sub">
+          Adicione informações, documentos internos ou conteúdos da IA à memória de cada setor.
+        </p>
+
+        <div className="colabhero-input">
+          <select
+            value={setorSel}
+            onChange={(e) => setSetorSel(Number(e.target.value))}
+            aria-label="Setor de destino"
+          >
+            {setores.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.sigla || s.nome}
+              </option>
+            ))}
+          </select>
+          <input
+            value={entrada}
+            onChange={(e) => setEntrada(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') adicionar()
+            }}
+            placeholder="Adicione uma informação ou cole um documento do setor…"
+          />
+          <button
+            className="colabhero-enviar"
+            onClick={adicionar}
+            disabled={!entrada.trim() || !setorSel}
+            aria-label="Adicionar ao setor"
+          >
+            <IconSend />
+          </button>
+        </div>
+        <AlertaDlp achados={achadosEntrada} onAjuda={pedirAjudaDlp} />
+      </div>
+
       <p className="org-intro">
-        Memória de gestão por setor: insira aqui os <strong>documentos internos</strong> e as
-        informações geradas pela IA. Uma camada de proteção (LGPD) avisa se houver dados
-        sensíveis. As anotações ficam neste navegador (protótipo).
+        Memória de gestão por setor — os documentos internos ficam organizados aqui, com uma
+        camada de proteção (LGPD) que aciona o assistente se houver dados sensíveis. Salvo
+        neste navegador (protótipo).
       </p>
       {setores.map((s) => {
         const isOpen = aberto === s.id
@@ -436,27 +530,7 @@ function Organizador() {
                   onChange={(e) => setNotas((n) => ({ ...n, [s.id]: e.target.value }))}
                   placeholder={`Cole um documento interno ou anote o conteúdo do setor ${rotulo}…`}
                 />
-                {achados.length > 0 && (
-                  <div className="dlp-alerta" style={{ marginTop: 12 }}>
-                    <div className="dlp-cabecalho">
-                      <span>🛡️</span>
-                      <strong>Atenção à proteção de dados (LGPD)</strong>
-                    </div>
-                    <p className="dlp-texto">
-                      Detectamos possível dado sensível neste documento. Revise antes de salvar:
-                    </p>
-                    <ul>
-                      {achados.map((a, i) => (
-                        <li key={i}>
-                          <strong>{a.tipo}:</strong> {a.orientacao}
-                        </li>
-                      ))}
-                    </ul>
-                    <button type="button" className="dlp-botao" onClick={pedirAjudaDlp}>
-                      Falar com o assistente sobre anonimização
-                    </button>
-                  </div>
-                )}
+                <AlertaDlp achados={achados} onAjuda={pedirAjudaDlp} />
               </div>
             )}
           </div>
@@ -592,7 +666,7 @@ function Ata() {
 
 export default function CuradoriaIAs() {
   const { usuario, logout } = useAuth()
-  const [aba, setAba] = useState<'ferramentas' | 'organizador' | 'ata'>('ferramentas')
+  const [aba, setAba] = useState<'ferramentas' | 'organizador' | 'ata'>('organizador')
   const [selecionadaId, setSelecionadaId] = useState<string | null>(null)
   const iaSelecionada = IAS.find((ia) => ia.id === selecionadaId)
 
@@ -620,22 +694,22 @@ export default function CuradoriaIAs() {
       <main className="conteudo curad">
         <div className="wkspace-tabs">
           <button
-            className={`wkspace-tab${aba === 'ferramentas' ? ' ativo' : ''}`}
-            onClick={() => setAba('ferramentas')}
-          >
-            <IconSparkTab /> Ferramentas de IA
-          </button>
-          <button
             className={`wkspace-tab${aba === 'organizador' ? ' ativo' : ''}`}
             onClick={() => setAba('organizador')}
           >
-            <IconFolder /> Organizador por setor
+            <IconSparkTab /> Colabora AI · por setor
           </button>
           <button
             className={`wkspace-tab${aba === 'ata' ? ' ativo' : ''}`}
             onClick={() => setAba('ata')}
           >
             <IconMic /> Reunião → Ata
+          </button>
+          <button
+            className={`wkspace-tab${aba === 'ferramentas' ? ' ativo' : ''}`}
+            onClick={() => setAba('ferramentas')}
+          >
+            <IconFolder /> Ferramentas de IA
           </button>
         </div>
 
