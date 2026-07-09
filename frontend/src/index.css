@@ -1793,6 +1793,113 @@ body {
   color: #0f4c5c;
 }
 
+.colab-menu-divisor {
+  height: 1px;
+  background: var(--borda);
+  margin: 5px 6px;
+}
+
+/* Seletor de modo (equivalente ao seletor de modelo do Gemini) */
+.colab-modo {
+  position: relative;
+  flex-shrink: 0;
+}
+.colab-modo-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: #f2efe8;
+  color: var(--texto);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 8px 10px 8px 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.colab-modo-btn:hover {
+  background: #e9e5dc;
+}
+.colab-modo-btn svg {
+  width: 15px;
+  height: 15px;
+  color: var(--texto-fraco);
+}
+.colab-modo-menu {
+  position: absolute;
+  bottom: 52px;
+  right: 0;
+  background: var(--card);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(30, 42, 52, 0.16);
+  padding: 6px;
+  min-width: 240px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+.colab-modo-menu button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border: none;
+  background: none;
+  font: inherit;
+  color: var(--texto);
+  cursor: pointer;
+  border-radius: 8px;
+  text-align: left;
+}
+.colab-modo-menu button:hover {
+  background: var(--info-bg);
+}
+.colab-modo-menu button.ativo {
+  background: var(--info-bg);
+}
+.colab-modo-menu strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+}
+.colab-modo-menu small {
+  display: block;
+  font-size: 12px;
+  color: var(--texto-fraco);
+  margin-top: 1px;
+}
+.colab-modo-menu button svg {
+  width: 16px;
+  height: 16px;
+  color: var(--azul);
+  flex-shrink: 0;
+}
+
+/* Resposta inline (modo Consulta) */
+.colab-resposta {
+  margin-top: 16px;
+  background: #f1f6f7;
+  border: 1px solid #d7e4e7;
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+.colab-resposta-q {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f4c5c;
+  margin-bottom: 8px;
+}
+.colab-resposta p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--texto);
+}
+
 /* Microfone dentro do campo */
 .colab-mic {
   width: 40px;

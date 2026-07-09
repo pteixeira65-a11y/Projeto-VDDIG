@@ -175,6 +175,12 @@ const IconSearch = () => (
   </svg>
 )
 
+const IconChevronDown = () => (
+  <svg {...iconBase}>
+    <polyline points="6 9 12 15 18 9" />
+  </svg>
+)
+
 /* ---------- Dados mockados ---------- */
 
 const IAS: IA[] = [
@@ -447,32 +453,70 @@ interface Doc {
   data: string
 }
 
-/* Entrada estilo Gemini — Colabora AI do setor (+ anexar, campo, microfone) */
+/* Modos do Colabora AI — equivalente ao seletor de modelo do Gemini */
+const MODOS = [
+  { id: 'curadoria', nome: 'Curadoria', sub: 'Organizar informações' },
+  { id: 'consulta', nome: 'Consulta', sub: 'Perguntar aos documentos' },
+  { id: 'ata', nome: 'Reunião → Ata', sub: 'Gravar e gerar ata' },
+] as const
+type ModoId = (typeof MODOS)[number]['id']
+
+/* Entrada estilo Gemini — Colabora AI do setor (+ anexar, modo, microfone) */
 function ColaboraInput({
   setor,
+  docs,
   onAdd,
   onGravar,
+  onFerramentas,
 }: {
   setor: Setor | null
+  docs: Doc[]
   onAdd: (d: Omit<Doc, 'id' | 'data'>) => void
   onGravar: () => void
+  onFerramentas: () => void
 }) {
   const [entrada, setEntrada] = useState('')
   const [menu, setMenu] = useState(false)
+  const [menuModo, setMenuModo] = useState(false)
+  const [modo, setModo] = useState<ModoId>('curadoria')
+  const [resposta, setResposta] = useState<{ pergunta: string; texto: string; fontes: Doc[] } | null>(null)
   const { pedirAjudaDlp } = useChat()
   const achados: DlpFinding[] = analisarDlp(entrada)
   const sigla = setor?.sigla || ''
+  const modoAtual = MODOS.find((m) => m.id === modo)!
 
   function enviar() {
     const txt = entrada.trim()
     if (!txt) return
-    onAdd({ tipo: 'nota', titulo: txt.slice(0, 52) + (txt.length > 52 ? '…' : ''), texto: txt })
-    setEntrada('')
+    if (modo === 'consulta') {
+      setResposta({
+        pergunta: txt,
+        texto: docs.length
+          ? `Com base nos documentos do setor ${sigla}, consolidei os pontos relacionados a "${txt}". ` +
+            '(Resposta simulada — o RAG real usará a Claude API sobre a base do setor.)'
+          : 'Ainda não há documentos neste setor. Envie documentos no modo Curadoria ou gere uma Ata.',
+        fontes: docs.slice(0, 2),
+      })
+      setEntrada('')
+    } else {
+      onAdd({ tipo: 'nota', titulo: txt.slice(0, 52) + (txt.length > 52 ? '…' : ''), texto: txt })
+      setEntrada('')
+    }
   }
 
   function anexar(nome: string) {
     onAdd({ tipo: 'documento', titulo: nome, texto: `Documento interno "${nome}" enviado ao repositório do setor ${sigla}.` })
     setMenu(false)
+  }
+
+  function escolherModo(id: ModoId) {
+    setMenuModo(false)
+    if (id === 'ata') {
+      onGravar()
+      return
+    }
+    setModo(id)
+    setResposta(null)
   }
 
   return (
@@ -491,48 +535,89 @@ function ColaboraInput({
 
       <div className="colabhero-input">
         <div className="colab-mais">
-          <button
-            className="colab-mais-btn"
-            onClick={() => setMenu((m) => !m)}
-            aria-label="Anexar"
-          >
+          <button className="colab-mais-btn" onClick={() => setMenu((m) => !m)} aria-label="Anexar">
             {menu ? <span className="colab-x">×</span> : <IconPlus />}
           </button>
           {menu && (
             <div className="colab-mais-menu">
               <button onClick={() => anexar('Ofício 042-2026.pdf')}>
-                <IconDoc /> Enviar documento
+                <IconDoc /> Enviar arquivos
               </button>
               <button onClick={() => anexar('Planilha do setor.xlsx')}>
                 <IconFolder /> Adicionar do Drive
               </button>
+              <button onClick={() => anexar('Documento digitalizado.pdf')}>
+                <IconPlus /> Mais uploads
+              </button>
+              <div className="colab-menu-divisor" />
               <button onClick={() => { setMenu(false); onGravar() }}>
                 <IconMic /> Gravar reunião
+              </button>
+              <button onClick={() => { setMenu(false); onFerramentas() }}>
+                <IconFolder /> Mais ferramentas
               </button>
             </div>
           )}
         </div>
+
         <input
           value={entrada}
           onChange={(e) => setEntrada(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') enviar()
           }}
-          placeholder="Peça ao Colabora AI ou cole um documento do setor…"
+          placeholder={
+            modo === 'consulta'
+              ? 'Pergunte aos documentos do setor…'
+              : 'Adicione um documento ou informação do setor…'
+          }
         />
+
+        <div className="colab-modo">
+          <button className="colab-modo-btn" onClick={() => setMenuModo((m) => !m)}>
+            {modoAtual.nome}
+            <IconChevronDown />
+          </button>
+          {menuModo && (
+            <div className="colab-modo-menu">
+              {MODOS.map((m) => (
+                <button key={m.id} onClick={() => escolherModo(m.id)} className={m.id === modo ? 'ativo' : ''}>
+                  <span>
+                    <strong>{m.nome}</strong>
+                    <small>{m.sub}</small>
+                  </span>
+                  {m.id === modo && <IconCheck />}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
         <button className="colab-mic" onClick={onGravar} aria-label="Gravar áudio">
           <IconMic />
         </button>
-        <button
-          className="colabhero-enviar"
-          onClick={enviar}
-          disabled={!entrada.trim()}
-          aria-label="Enviar"
-        >
-          <IconSend />
+        <button className="colabhero-enviar" onClick={enviar} disabled={!entrada.trim()} aria-label="Enviar">
+          {modo === 'consulta' ? <IconSearch /> : <IconSend />}
         </button>
       </div>
       <AlertaDlp achados={achados} onAjuda={pedirAjudaDlp} />
+
+      {resposta && (
+        <div className="colab-resposta">
+          <div className="colab-resposta-q">{resposta.pergunta}</div>
+          <p>{resposta.texto}</p>
+          {resposta.fontes.length > 0 && (
+            <div className="repo-fontes">
+              <span className="repo-fontes-tit">Fontes:</span>
+              {resposta.fontes.map((f) => (
+                <span key={f.id} className="repo-fonte-chip">
+                  <IconDoc /> {f.titulo}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="colab-sugestoes">
         <button onClick={() => setEntrada('Resuma os principais pontos da última reunião do setor.')}>
@@ -875,7 +960,13 @@ export default function CuradoriaIAs() {
         </div>
 
         {aba === 'colabora' && (
-          <ColaboraInput setor={setorAtivo} onAdd={adicionarDoc} onGravar={() => setAba('ata')} />
+          <ColaboraInput
+            setor={setorAtivo}
+            docs={docsSetor}
+            onAdd={adicionarDoc}
+            onGravar={() => setAba('ata')}
+            onFerramentas={() => setAba('ferramentas')}
+          />
         )}
         {aba === 'ata' && (
           <ReuniaoAta
