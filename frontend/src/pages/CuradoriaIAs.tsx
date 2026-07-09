@@ -161,6 +161,20 @@ const IconSend = () => (
   </svg>
 )
 
+const IconPlus = () => (
+  <svg {...iconBase}>
+    <line x1="12" y1="5" x2="12" y2="19" />
+    <line x1="5" y1="12" x2="19" y2="12" />
+  </svg>
+)
+
+const IconSearch = () => (
+  <svg {...iconBase}>
+    <circle cx="11" cy="11" r="7" />
+    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+  </svg>
+)
+
 /* ---------- Dados mockados ---------- */
 
 const IAS: IA[] = [
@@ -425,118 +439,206 @@ function AlertaDlp({ achados, onAjuda }: { achados: DlpFinding[]; onAjuda: () =>
   )
 }
 
-function Organizador() {
-  const [setores, setSetores] = useState<Setor[]>([])
-  const [aberto, setAberto] = useState<number | null>(null)
-  const [notas, setNotas] = useState<Record<number, string>>({})
-  const [setorSel, setSetorSel] = useState<number | ''>('')
+interface Doc {
+  id: number
+  tipo: 'documento' | 'nota' | 'ata'
+  titulo: string
+  texto: string
+  data: string
+}
+
+/* Entrada estilo Gemini — Colabora AI do setor (+ anexar, campo, microfone) */
+function ColaboraInput({
+  setor,
+  onAdd,
+  onGravar,
+}: {
+  setor: Setor | null
+  onAdd: (d: Omit<Doc, 'id' | 'data'>) => void
+  onGravar: () => void
+}) {
   const [entrada, setEntrada] = useState('')
+  const [menu, setMenu] = useState(false)
   const { pedirAjudaDlp } = useChat()
+  const achados: DlpFinding[] = analisarDlp(entrada)
+  const sigla = setor?.sigla || ''
 
-  useEffect(() => {
-    api.get('/api/setores').then((r) => {
-      setSetores(r.data)
-      if (r.data[0]) setSetorSel(r.data[0].id)
-    })
-  }, [])
-
-  const achadosEntrada: DlpFinding[] = analisarDlp(entrada)
-
-  function adicionar() {
+  function enviar() {
     const txt = entrada.trim()
-    if (!txt || !setorSel) return
-    setNotas((n) => ({
-      ...n,
-      [setorSel]: n[setorSel] ? `${n[setorSel]}\n\n${txt}` : txt,
-    }))
-    setAberto(Number(setorSel))
+    if (!txt) return
+    onAdd({ tipo: 'nota', titulo: txt.slice(0, 52) + (txt.length > 52 ? '…' : ''), texto: txt })
     setEntrada('')
   }
 
-  return (
-    <>
-      {/* Interface estilo Gemini — Colabora AI, para entrada de informações por setor */}
-      <div className="colabhero-wrap">
-        <div className="colabhero-logo">
-          <span className="colabhero-mark">
-            <IconSparkTab />
-          </span>
-          <span className="colabhero-nome">Colabora AI</span>
-        </div>
-        <h2 className="colabhero-titulo">Por onde começamos?</h2>
-        <p className="colabhero-sub">
-          Adicione informações, documentos internos ou conteúdos da IA à memória de cada setor.
-        </p>
+  function anexar(nome: string) {
+    onAdd({ tipo: 'documento', titulo: nome, texto: `Documento interno "${nome}" enviado ao repositório do setor ${sigla}.` })
+    setMenu(false)
+  }
 
-        <div className="colabhero-input">
-          <select
-            value={setorSel}
-            onChange={(e) => setSetorSel(Number(e.target.value))}
-            aria-label="Setor de destino"
-          >
-            {setores.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.sigla || s.nome}
-              </option>
-            ))}
-          </select>
-          <input
-            value={entrada}
-            onChange={(e) => setEntrada(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') adicionar()
-            }}
-            placeholder="Adicione uma informação ou cole um documento do setor…"
-          />
+  return (
+    <div className="colabhero-wrap">
+      <div className="colabhero-logo">
+        <span className="colabhero-mark">
+          <IconSparkTab />
+        </span>
+        <span className="colabhero-nome">Colabora AI</span>
+      </div>
+      <h2 className="colabhero-titulo">Por onde começamos?</h2>
+      <p className="colabhero-sub">
+        Envie documentos internos e informações para a memória do setor {sigla}. O principal
+        input são documentos — protegidos pela camada de LGPD.
+      </p>
+
+      <div className="colabhero-input">
+        <div className="colab-mais">
           <button
-            className="colabhero-enviar"
-            onClick={adicionar}
-            disabled={!entrada.trim() || !setorSel}
-            aria-label="Adicionar ao setor"
+            className="colab-mais-btn"
+            onClick={() => setMenu((m) => !m)}
+            aria-label="Anexar"
           >
-            <IconSend />
+            {menu ? <span className="colab-x">×</span> : <IconPlus />}
           </button>
+          {menu && (
+            <div className="colab-mais-menu">
+              <button onClick={() => anexar('Ofício 042-2026.pdf')}>
+                <IconDoc /> Enviar documento
+              </button>
+              <button onClick={() => anexar('Planilha do setor.xlsx')}>
+                <IconFolder /> Adicionar do Drive
+              </button>
+              <button onClick={() => { setMenu(false); onGravar() }}>
+                <IconMic /> Gravar reunião
+              </button>
+            </div>
+          )}
         </div>
-        <AlertaDlp achados={achadosEntrada} onAjuda={pedirAjudaDlp} />
+        <input
+          value={entrada}
+          onChange={(e) => setEntrada(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') enviar()
+          }}
+          placeholder="Peça ao Colabora AI ou cole um documento do setor…"
+        />
+        <button className="colab-mic" onClick={onGravar} aria-label="Gravar áudio">
+          <IconMic />
+        </button>
+        <button
+          className="colabhero-enviar"
+          onClick={enviar}
+          disabled={!entrada.trim()}
+          aria-label="Enviar"
+        >
+          <IconSend />
+        </button>
+      </div>
+      <AlertaDlp achados={achados} onAjuda={pedirAjudaDlp} />
+
+      <div className="colab-sugestoes">
+        <button onClick={() => setEntrada('Resuma os principais pontos da última reunião do setor.')}>
+          Resumir última reunião
+        </button>
+        <button onClick={() => setEntrada('Liste as pendências e os responsáveis do setor.')}>
+          Listar pendências
+        </button>
+        <button onClick={onGravar}>Gravar uma reunião</button>
+      </div>
+    </div>
+  )
+}
+
+/* Repositório tipo NotebookLM — consulta dos documentos do setor */
+function Repositorio({ setor, docs }: { setor: Setor | null; docs: Doc[] }) {
+  const [pergunta, setPergunta] = useState('')
+  const [pensando, setPensando] = useState(false)
+  const [resposta, setResposta] = useState<{ texto: string; fontes: Doc[] } | null>(null)
+  const sigla = setor?.sigla || ''
+
+  function consultar() {
+    const q = pergunta.trim()
+    if (!q || pensando) return
+    setPensando(true)
+    setResposta(null)
+    setTimeout(() => {
+      setPensando(false)
+      setResposta({
+        texto: docs.length
+          ? `Com base nos documentos do setor ${sigla}, encontrei registros relacionados a "${q}". ` +
+            'Consolidei os pontos principais abaixo, citando as fontes. (Resposta simulada — o RAG ' +
+            'real usará a Claude API sobre a base documental do setor.)'
+          : 'Ainda não há documentos neste repositório. Envie documentos na aba Colabora AI ou gere uma Ata.',
+        fontes: docs.slice(0, 2),
+      })
+    }, 1100)
+  }
+
+  return (
+    <div className="repo-wrap">
+      <h2 className="repo-titulo">
+        <IconSearch /> Repositório do setor {sigla} · NotebookLM
+      </h2>
+      <p className="repo-sub">
+        Consulte os documentos do seu setor em linguagem natural. {docs.length} documento(s) na base.
+      </p>
+
+      <div className="repo-busca">
+        <span className="repo-busca-ic">
+          <IconSearch />
+        </span>
+        <input
+          value={pergunta}
+          onChange={(e) => setPergunta(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') consultar()
+          }}
+          placeholder="Pergunte aos documentos do setor…"
+        />
+        <button className="repo-perguntar" onClick={consultar} disabled={!pergunta.trim() || pensando}>
+          Perguntar
+        </button>
       </div>
 
-      <p className="org-intro">
-        Memória de gestão por setor — os documentos internos ficam organizados aqui, com uma
-        camada de proteção (LGPD) que aciona o assistente se houver dados sensíveis. Salvo
-        neste navegador (protótipo).
-      </p>
-      {setores.map((s) => {
-        const isOpen = aberto === s.id
-        const rotulo = s.sigla || s.nome
-        const achados: DlpFinding[] = isOpen ? analisarDlp(notas[s.id] ?? '') : []
-        return (
-          <div key={s.id} className={`org-item${isOpen ? ' aberto' : ''}`}>
-            <button className="org-cab" onClick={() => setAberto(isOpen ? null : s.id)}>
-              <span className="org-ic">
-                <IconFolder />
-              </span>
-              <span>
-                <span className="org-sigla">{rotulo}</span>
-                {s.sigla && <span className="org-nome"> · {s.nome}</span>}
-              </span>
-              <span className="org-chev">
-                <IconChevron />
-              </span>
-            </button>
-            {isOpen && (
-              <div className="org-corpo">
-                <textarea
-                  value={notas[s.id] ?? ''}
-                  onChange={(e) => setNotas((n) => ({ ...n, [s.id]: e.target.value }))}
-                  placeholder={`Cole um documento interno ou anote o conteúdo do setor ${rotulo}…`}
-                />
-                <AlertaDlp achados={achados} onAjuda={pedirAjudaDlp} />
+      {pensando && (
+        <div className="repo-pensando">
+          <span className="rec-spin" /> Consultando a base do setor…
+        </div>
+      )}
+      {resposta && (
+        <div className="repo-resposta">
+          <p>{resposta.texto}</p>
+          {resposta.fontes.length > 0 && (
+            <div className="repo-fontes">
+              <span className="repo-fontes-tit">Fontes:</span>
+              {resposta.fontes.map((f) => (
+                <span key={f.id} className="repo-fonte-chip">
+                  <IconDoc /> {f.titulo}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      <div className="repo-lista">
+        {docs.length === 0 ? (
+          <p className="bussola-vazio">
+            Nenhum documento ainda. Envie na aba <strong>Colabora AI</strong> ou gere uma{' '}
+            <strong>Ata</strong>.
+          </p>
+        ) : (
+          docs.map((d) => (
+            <div key={d.id} className="repo-doc">
+              <span className={`repo-doc-tipo tipo-${d.tipo}`}>{d.tipo}</span>
+              <div className="repo-doc-info">
+                <strong>{d.titulo}</strong>
+                <p>{d.texto}</p>
               </div>
-            )}
-          </div>
-        )
-      })}
-    </>
+              <span className="repo-doc-data">{d.data}</span>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
   )
 }
 
@@ -545,7 +647,7 @@ function Organizador() {
 type EstadoGrav = 'idle' | 'gravando' | 'processando' | 'pronto'
 const ONDA = Array.from({ length: 32 })
 
-function ReuniaoAta() {
+function ReuniaoAta({ onSalvar }: { onSalvar: (titulo: string, texto: string) => void }) {
   const [estado, setEstado] = useState<EstadoGrav>('idle')
   const [seg, setSeg] = useState(0)
   const timer = useRef<number | null>(null)
@@ -605,12 +707,13 @@ function ReuniaoAta() {
           </button>
         )}
       </div>
-      {estado === 'pronto' && <Ata />}
+      {estado === 'pronto' && <Ata onSalvar={onSalvar} />}
     </>
   )
 }
 
-function Ata() {
+function Ata({ onSalvar }: { onSalvar: (titulo: string, texto: string) => void }) {
+  const [salvo, setSalvo] = useState(false)
   return (
     <article className="ata-doc">
       <div className="ata-cab">
@@ -656,7 +759,18 @@ function Ata() {
       <div className="ata-acoes">
         <button className="ata-btn primario"><IconDoc /> Exportar ata (PDF)</button>
         <button className="ata-btn">Copiar texto</button>
-        <button className="ata-btn">Salvar no Organizador</button>
+        <button
+          className="ata-btn"
+          onClick={() => {
+            onSalvar(
+              `Ata de reunião · ${new Date().toLocaleDateString('pt-BR')}`,
+              'Ata de reunião da VDDIG com pauta, deliberações e encaminhamentos (gerada pela transcrição).',
+            )
+            setSalvo(true)
+          }}
+        >
+          {salvo ? '✓ Salvo no repositório' : 'Salvar no repositório'}
+        </button>
       </div>
     </article>
   )
@@ -666,9 +780,30 @@ function Ata() {
 
 export default function CuradoriaIAs() {
   const { usuario, logout } = useAuth()
-  const [aba, setAba] = useState<'ferramentas' | 'organizador' | 'ata'>('organizador')
+  const [aba, setAba] = useState<'colabora' | 'ata' | 'repo' | 'ferramentas'>('colabora')
   const [selecionadaId, setSelecionadaId] = useState<string | null>(null)
   const iaSelecionada = IAS.find((ia) => ia.id === selecionadaId)
+
+  const [setores, setSetores] = useState<Setor[]>([])
+  const [setorAtivoId, setSetorAtivoId] = useState<number | null>(null)
+  const [docs, setDocs] = useState<Record<number, Doc[]>>({})
+  const estrategico = usuario?.role === 'estrategico'
+
+  useEffect(() => {
+    api.get('/api/setores').then((r) => {
+      setSetores(r.data)
+      setSetorAtivoId(usuario?.setor_id ?? r.data[0]?.id ?? null)
+    })
+  }, [usuario])
+
+  const setorAtivo = setores.find((s) => s.id === setorAtivoId) ?? null
+  const docsSetor = setorAtivoId ? docs[setorAtivoId] ?? [] : []
+
+  function adicionarDoc(d: Omit<Doc, 'id' | 'data'>) {
+    if (!setorAtivoId) return
+    const novo: Doc = { ...d, id: Date.now(), data: new Date().toLocaleDateString('pt-BR') }
+    setDocs((prev) => ({ ...prev, [setorAtivoId]: [novo, ...(prev[setorAtivoId] ?? [])] }))
+  }
 
   return (
     <div className="app">
@@ -676,8 +811,8 @@ export default function CuradoriaIAs() {
         <div className="topbar-left">
           <span className="brand-badge">vddig</span>
           <div>
-            <strong>Curadoria</strong>
-            <div className="topbar-sub">ENSP · Fiocruz — curadoria de IA e apoio à gestão</div>
+            <strong>Colabora AI · Curadoria</strong>
+            <div className="topbar-sub">ENSP · Fiocruz — espaço de IA do seu setor</div>
           </div>
         </div>
         <div className="topbar-right">
@@ -692,18 +827,44 @@ export default function CuradoriaIAs() {
       </header>
 
       <main className="conteudo curad">
+        <div className="setor-ativo-bar">
+          <span className="setor-ativo-label">Setor</span>
+          {estrategico ? (
+            <select
+              className="setor-ativo-sel"
+              value={setorAtivoId ?? ''}
+              onChange={(e) => setSetorAtivoId(Number(e.target.value))}
+            >
+              {setores.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {(s.sigla ? s.sigla + ' — ' : '') + s.nome}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <strong className="setor-ativo-nome">{setorAtivo?.nome ?? '—'}</strong>
+          )}
+          <span className="setor-ativo-badge">{docsSetor.length} no repositório</span>
+        </div>
+
         <div className="wkspace-tabs">
           <button
-            className={`wkspace-tab${aba === 'organizador' ? ' ativo' : ''}`}
-            onClick={() => setAba('organizador')}
+            className={`wkspace-tab${aba === 'colabora' ? ' ativo' : ''}`}
+            onClick={() => setAba('colabora')}
           >
-            <IconSparkTab /> Colabora AI · por setor
+            <IconSparkTab /> Colabora AI
           </button>
           <button
             className={`wkspace-tab${aba === 'ata' ? ' ativo' : ''}`}
             onClick={() => setAba('ata')}
           >
-            <IconMic /> Reunião → Ata
+            <IconMic /> Gravação → Ata
+          </button>
+          <button
+            className={`wkspace-tab${aba === 'repo' ? ' ativo' : ''}`}
+            onClick={() => setAba('repo')}
+          >
+            <IconSearch /> Repositório (NotebookLM)
           </button>
           <button
             className={`wkspace-tab${aba === 'ferramentas' ? ' ativo' : ''}`}
@@ -713,14 +874,24 @@ export default function CuradoriaIAs() {
           </button>
         </div>
 
+        {aba === 'colabora' && (
+          <ColaboraInput setor={setorAtivo} onAdd={adicionarDoc} onGravar={() => setAba('ata')} />
+        )}
+        {aba === 'ata' && (
+          <ReuniaoAta
+            onSalvar={(titulo, texto) => {
+              adicionarDoc({ tipo: 'ata', titulo, texto })
+              setAba('repo')
+            }}
+          />
+        )}
+        {aba === 'repo' && <Repositorio setor={setorAtivo} docs={docsSetor} />}
         {aba === 'ferramentas' &&
           (iaSelecionada ? (
             <DetalheIA ia={iaSelecionada} onVoltar={() => setSelecionadaId(null)} />
           ) : (
             <ListaCuradoria onAbrir={setSelecionadaId} />
           ))}
-        {aba === 'organizador' && <Organizador />}
-        {aba === 'ata' && <ReuniaoAta />}
       </main>
     </div>
   )
