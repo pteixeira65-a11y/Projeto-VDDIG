@@ -1681,6 +1681,167 @@ body {
   height: 18px;
 }
 
+/* Blueprint do Serviço de Compras (POLEM) */
+.bp-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.bp-titulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+.bp-titulo svg {
+  width: 19px;
+  height: 19px;
+  color: var(--azul);
+}
+.bp-sub {
+  font-size: 13px;
+  color: var(--texto-fraco);
+  margin: 0;
+  max-width: 640px;
+  line-height: 1.5;
+}
+.bp-tag {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--roxo);
+  background: #efeaf3;
+  border-radius: 20px;
+  padding: 5px 11px;
+  white-space: nowrap;
+}
+.bp-scroll {
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.bp-grid {
+  min-width: 900px;
+  display: grid;
+  grid-template-columns: 168px repeat(6, 1fr);
+  gap: 6px;
+}
+.bp-corner {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--texto-fraco);
+  display: flex;
+  align-items: flex-end;
+  padding: 6px 8px;
+}
+.bp-col-head {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--texto);
+  background: #edeae3;
+  border-radius: 8px;
+  padding: 9px 10px;
+  text-align: center;
+}
+.bp-linha {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  gap: 6px;
+}
+.bp-row-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--texto);
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #f4f2ec;
+}
+.bp-cell {
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--texto);
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  padding: 9px 10px;
+  background: var(--card);
+}
+.bp-evid .bp-cell { background: #f7f5ef; }
+.bp-req .bp-cell,
+.bp-req .bp-row-label { background: #e9edf0; }
+.bp-front .bp-cell,
+.bp-front .bp-row-label { background: #eef2f4; }
+.bp-back .bp-cell,
+.bp-back .bp-row-label { background: #e9efe6; }
+.bp-apoio .bp-cell,
+.bp-apoio .bp-row-label { background: #efede7; }
+/* linha de visibilidade entre frontstage e backstage */
+.bp-back {
+  border-top: 2px dashed #c9d3d8;
+  padding-top: 6px;
+  margin-top: 2px;
+}
+.bp-legenda {
+  font-size: 12px;
+  color: var(--texto-fraco);
+  margin: 12px 0 22px;
+  line-height: 1.5;
+}
+.bp-analise {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.bp-analise-card h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--vermelho);
+  margin: 0 0 8px;
+}
+.bp-oport h3 {
+  color: var(--verde);
+}
+.bp-analise-card ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.bp-analise-card li {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--texto);
+}
+.bp-indicadores {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-top: 18px;
+}
+.bp-ind {
+  background: var(--card);
+  border: 1px solid var(--borda);
+  border-left: 3px solid var(--roxo);
+  border-radius: var(--raio);
+  padding: 16px;
+  box-shadow: var(--sombra);
+}
+.bp-ind-v {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--texto);
+}
+.bp-ind-k {
+  font-size: 12px;
+  color: var(--texto-fraco);
+  margin-top: 2px;
+}
+
 /* Barra do setor ativo */
 .setor-ativo-bar {
   display: flex;
