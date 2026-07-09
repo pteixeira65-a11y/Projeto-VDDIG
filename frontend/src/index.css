@@ -1681,6 +1681,157 @@ body {
   height: 18px;
 }
 
+/* Mapeamento de Processos → POP (SGQ) */
+.mq-passo {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--texto-fraco);
+  margin: 0 0 12px;
+}
+.mq-drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 26px;
+  border: 1px dashed var(--borda);
+  border-radius: var(--raio);
+  background: #faf9f6;
+  text-align: center;
+}
+.mq-drop svg {
+  width: 26px;
+  height: 26px;
+  color: var(--azul);
+}
+.mq-drop p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--texto-fraco);
+  max-width: 380px;
+}
+.mq-audios {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mq-audios li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  background: var(--card);
+}
+.mq-audio-ic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--info-bg);
+  color: var(--azul);
+  flex-shrink: 0;
+}
+.mq-audio-ic svg {
+  width: 16px;
+  height: 16px;
+}
+.mq-audio-nome {
+  flex: 1;
+  font-size: 13px;
+  color: var(--texto);
+}
+.mq-audio-dur {
+  font-size: 12px;
+  color: var(--texto-fraco);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Fluxograma BPMN / Bizagi */
+.bpmn-legenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.bpmn-lane-chip {
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 4px 11px;
+}
+.lane-pesq { background: #e6ecef; color: #456178; }
+.lane-lab { background: #e6ece1; color: #556b4f; }
+.lane-bio { background: #f2e2db; color: #8f4d3b; }
+.lane-qual { background: #efeaf3; color: #6c5c7c; }
+.bpmn-scroll {
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+.bpmn-flow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  min-width: max-content;
+}
+.bpmn-node-wrap {
+  display: flex;
+  align-items: center;
+}
+.bpmn-evento {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid var(--texto-fraco);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--texto);
+  background: var(--card);
+}
+.bpmn-tarefa {
+  flex-shrink: 0;
+  width: 150px;
+  min-height: 66px;
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--texto);
+  background: var(--card);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.bpmn-tarefa.lane-pesq { border-top: 3px solid #456178; }
+.bpmn-tarefa.lane-lab { border-top: 3px solid #6f8f6a; }
+.bpmn-tarefa.lane-bio { border-top: 3px solid #b06a56; }
+.bpmn-tarefa.lane-qual { border-top: 3px solid #8a7c9a; }
+.bpmn-lane-tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--texto-fraco);
+}
+.bpmn-seta {
+  flex-shrink: 0;
+  color: var(--texto-fraco);
+  font-size: 18px;
+  padding: 0 8px;
+}
+
 /* Blueprint do Serviço de Compras (POLEM) */
 .bp-head {
   display: flex;

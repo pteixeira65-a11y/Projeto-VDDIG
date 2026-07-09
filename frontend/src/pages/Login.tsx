@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
+import { rotaPadrao } from '../App'
 
 export default function Login() {
   const { login } = useAuth()
@@ -16,7 +17,7 @@ export default function Login() {
     setEnviando(true)
     try {
       const usuario = await login(email, senha)
-      nav(usuario.role === 'estrategico' ? '/dashboard' : '/setor')
+      nav(rotaPadrao(usuario.role))
     } catch {
       setErro('Email ou senha inválidos.')
     } finally {

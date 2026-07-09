@@ -1,10 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import { api } from '../api/client'
 import { useAuth } from '../auth/AuthContext'
-import { DlpFinding, Setor } from '../api/types'
+import { DlpFinding, Setor, SetorMetricas } from '../api/types'
 import { analisarDlp } from '../utils/dlp'
 import { useChat } from '../chat/ChatContext'
 import TopNav from '../components/TopNav'
+import KpiCard from '../components/KpiCard'
+import MetasChart from '../components/MetasChart'
+import { IconDashboard } from '../components/icons'
+
+const brl = (v: number) =>
+  v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 })
 
 /* ------------------------------------------------------------------ *
  * Curadoria de IAs — aba de avaliação de ferramentas de IA do setor.
@@ -985,11 +991,245 @@ function BlueprintCompras() {
   )
 }
 
+/* ---------- Mapeamento de Processos → POP (Serviço de Gestão da Qualidade) ---------- */
+
+const MQ_AUDIOS = [
+  { nome: 'Entrevista 1 — Pesquisador responsável.m4a', dur: '18:42' },
+  { nome: 'Entrevista 2 — Técnico de laboratório.m4a', dur: '12:15' },
+  { nome: 'Entrevista 3 — Biossegurança.m4a', dur: '09:30' },
+]
+
+const MQ_LANES: Record<string, { nome: string; classe: string }> = {
+  pesq: { nome: 'Pesquisador', classe: 'lane-pesq' },
+  lab: { nome: 'Laboratório', classe: 'lane-lab' },
+  bio: { nome: 'Biossegurança', classe: 'lane-bio' },
+  qual: { nome: 'Qualidade', classe: 'lane-qual' },
+}
+
+const MQ_STEPS: { tipo: 'evento' | 'tarefa'; lane?: string; label: string }[] = [
+  { tipo: 'evento', label: 'Início' },
+  { tipo: 'tarefa', lane: 'pesq', label: 'Solicitação da análise' },
+  { tipo: 'tarefa', lane: 'lab', label: 'Recebimento e registro da amostra' },
+  { tipo: 'tarefa', lane: 'bio', label: 'Triagem e classificação de risco' },
+  { tipo: 'tarefa', lane: 'lab', label: 'Processamento em cabine NB-2/NB-3' },
+  { tipo: 'tarefa', lane: 'lab', label: 'Cultivo e identificação' },
+  { tipo: 'tarefa', lane: 'lab', label: 'Ensaios e caracterização' },
+  { tipo: 'tarefa', lane: 'qual', label: 'Registro dos resultados' },
+  { tipo: 'tarefa', lane: 'bio', label: 'Descarte de resíduos (autoclave · PGRSS)' },
+  { tipo: 'evento', label: 'Fim' },
+]
+
+function MapeamentoQualidade() {
+  const [audios, setAudios] = useState<{ nome: string; dur: string }[]>([])
+  const [estado, setEstado] = useState<'idle' | 'processando' | 'pronto'>('idle')
+
+  return (
+    <div className="mq-wrap">
+      <div className="bp-head">
+        <div>
+          <h2 className="bp-titulo">
+            <IconDoc /> Mapeamento de Processos → Documento da Qualidade
+          </h2>
+          <p className="bp-sub">
+            Importe os áudios das entrevistas de mapeamento e gere um documento padrão (POP)
+            conforme as diretrizes de qualidade da Fiocruz.
+          </p>
+        </div>
+        <span className="bp-tag">SGQ · mockup</span>
+      </div>
+
+      <div className="card mq-import">
+        <h3 className="mq-passo">1 · Entrevistas do mapeamento (áudio)</h3>
+        {audios.length === 0 ? (
+          <div className="mq-drop">
+            <IconMic />
+            <p>Importe os áudios das entrevistas (pesquisadores, técnicos, biossegurança).</p>
+            <button className="rec-btn" onClick={() => setAudios(MQ_AUDIOS)}>
+              Importar entrevistas (exemplo)
+            </button>
+          </div>
+        ) : (
+          <>
+            <ul className="mq-audios">
+              {audios.map((a, i) => (
+                <li key={i}>
+                  <span className="mq-audio-ic"><IconMic /></span>
+                  <span className="mq-audio-nome">{a.nome}</span>
+                  <span className="mq-audio-dur">{a.dur}</span>
+                </li>
+              ))}
+            </ul>
+            {estado === 'idle' && (
+              <button
+                className="rec-btn"
+                onClick={() => { setEstado('processando'); setTimeout(() => setEstado('pronto'), 2600) }}
+              >
+                <IconDoc /> Transformar em documento padrão da Qualidade
+              </button>
+            )}
+            {estado === 'processando' && (
+              <div className="rec-proc">
+                <span className="rec-spin" /> Transcrevendo as entrevistas e estruturando o POP…
+              </div>
+            )}
+          </>
+        )}
+      </div>
+
+      {estado === 'pronto' && (
+        <>
+          <article className="ata-doc" style={{ marginTop: 18 }}>
+            <div className="ata-cab">
+              <div className="ata-logo">FIOCRUZ</div>
+              <div className="ata-cab-tit">
+                <strong>Fundação Oswaldo Cruz — ENSP · Departamento de Ciências Biológicas</strong>
+                <span>Serviço de Gestão da Qualidade (SGQ)</span>
+              </div>
+              <div className="ata-logo">ENSP</div>
+            </div>
+
+            <h1>POP — Processamento de amostras para pesquisa em bactérias patogênicas</h1>
+
+            <div className="ata-grid">
+              <div><b>Código:</b> POP-DCB-014</div>
+              <div><b>Versão:</b> 01</div>
+              <div><b>Data:</b> 09/07/2026</div>
+              <div><b>Contenção:</b> NB-2 / NB-3</div>
+              <div><b>Elaborado por:</b> SGQ (a partir das entrevistas)</div>
+              <div><b>Aprovado por:</b> Chefia do DCB</div>
+            </div>
+
+            <h3>1. Objetivo</h3>
+            <p>Padronizar o recebimento, o processamento, a análise e o descarte de amostras em pesquisa com bactérias patogênicas, assegurando biossegurança e rastreabilidade.</p>
+
+            <h3>2. Campo de aplicação</h3>
+            <p>Laboratório de pesquisa em bactérias patogênicas do Departamento de Ciências Biológicas (DCB) da ENSP/Fiocruz.</p>
+
+            <h3>3. Definições e siglas</h3>
+            <p>NB-2/NB-3 (níveis de biossegurança); CSB (cabine de segurança biológica); PGRSS (Plano de Gerenciamento de Resíduos de Serviços de Saúde); EPI (equipamento de proteção individual).</p>
+
+            <h3>4. Responsabilidades</h3>
+            <ul>
+              <li><b>Pesquisador:</b> solicitar a análise e definir o objetivo do ensaio.</li>
+              <li><b>Laboratório:</b> receber, processar, cultivar e caracterizar as amostras.</li>
+              <li><b>Biossegurança:</b> classificar o risco e validar o descarte.</li>
+              <li><b>Qualidade (SGQ):</b> manter o POP, os registros e a rastreabilidade.</li>
+            </ul>
+
+            <h3>5. Descrição do processo</h3>
+            <ul>
+              <li>Solicitação e recebimento da amostra, com registro de origem.</li>
+              <li>Triagem e classificação de risco biológico.</li>
+              <li>Processamento em cabine de segurança biológica (NB-2/NB-3) com EPIs.</li>
+              <li>Cultivo, identificação e ensaios de caracterização.</li>
+              <li>Registro dos resultados e emissão do laudo.</li>
+              <li>Descarte de resíduos por autoclavagem, conforme o PGRSS.</li>
+            </ul>
+
+            <h3>6. Registros e referências</h3>
+            <p>Ficha de recebimento, registro de cultivo, laudo e registro de descarte. Referências: RDC/ANVISA, Manual de Biossegurança da Fiocruz, normas da CTNBio e ABNT NBR ISO 9001.</p>
+
+            <div className="ata-acoes">
+              <button className="ata-btn primario"><IconDoc /> Exportar POP (PDF)</button>
+              <button className="ata-btn">Salvar no repositório</button>
+              <button className="ata-btn">Enviar para revisão</button>
+            </div>
+          </article>
+
+          <div className="card mq-fluxo" style={{ marginTop: 18 }}>
+            <h3 className="mq-passo">Fluxograma do processo (exemplo Bizagi · BPMN)</h3>
+            <div className="bpmn-legenda">
+              {Object.values(MQ_LANES).map((l) => (
+                <span key={l.nome} className={`bpmn-lane-chip ${l.classe}`}>{l.nome}</span>
+              ))}
+            </div>
+            <div className="bpmn-scroll">
+              <div className="bpmn-flow">
+                {MQ_STEPS.map((s, i) => (
+                  <div key={i} className="bpmn-node-wrap">
+                    {s.tipo === 'evento' ? (
+                      <div className="bpmn-evento">{s.label}</div>
+                    ) : (
+                      <div className={`bpmn-tarefa ${MQ_LANES[s.lane!].classe}`}>
+                        <span className="bpmn-lane-tag">{MQ_LANES[s.lane!].nome}</span>
+                        {s.label}
+                      </div>
+                    )}
+                    {i < MQ_STEPS.length - 1 && <span className="bpmn-seta">→</span>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
+/* ---------- Dashboard do setor (métricas) ---------- */
+
+function SetorDashboard({ setorId }: { setorId: number | null }) {
+  const [m, setM] = useState<SetorMetricas | null>(null)
+
+  useEffect(() => {
+    if (!setorId) return
+    setM(null)
+    api.get('/api/setor/metricas', { params: { setor_id: setorId } }).then((r) => setM(r.data))
+  }, [setorId])
+
+  if (!m) return <p className="vazio">Carregando métricas do setor…</p>
+
+  return (
+    <>
+      <div className="resumo-ia">
+        <span className="ia-badge">IA · resumo</span>
+        {m.resumo_gestor}
+      </div>
+
+      {(m.missao || m.objetivos) && (
+        <section className="setor-sobre card">
+          <h2>Missão e objetivos — {m.setor}</h2>
+          {m.responsavel && <p className="setor-responsavel">Responsável: {m.responsavel}</p>}
+          <div className="setor-sobre-grid">
+            {m.missao && (
+              <div className="setor-sobre-item">
+                <span className="setor-sobre-rotulo">Missão</span>
+                <p>{m.missao}</p>
+              </div>
+            )}
+            {m.objetivos && (
+              <div className="setor-sobre-item">
+                <span className="setor-sobre-rotulo">Objetivos</span>
+                <p>{m.objetivos}</p>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      <section className="kpis">
+        <KpiCard titulo="Metas concluídas" valor={`${m.pct_metas_concluidas}%`} sub={`${m.metas_concluidas}/${m.total_metas} metas`} tom="verde" />
+        <KpiCard titulo="Recursos LOAS aplicados" valor={`${m.pct_recursos_aplicados}%`} sub={`${brl(m.valor_aplicado)} de ${brl(m.valor_previsto)}`} tom="azul" />
+        <KpiCard titulo="Demandas em aberto" valor={String(m.demandas_abertas)} sub={`${m.demandas_concluidas} concluídas`} tom="roxo" />
+        <KpiCard titulo="Metas em risco" valor={String(m.metas_em_risco)} sub="atrasadas ou fora do prazo" tom="vermelho" />
+      </section>
+
+      <section className="card">
+        <h2>Status das metas do setor</h2>
+        <MetasChart dados={m.metas_por_status} />
+      </section>
+    </>
+  )
+}
+
 /* ---------- Componente raiz (workspace com abas) ---------- */
 
 export default function CuradoriaIAs() {
   const { usuario, logout } = useAuth()
-  const [aba, setAba] = useState<'colabora' | 'ata' | 'repo' | 'ferramentas' | 'blueprint'>('colabora')
+  const [aba, setAba] = useState<
+    'dashboard' | 'colabora' | 'ata' | 'repo' | 'ferramentas' | 'blueprint' | 'mapeamento'
+  >('dashboard')
   const [selecionadaId, setSelecionadaId] = useState<string | null>(null)
   const iaSelecionada = IAS.find((ia) => ia.id === selecionadaId)
 
@@ -1008,11 +1248,14 @@ export default function CuradoriaIAs() {
   const setorAtivo = setores.find((s) => s.id === setorAtivoId) ?? null
   const docsSetor = setorAtivoId ? docs[setorAtivoId] ?? [] : []
   const ehPolem = setorAtivo?.sigla === 'POLEM'
+  const ehQualidade = setorAtivo?.sigla === 'SGQ'
 
-  // A aba Blueprint só existe no POLEM; ao trocar de setor, volta para o Colabora AI.
+  // Abas específicas de setor (Blueprint no POLEM, Mapeamento no SGQ):
+  // ao trocar de setor, volta para o Dashboard.
   useEffect(() => {
-    if (aba === 'blueprint' && !ehPolem) setAba('colabora')
-  }, [aba, ehPolem])
+    if (aba === 'blueprint' && !ehPolem) setAba('dashboard')
+    if (aba === 'mapeamento' && !ehQualidade) setAba('dashboard')
+  }, [aba, ehPolem, ehQualidade])
 
   function adicionarDoc(d: Omit<Doc, 'id' | 'data'>) {
     if (!setorAtivoId) return
@@ -1063,12 +1306,26 @@ export default function CuradoriaIAs() {
         </div>
 
         <div className="wkspace-tabs">
+          <button
+            className={`wkspace-tab${aba === 'dashboard' ? ' ativo' : ''}`}
+            onClick={() => setAba('dashboard')}
+          >
+            <IconDashboard /> Dashboard
+          </button>
           {ehPolem && (
             <button
               className={`wkspace-tab${aba === 'blueprint' ? ' ativo' : ''}`}
               onClick={() => setAba('blueprint')}
             >
               <IconSearch /> Blueprint · Compras
+            </button>
+          )}
+          {ehQualidade && (
+            <button
+              className={`wkspace-tab${aba === 'mapeamento' ? ' ativo' : ''}`}
+              onClick={() => setAba('mapeamento')}
+            >
+              <IconDoc /> Mapeamento · Qualidade
             </button>
           )}
           <button
@@ -1097,6 +1354,7 @@ export default function CuradoriaIAs() {
           </button>
         </div>
 
+        {aba === 'dashboard' && <SetorDashboard setorId={setorAtivoId} />}
         {aba === 'colabora' && (
           <ColaboraInput
             setor={setorAtivo}
@@ -1116,6 +1374,7 @@ export default function CuradoriaIAs() {
         )}
         {aba === 'repo' && <Repositorio setor={setorAtivo} docs={docsSetor} />}
         {aba === 'blueprint' && ehPolem && <BlueprintCompras />}
+        {aba === 'mapeamento' && ehQualidade && <MapeamentoQualidade />}
         {aba === 'ferramentas' &&
           (iaSelecionada ? (
             <DetalheIA ia={iaSelecionada} onVoltar={() => setSelecionadaId(null)} />

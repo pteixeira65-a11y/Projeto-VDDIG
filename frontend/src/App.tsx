@@ -13,7 +13,8 @@ import BoasVindas from './components/BoasVindas'
 import Chatbot from './components/Chatbot'
 
 export function rotaPadrao(role: string) {
-  return role === 'estrategico' ? '/dashboard' : '/setor'
+  // Funcionário cai no espaço do seu setor (Dashboard + Colabora AI); Direção, no consolidado.
+  return role === 'estrategico' ? '/dashboard' : '/curadoria'
 }
 
 function Protegido({ children, roles }: { children: ReactNode; roles?: string[] }) {
