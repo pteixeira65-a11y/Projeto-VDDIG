@@ -1754,6 +1754,193 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* Recursos clicáveis do Mapeamento (links que revelam conteúdo) */
+.mq-recurso {
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  background: var(--card);
+  margin-bottom: 10px;
+  overflow: hidden;
+  box-shadow: var(--sombra);
+}
+.mq-recurso-cab {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: none;
+  border: none;
+  font: inherit;
+  color: var(--texto);
+  cursor: pointer;
+  text-align: left;
+}
+.mq-recurso-cab:hover {
+  background: #faf9f6;
+}
+.mq-recurso-ic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--info-bg);
+  color: var(--azul);
+  flex-shrink: 0;
+}
+.mq-recurso-ic svg {
+  width: 18px;
+  height: 18px;
+}
+.mq-recurso-tit {
+  flex: 1;
+  min-width: 0;
+}
+.mq-recurso-tit strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+}
+.mq-recurso-tit span {
+  display: block;
+  font-size: 12px;
+  color: var(--texto-fraco);
+  margin-top: 1px;
+}
+.mq-recurso-chev {
+  color: var(--texto-fraco);
+  display: flex;
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+.mq-recurso-chev svg {
+  width: 17px;
+  height: 17px;
+}
+.mq-recurso.aberto .mq-recurso-chev {
+  transform: rotate(90deg);
+}
+.mq-recurso-corpo {
+  padding: 4px 16px 18px;
+}
+
+/* Galeria de exemplos de mapeamento */
+.mq-exemplos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.mq-ex-card {
+  flex: 1 1 200px;
+  min-width: 180px;
+  text-align: left;
+  background: var(--card);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  padding: 12px 14px;
+  cursor: pointer;
+  font: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.mq-ex-card:hover {
+  border-color: #d8d2c6;
+}
+.mq-ex-card.ativo {
+  border-color: var(--azul);
+  box-shadow: 0 0 0 3px rgba(74, 107, 130, 0.14);
+}
+.mq-ex-card strong {
+  display: block;
+  font-size: 13px;
+  color: var(--texto);
+  line-height: 1.35;
+}
+.mq-ex-card span {
+  display: block;
+  font-size: 11px;
+  color: var(--texto-fraco);
+  margin-top: 4px;
+}
+
+/* Relatório de diagnóstico + link infográfico */
+.mq-diag-txt {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--texto);
+  margin: 0 0 12px;
+}
+.mq-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--azul);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+}
+.mq-link:hover {
+  color: var(--azul-escuro);
+}
+.mq-link svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Infográfico */
+.infografico {
+  margin-top: 16px;
+}
+.ig-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.ig-stat {
+  background: var(--card);
+  border: 1px solid var(--borda);
+  border-left: 3px solid var(--texto-fraco);
+  border-radius: var(--raio);
+  padding: 16px;
+  box-shadow: var(--sombra);
+}
+.ig-stat.ok {
+  border-left-color: var(--verde);
+}
+.ig-stat.alerta {
+  border-left-color: var(--vermelho);
+}
+.ig-num {
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--texto);
+}
+.ig-lbl {
+  font-size: 12px;
+  color: var(--texto-fraco);
+  margin-top: 2px;
+}
+.ig-insight {
+  margin: 16px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--texto);
+  background: var(--ocre-bg);
+  border: 1px solid var(--ocre-borda);
+  border-radius: var(--raio);
+  padding: 14px 16px;
+}
+
 /* Fluxograma BPMN / Bizagi */
 .bpmn-legenda {
   display: flex;
@@ -2438,6 +2625,30 @@ body {
   color: var(--texto-fraco);
 }
 
+/* Missão e objetivos na abertura do Colabora AI */
+.colab-missao {
+  max-width: 640px;
+  margin: 26px auto 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  padding-top: 20px;
+  border-top: 1px solid var(--borda);
+}
+.colab-missao-item p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--texto);
+}
+.colab-missao-rot {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--azul);
+}
+
 /* Organizador por setor */
 .org-intro {
   font-size: 14px;
@@ -2710,6 +2921,9 @@ body {
     padding: 24px 18px;
   }
   .setor-sobre-grid {
+    grid-template-columns: 1fr;
+  }
+  .colab-missao {
     grid-template-columns: 1fr;
   }
   .ata-grid {
