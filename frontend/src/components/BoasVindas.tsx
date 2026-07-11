@@ -25,8 +25,8 @@ export default function BoasVindas() {
 
   const contexto =
     usuario.role === 'estrategico'
-      ? 'Você está na Visão Estratégica do Ecossistema vddig.'
-      : 'Bem-vindo(a) ao seu Espaço Setorial.'
+      ? 'Você está na Plataforma Adauto — Sala de Situação da Direção.'
+      : 'Você está na Plataforma Adauto — seu Espaço Setorial.'
 
   return (
     <div className="boas-vindas" role="status" aria-live="polite">

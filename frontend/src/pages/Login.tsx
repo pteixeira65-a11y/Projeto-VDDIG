@@ -29,9 +29,19 @@ export default function Login() {
     <div className="login-wrap">
       <form className="login-card" onSubmit={onSubmit}>
         <div className="brand">
-          <span className="brand-badge">vddig</span>
-          <h1>Ecossistema de Gestão</h1>
-          <p className="sub">ENSP · Fiocruz — Visão Estratégica</p>
+          <img
+            src="/adauto-logo.png"
+            alt="Plataforma Adauto"
+            className="marca-logo"
+            onError={(e) => {
+              ;(e.currentTarget as HTMLImageElement).style.display = 'none'
+            }}
+          />
+          <div className="marca marca-completo">
+            <span className="marca-plat">Plataforma</span>
+            <span className="marca-adauto">Adauto</span>
+          </div>
+          <p className="sub">Plataforma de Gestão da VDDIG · ENSP/Fiocruz</p>
         </div>
         <label>
           Email
