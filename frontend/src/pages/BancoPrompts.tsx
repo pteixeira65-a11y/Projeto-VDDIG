@@ -196,7 +196,7 @@ export default function BancoPrompts() {
     <div className="app">
       <header className="topbar">
         <div className="topbar-left">
-          <span className="marca"><span className="marca-plat">Plataforma</span><span className="marca-adauto">Adauto</span></span>
+          <span className="marca"><img src="/adauto-emblema.jpg" alt="" className="marca-emblema" /><span className="marca-plat">Plataforma</span><span className="marca-adauto">Adauto</span></span>
           <div>
             <strong>Banco de Prompts</strong>
             <div className="topbar-sub">ENSP · Fiocruz — prompts prontos para o setor</div>
