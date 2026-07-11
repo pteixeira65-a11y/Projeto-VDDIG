@@ -8,6 +8,7 @@ import BussolaDoSaber from './pages/BussolaDoSaber'
 import CuradoriaIAs from './pages/CuradoriaIAs'
 import BancoPrompts from './pages/BancoPrompts'
 import TerceirizadosDiagnostico from './pages/TerceirizadosDiagnostico'
+import BlueprintsSetores from './pages/BlueprintsSetores'
 import ColaboraAI from './pages/ColaboraAI'
 import BoasVindas from './components/BoasVindas'
 import Chatbot from './components/Chatbot'
@@ -84,6 +85,14 @@ export default function App() {
         element={
           <Protegido roles={['estrategico']}>
             <TerceirizadosDiagnostico />
+          </Protegido>
+        }
+      />
+      <Route
+        path="/blueprints"
+        element={
+          <Protegido roles={['estrategico']}>
+            <BlueprintsSetores />
           </Protegido>
         }
       />

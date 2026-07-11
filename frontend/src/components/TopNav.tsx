@@ -7,6 +7,7 @@ import {
   IconCuradoria,
   IconBussola,
   IconTerceirizados,
+  IconBlueprint,
 } from './icons'
 
 /* Navegação principal — consistente em todas as telas.
@@ -22,6 +23,7 @@ type Item = {
 
 const ITENS: Item[] = [
   { to: '/dashboard', label: 'Dashboard', full: 'Visão Estratégica', Icone: IconDashboard, somenteEstrategico: true },
+  { to: '/blueprints', label: 'Blueprints', full: 'Blueprints dos Setores', Icone: IconBlueprint, somenteEstrategico: true },
   { to: '/terceirizados', label: 'Terceirizados', full: 'Diagnóstico de Terceirizados', Icone: IconTerceirizados, somenteEstrategico: true },
   { to: '/setor', label: 'Setor', full: 'Espaço Setorial', Icone: IconSetor },
   { to: '/prompts', label: 'Prompts', full: 'Banco de Prompts', Icone: IconPrompt },

@@ -8,6 +8,7 @@ import TopNav from '../components/TopNav'
 import KpiCard from '../components/KpiCard'
 import MetasChart from '../components/MetasChart'
 import { IconDashboard } from '../components/icons'
+import { BlueprintsExplorer } from '../blueprints'
 import {
   Bar,
   BarChart,
@@ -894,130 +895,6 @@ function Ata({ onSalvar }: { onSalvar: (titulo: string, texto: string) => void }
   )
 }
 
-/* ---------- Blueprint do Serviço de Compras (análise do POLEM) ---------- */
-
-const BP_STAGES = [
-  'Requisição',
-  'Planejamento',
-  'Seleção do fornecedor',
-  'Contratação',
-  'Execução e fiscalização',
-  'Pagamento',
-]
-
-const BP_ROWS: { label: string; classe: string; celulas: string[] }[] = [
-  {
-    label: 'Evidências',
-    classe: 'bp-evid',
-    celulas: ['Requisição no SEI', 'PCA · ETP · TR', 'Edital / aviso (PNCP)', 'Contrato / ARP', 'Medições e relatórios', 'Nota fiscal · empenho'],
-  },
-  {
-    label: 'Ações do requisitante',
-    classe: 'bp-req',
-    celulas: ['Identifica a necessidade', 'Descreve o objeto', 'Acompanha o certame', 'Recebe e atesta', 'Fiscaliza a entrega', 'Solicita o pagamento'],
-  },
-  {
-    label: 'Atendimento (frontstage)',
-    classe: 'bp-front',
-    celulas: ['Orienta a demanda', 'Valida o TR', 'Publica o certame', 'Formaliza o contrato', 'Apoia a fiscalização', 'Confere a liquidação'],
-  },
-  {
-    label: 'Bastidores (backstage)',
-    classe: 'bp-back',
-    celulas: ['Consolida o PCA', 'Pesquisa de preços (IN 65)', 'Conduz licitação/dispensa', 'Elabora minutas', 'Controla prazos e aditivos', 'Instrui o pagamento'],
-  },
-  {
-    label: 'Sistemas e apoio',
-    classe: 'bp-apoio',
-    celulas: ['SEI', 'Comprasnet · PNCP', 'Jurídico (parecer)', 'SIASG', 'Fiscais / gestores', 'SEOF'],
-  },
-]
-
-const BP_GARGALOS = [
-  'Pesquisa de preços ainda manual e demorada.',
-  'Retrabalho na elaboração dos Termos de Referência.',
-  'Prazos de parecer jurídico pouco previsíveis.',
-  'PCA com baixa aderência às demandas reais dos setores.',
-]
-
-const BP_OPORTUNIDADES = [
-  'Biblioteca de modelos de TR por tipo de objeto.',
-  'Automação da pesquisa de preços a partir de painéis públicos.',
-  'Painel de acompanhamento de prazos por etapa do processo.',
-  'Monitoramento e integração via PNCP.',
-]
-
-const BP_INDICADORES = [
-  { k: 'Tempo médio do processo', v: '~85 dias' },
-  { k: 'Dispensa × licitação', v: '62% / 38%' },
-  { k: 'Contratações no ano', v: '128' },
-  { k: 'Etapa mais lenta', v: 'Planejamento' },
-]
-
-function BlueprintCompras() {
-  return (
-    <div className="bp-wrap">
-      <div className="bp-head">
-        <div>
-          <h2 className="bp-titulo">
-            <IconSearch /> Blueprint do Serviço de Compras
-          </h2>
-          <p className="bp-sub">
-            Mapa do serviço (Lei 14.133/2021) por etapa e camada — análise do POLEM ·
-            Laboratório de Inovação em Gestão Pública.
-          </p>
-        </div>
-        <span className="bp-tag">POLEM · mockup</span>
-      </div>
-
-      <div className="bp-scroll">
-        <div className="bp-grid">
-          <div className="bp-corner">Etapas →</div>
-          {BP_STAGES.map((s) => (
-            <div key={s} className="bp-col-head">{s}</div>
-          ))}
-          {BP_ROWS.map((row) => (
-            <div key={row.label} className={`bp-linha ${row.classe}`}>
-              <div className="bp-row-label">{row.label}</div>
-              {row.celulas.map((c, i) => (
-                <div key={i} className="bp-cell">{c}</div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-      <p className="bp-legenda">
-        Entre <strong>Atendimento</strong> e <strong>Bastidores</strong> passa a “linha de
-        visibilidade”: o que o requisitante vê × o que ocorre internamente na Compras.
-      </p>
-
-      <div className="bp-analise">
-        <div className="card bp-analise-card">
-          <h3>Gargalos identificados</h3>
-          <ul>
-            {BP_GARGALOS.map((g, i) => <li key={i}>{g}</li>)}
-          </ul>
-        </div>
-        <div className="card bp-analise-card bp-oport">
-          <h3>Oportunidades de melhoria</h3>
-          <ul>
-            {BP_OPORTUNIDADES.map((o, i) => <li key={i}>{o}</li>)}
-          </ul>
-        </div>
-      </div>
-
-      <div className="bp-indicadores">
-        {BP_INDICADORES.map((ind) => (
-          <div key={ind.k} className="bp-ind">
-            <div className="bp-ind-v">{ind.v}</div>
-            <div className="bp-ind-k">{ind.k}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
 /* ---------- Mapeamento de Processos (Serviço de Gestão da Qualidade) ---------- */
 
 type Passo = { tipo: 'evento' | 'tarefa'; lane?: string; label: string }
@@ -1578,7 +1455,7 @@ export default function CuradoriaIAs() {
               className={`wkspace-tab${aba === 'blueprint' ? ' ativo' : ''}`}
               onClick={() => setAba('blueprint')}
             >
-              <IconSearch /> Blueprint · Compras
+              <IconSearch /> Blueprints
             </button>
           )}
           {ehQualidade && (
@@ -1628,7 +1505,7 @@ export default function CuradoriaIAs() {
           />
         )}
         {aba === 'repo' && <Repositorio setor={setorAtivo} docs={docsSetor} />}
-        {aba === 'blueprint' && ehPolem && <BlueprintCompras />}
+        {aba === 'blueprint' && ehPolem && <BlueprintsExplorer modo="polem" />}
         {aba === 'mapeamento' && ehQualidade && <MapeamentoQualidade />}
         {aba === 'ferramentas' &&
           (iaSelecionada ? (

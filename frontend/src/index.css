@@ -2180,6 +2180,105 @@ body {
   margin-top: 2px;
 }
 
+/* Painel de setores (vitrine de blueprints) */
+.bp-painel {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+  margin-top: 6px;
+}
+.bp-setor-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  background: var(--card);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 16px;
+  box-shadow: var(--sombra);
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.bp-setor-card:hover {
+  border-color: var(--azul);
+  transform: translateY(-2px);
+}
+.bp-setor-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.bp-setor-sigla {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--azul-escuro);
+  letter-spacing: 0.02em;
+}
+.bp-status {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.bp-status.status-pronto {
+  background: #e9efe6;
+  color: #4e6b48;
+}
+.bp-status.status-revisao {
+  background: #f3eee6;
+  color: #8a6d3b;
+}
+.bp-status.status-andamento {
+  background: #eef2f4;
+  color: #4a6b82;
+}
+.bp-setor-nome {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--texto);
+  min-height: 34px;
+}
+.bp-progress {
+  height: 6px;
+  background: #ece7de;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.bp-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+}
+.bp-progress-fill.status-pronto { background: var(--verde); }
+.bp-progress-fill.status-revisao { background: #c6924b; }
+.bp-progress-fill.status-andamento { background: var(--azul); }
+.bp-setor-link {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--azul);
+}
+.bp-voltar {
+  background: none;
+  border: none;
+  color: var(--azul);
+  font: inherit;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 12px;
+}
+.bp-voltar:hover {
+  text-decoration: underline;
+}
+/* Status no cabeçalho do blueprint (bp-tag) */
+.bp-tag.status-pronto { background: #e9efe6; color: #4e6b48; }
+.bp-tag.status-revisao { background: #f3eee6; color: #8a6d3b; }
+.bp-tag.status-andamento { background: #eef2f4; color: #4a6b82; }
+
 /* Barra do setor ativo */
 .setor-ativo-bar {
   display: flex;
