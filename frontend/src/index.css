@@ -84,9 +84,10 @@ body {
 .marca-logo {
   display: block;
   width: 100%;
-  max-width: 250px;
+  max-width: 300px;
   height: auto;
-  margin: 0 auto 12px;
+  margin: 2px auto 10px;
+  border-radius: 10px;
 }
 
 /* ---------- Login ---------- */

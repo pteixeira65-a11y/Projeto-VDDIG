@@ -10,6 +10,7 @@ export default function Login() {
   const [senha, setSenha] = useState('fiocruz123')
   const [erro, setErro] = useState('')
   const [enviando, setEnviando] = useState(false)
+  const [logoOk, setLogoOk] = useState(true)
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault()
@@ -30,18 +31,21 @@ export default function Login() {
       <form className="login-card" onSubmit={onSubmit}>
         <div className="brand">
           <img
-            src="/adauto-logo.png"
-            alt="Plataforma Adauto"
+            src="/adauto-logo.jpg"
+            alt="Plataforma Adauto — Plataforma de Gestão da VDDIG, ENSP"
             className="marca-logo"
-            onError={(e) => {
-              ;(e.currentTarget as HTMLImageElement).style.display = 'none'
-            }}
+            onError={() => setLogoOk(false)}
+            style={{ display: logoOk ? 'block' : 'none' }}
           />
-          <div className="marca marca-completo">
-            <span className="marca-plat">Plataforma</span>
-            <span className="marca-adauto">Adauto</span>
-          </div>
-          <p className="sub">Plataforma de Gestão da VDDIG · ENSP/Fiocruz</p>
+          {!logoOk && (
+            <>
+              <div className="marca marca-completo">
+                <span className="marca-plat">Plataforma</span>
+                <span className="marca-adauto">Adauto</span>
+              </div>
+              <p className="sub">Plataforma de Gestão da VDDIG · ENSP/Fiocruz</p>
+            </>
+          )}
         </div>
         <label>
           Email
