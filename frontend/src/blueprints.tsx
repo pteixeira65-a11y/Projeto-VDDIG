@@ -291,6 +291,72 @@ const STATUS_LABEL: Record<BpStatus, string> = {
   andamento: 'Em elaboração',
 }
 
+/* Ordem e rótulos (plural) usados no resumo visual */
+const STATUS_META: { key: BpStatus; label: string }[] = [
+  { key: 'pronto', label: 'Validados' },
+  { key: 'revisao', label: 'Em revisão' },
+  { key: 'andamento', label: 'Em elaboração' },
+]
+
+/* ---------- Resumo visual (infográfico) dos 13 setores ---------- */
+
+function InfograficoBlueprints() {
+  const total = BLUEPRINTS.length
+  const media = Math.round(BLUEPRINTS.reduce((a, b) => a + b.progresso, 0) / total)
+  const conta = (k: BpStatus) => BLUEPRINTS.filter((b) => b.status === k).length
+
+  return (
+    <div className="bp-info">
+      <div className="bp-info-tiles">
+        <div className="bp-info-tile bp-info-destaque">
+          <div className="bp-info-num">{total}</div>
+          <div className="bp-info-lbl">Setores mapeados</div>
+        </div>
+        {STATUS_META.map((s) => (
+          <div key={s.key} className="bp-info-tile">
+            <div className={`bp-info-num status-${s.key}`}>{conta(s.key)}</div>
+            <div className="bp-info-lbl">
+              <span className={`bp-info-dot status-${s.key}`} />
+              {s.label}
+            </div>
+          </div>
+        ))}
+        <div className="bp-info-tile">
+          <div className="bp-info-num">{media}%</div>
+          <div className="bp-info-lbl">Evolução média</div>
+        </div>
+      </div>
+
+      <div className="bp-info-distrib">
+        <div className="bp-info-barra" role="img" aria-label="Distribuição dos setores por status">
+          {STATUS_META.map((s) => {
+            const n = conta(s.key)
+            if (!n) return null
+            return (
+              <div
+                key={s.key}
+                className={`bp-info-seg status-${s.key}`}
+                style={{ width: `${(n / total) * 100}%` }}
+                title={`${s.label}: ${n}`}
+              >
+                {n}
+              </div>
+            )
+          })}
+        </div>
+        <div className="bp-info-legenda">
+          {STATUS_META.map((s) => (
+            <span key={s.key} className="bp-info-leg-item">
+              <span className={`bp-info-dot status-${s.key}`} />
+              {s.label}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 /* ---------- Visualização de um blueprint (etapas × camadas) ---------- */
 
 export function BlueprintView({ bp }: { bp: Blueprint }) {
@@ -401,6 +467,7 @@ export function BlueprintsExplorer({ modo }: { modo: 'polem' | 'direcao' }) {
         </div>
         <span className="bp-tag">{modo === 'polem' ? 'POLEM · estúdio' : 'Direção · leitura'}</span>
       </div>
+      <InfograficoBlueprints />
       <PainelSetores onAbrir={setSel} />
     </div>
   )

@@ -2180,6 +2180,109 @@ body {
   margin-top: 2px;
 }
 
+/* Resumo visual (infográfico) dos setores */
+.bp-info {
+  background: var(--card);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  padding: 18px;
+  margin-bottom: 18px;
+}
+.bp-info-tiles {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+.bp-info-tile {
+  padding: 4px 2px;
+  border-left: 1px solid var(--borda);
+  padding-left: 14px;
+}
+.bp-info-tile:first-child {
+  border-left: none;
+  padding-left: 2px;
+}
+.bp-info-destaque .bp-info-num {
+  color: var(--azul-escuro);
+}
+.bp-info-num {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--texto);
+}
+.bp-info-num.status-pronto { color: #4e6b48; }
+.bp-info-num.status-revisao { color: #a6772f; }
+.bp-info-num.status-andamento { color: var(--azul); }
+.bp-info-lbl {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: var(--texto-fraco);
+  margin-top: 4px;
+}
+.bp-info-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+.bp-info-dot.status-pronto { background: var(--verde); }
+.bp-info-dot.status-revisao { background: #c6924b; }
+.bp-info-dot.status-andamento { background: var(--azul); }
+.bp-info-distrib {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--borda);
+}
+.bp-info-barra {
+  display: flex;
+  height: 22px;
+  border-radius: 6px;
+  overflow: hidden;
+  gap: 2px;
+}
+.bp-info-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  min-width: 22px;
+  border-radius: 4px;
+}
+.bp-info-seg.status-pronto { background: var(--verde); }
+.bp-info-seg.status-revisao { background: #c6924b; }
+.bp-info-seg.status-andamento { background: var(--azul); }
+.bp-info-legenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 10px;
+}
+.bp-info-leg-item {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: var(--texto-fraco);
+}
+@media (max-width: 720px) {
+  .bp-info-tiles {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .bp-info-tile,
+  .bp-info-tile:first-child {
+    border-left: none;
+    padding-left: 2px;
+  }
+}
+
 /* Painel de setores (vitrine de blueprints) */
 .bp-painel {
   display: grid;
