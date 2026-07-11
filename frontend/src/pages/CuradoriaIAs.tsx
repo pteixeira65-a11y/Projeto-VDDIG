@@ -1443,7 +1443,7 @@ export default function CuradoriaIAs() {
     <div className="app">
       <header className="topbar">
         <div className="topbar-left">
-          <span className="marca"><img src="/adauto-emblema.jpg" alt="" className="marca-emblema" /><span className="marca-plat">Plataforma</span><span className="marca-adauto">Adauto</span></span>
+          <span className="marca"><span className="marca-plat">Plataforma</span><span className="marca-adauto">Adauto</span></span>
           <div>
             <strong>{estrategico ? 'Sala de Situação · Direção' : 'Colabora AI · Curadoria'}</strong>
             <div className="topbar-sub">

@@ -10,7 +10,7 @@ export default function BlueprintsSetores() {
     <div className="app">
       <header className="topbar">
         <div className="topbar-left">
-          <span className="marca"><img src="/adauto-emblema.jpg" alt="" className="marca-emblema" /><span className="marca-plat">Plataforma</span><span className="marca-adauto">Adauto</span></span>
+          <span className="marca"><span className="marca-plat">Plataforma</span><span className="marca-adauto">Adauto</span></span>
           <div>
             <strong>Blueprints dos Setores</strong>
             <div className="topbar-sub">ENSP · Fiocruz — mapa de serviço e evolução de cada setor</div>

@@ -65,7 +65,7 @@ export default function EspacoSetorial() {
     <div className="app">
       <header className="topbar">
         <div className="topbar-left">
-          <span className="marca"><img src="/adauto-emblema.jpg" alt="" className="marca-emblema" /><span className="marca-plat">Plataforma</span><span className="marca-adauto">Adauto</span></span>
+          <span className="marca"><span className="marca-plat">Plataforma</span><span className="marca-adauto">Adauto</span></span>
           <div>
             <strong>Espaço Setorial{metricas ? ` — ${metricas.setor}` : ''}</strong>
             <div className="topbar-sub">ENSP · Fiocruz — metas e métricas do setor</div>
