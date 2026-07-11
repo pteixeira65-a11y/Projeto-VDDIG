@@ -11,6 +11,7 @@ import { IconDashboard } from '../components/icons'
 import { BlueprintsExplorer } from '../blueprints'
 import { DashboardPanorama } from './Dashboard'
 import { TerceirizadosPainel } from './TerceirizadosDiagnostico'
+import ManualSetor from '../manual/ManualSetor'
 import {
   Bar,
   BarChart,
@@ -1397,6 +1398,7 @@ export default function CuradoriaIAs() {
     | 'mapeamento'
     | 'blueprints'
     | 'terceirizados'
+    | 'manual'
   >('colabora')
   const [selecionadaId, setSelecionadaId] = useState<string | null>(null)
   const iaSelecionada = IAS.find((ia) => ia.id === selecionadaId)
@@ -1431,6 +1433,8 @@ export default function CuradoriaIAs() {
     if (aba === 'blueprint' && !ehPolem) setAba('colabora')
     if (aba === 'mapeamento' && !ehQualidade) setAba('colabora')
     if ((aba === 'blueprints' || aba === 'terceirizados') && !estrategico) setAba('colabora')
+    // Manual do Setor é do perfil funcionário (o da Direção virá depois).
+    if (aba === 'manual' && estrategico) setAba('colabora')
   }, [aba, ehPolem, ehQualidade, estrategico])
 
   function adicionarDoc(d: Omit<Doc, 'id' | 'data'>) {
@@ -1536,6 +1540,14 @@ export default function CuradoriaIAs() {
           >
             <IconFolder /> Ferramentas de IA
           </button>
+          {!estrategico && (
+            <button
+              className={`wkspace-tab${aba === 'manual' ? ' ativo' : ''}`}
+              onClick={() => setAba('manual')}
+            >
+              <IconDoc /> Manual
+            </button>
+          )}
         </div>
 
         {aba === 'dashboard' &&
@@ -1568,6 +1580,7 @@ export default function CuradoriaIAs() {
           ) : (
             <ListaCuradoria onAbrir={setSelecionadaId} />
           ))}
+        {aba === 'manual' && !estrategico && <ManualSetor />}
       </main>
     </div>
   )
