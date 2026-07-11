@@ -1,13 +1,10 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import {
-  IconDashboard,
   IconSetor,
   IconPrompt,
   IconCuradoria,
   IconBussola,
-  IconTerceirizados,
-  IconBlueprint,
 } from './icons'
 
 /* Navegação principal — consistente em todas as telas.
@@ -21,10 +18,9 @@ type Item = {
   somenteEstrategico?: boolean
 }
 
+// Dashboard, Blueprints e Terceirizados viram abas na Sala de Situação da Direção
+// (e no espaço do setor), por isso saíram do menu do topo.
 const ITENS: Item[] = [
-  { to: '/dashboard', label: 'Dashboard', full: 'Visão Estratégica', Icone: IconDashboard, somenteEstrategico: true },
-  { to: '/blueprints', label: 'Blueprints', full: 'Blueprints dos Setores', Icone: IconBlueprint, somenteEstrategico: true },
-  { to: '/terceirizados', label: 'Terceirizados', full: 'Diagnóstico de Terceirizados', Icone: IconTerceirizados, somenteEstrategico: true },
   { to: '/setor', label: 'Setor', full: 'Espaço Setorial', Icone: IconSetor },
   { to: '/prompts', label: 'Prompts', full: 'Banco de Prompts', Icone: IconPrompt },
   { to: '/curadoria', label: 'Curadoria', full: 'Curadoria de IAs', Icone: IconCuradoria },
@@ -34,25 +30,29 @@ const ITENS: Item[] = [
 export default function TopNav() {
   const { usuario } = useAuth()
   const { pathname } = useLocation()
+  const ehDirecao = usuario?.role === 'estrategico'
   const itens = ITENS.filter(
-    (i) => !i.somenteEstrategico || usuario?.role === 'estrategico',
+    (i) => !i.somenteEstrategico || ehDirecao,
   )
 
   return (
     <nav className="topnav" aria-label="Navegação principal">
       {itens.map(({ to, label, full, Icone }) => {
         const ativo = pathname === to
+        // Para a Direção, /curadoria é a Sala de Situação.
+        const rotulo = to === '/curadoria' && ehDirecao ? 'Direção' : label
+        const completo = to === '/curadoria' && ehDirecao ? 'Sala de Situação · Direção' : full
         return (
           <Link
             key={to}
             to={to}
-            title={full}
-            aria-label={full}
+            title={completo}
+            aria-label={completo}
             aria-current={ativo ? 'page' : undefined}
             className={`nav-item${ativo ? ' ativo' : ''}`}
           >
             <Icone />
-            <span>{label}</span>
+            <span>{rotulo}</span>
           </Link>
         )
       })}

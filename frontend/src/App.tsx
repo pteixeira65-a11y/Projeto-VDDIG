@@ -13,9 +13,10 @@ import ColaboraAI from './pages/ColaboraAI'
 import BoasVindas from './components/BoasVindas'
 import Chatbot from './components/Chatbot'
 
-export function rotaPadrao(role: string) {
-  // Funcionário cai no espaço do seu setor (Dashboard + Colabora AI); Direção, no consolidado.
-  return role === 'estrategico' ? '/dashboard' : '/curadoria'
+export function rotaPadrao(_role: string) {
+  // Todos entram pelo espaço de abas: a Direção na Sala de Situação (Colabora AI
+  // + Dashboard/Blueprints/Terceirizados em abas); o funcionário no espaço do setor.
+  return '/curadoria'
 }
 
 function Protegido({ children, roles }: { children: ReactNode; roles?: string[] }) {

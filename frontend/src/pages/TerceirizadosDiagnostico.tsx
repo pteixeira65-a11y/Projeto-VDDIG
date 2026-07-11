@@ -20,8 +20,7 @@ const brl = (v: number) =>
 const brlExato = (v: number) =>
   v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 
-export default function TerceirizadosDiagnostico() {
-  const { usuario, logout } = useAuth()
+export function TerceirizadosPainel() {
   const [dados, setDados] = useState<TercDiagnostico | null>(null)
   const [carregando, setCarregando] = useState(true)
 
@@ -38,28 +37,8 @@ export default function TerceirizadosDiagnostico() {
   )
 
   return (
-    <div className="app">
-      <header className="topbar">
-        <div className="topbar-left">
-          <span className="brand-badge">vddig</span>
-          <div>
-            <strong>Diagnóstico de Terceirizados</strong>
-            <div className="topbar-sub">ENSP · Fiocruz — visão da Direção</div>
-          </div>
-        </div>
-        <div className="topbar-right">
-          <TopNav />
-          <div className="usuario">
-            <span>{usuario?.nome}</span>
-            <button className="link" onClick={logout}>
-              Sair
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <main className="conteudo">
-        <div className="resumo-ia">
+    <>
+      <div className="resumo-ia">
           <span className="ia-badge">Restrito · Direção</span>
           Diagnóstico consolidado dos terceirizados da ENSP por setor — apoio ao planejamento.
           Dados agregados (sem informações pessoais), da fonte {dados?.fonte ?? 'DIRH/Fiocruz'} ·
@@ -187,6 +166,35 @@ export default function TerceirizadosDiagnostico() {
         )}
 
         {carregando && <div className="loading-fixo">Carregando…</div>}
+    </>
+  )
+}
+
+/* Página /terceirizados — barra superior + painel. */
+export default function TerceirizadosDiagnostico() {
+  const { usuario, logout } = useAuth()
+  return (
+    <div className="app">
+      <header className="topbar">
+        <div className="topbar-left">
+          <span className="brand-badge">vddig</span>
+          <div>
+            <strong>Diagnóstico de Terceirizados</strong>
+            <div className="topbar-sub">ENSP · Fiocruz — visão da Direção</div>
+          </div>
+        </div>
+        <div className="topbar-right">
+          <TopNav />
+          <div className="usuario">
+            <span>{usuario?.nome}</span>
+            <button className="link" onClick={logout}>
+              Sair
+            </button>
+          </div>
+        </div>
+      </header>
+      <main className="conteudo">
+        <TerceirizadosPainel />
       </main>
     </div>
   )

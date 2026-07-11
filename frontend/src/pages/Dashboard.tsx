@@ -139,8 +139,9 @@ function PainelSetoresDashboard({
   )
 }
 
-export default function Dashboard() {
-  const { usuario, logout } = useAuth()
+/* Conteúdo do panorama (sem a barra superior) — reutilizado na página
+   /dashboard e como aba "Dashboard" na Sala de Situação da Direção. */
+export function DashboardPanorama() {
   const [resumo, setResumo] = useState<ResumoSetor[]>([])
   const [setores, setSetores] = useState<Setor[]>([])
   const [setorId, setSetorId] = useState<string>('')
@@ -181,28 +182,8 @@ export default function Dashboard() {
   const setorSelecionado = setorId ? setores.find((s) => String(s.id) === setorId) : undefined
 
   return (
-    <div className="app">
-      <header className="topbar">
-        <div className="topbar-left">
-          <span className="brand-badge">vddig</span>
-          <div>
-            <strong>Dashboard Estratégico</strong>
-            <div className="topbar-sub">ENSP · Fiocruz — Gestão de verbas LOAS</div>
-          </div>
-        </div>
-        <div className="topbar-right">
-          <TopNav />
-          <div className="usuario">
-            <span>{usuario?.nome}</span>
-            <button className="link" onClick={logout}>
-              Sair
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <main className="conteudo">
-        {!setorId ? (
+    <>
+      {!setorId ? (
           <>
             <div className="bp-head">
               <div>
@@ -304,6 +285,35 @@ export default function Dashboard() {
             {carregando && <div className="loading-fixo">Atualizando…</div>}
           </>
         )}
+    </>
+  )
+}
+
+/* Página /dashboard — barra superior + panorama. */
+export default function Dashboard() {
+  const { usuario, logout } = useAuth()
+  return (
+    <div className="app">
+      <header className="topbar">
+        <div className="topbar-left">
+          <span className="brand-badge">vddig</span>
+          <div>
+            <strong>Dashboard Estratégico</strong>
+            <div className="topbar-sub">ENSP · Fiocruz — Gestão de verbas LOAS</div>
+          </div>
+        </div>
+        <div className="topbar-right">
+          <TopNav />
+          <div className="usuario">
+            <span>{usuario?.nome}</span>
+            <button className="link" onClick={logout}>
+              Sair
+            </button>
+          </div>
+        </div>
+      </header>
+      <main className="conteudo">
+        <DashboardPanorama />
       </main>
     </div>
   )

@@ -9,6 +9,8 @@ import KpiCard from '../components/KpiCard'
 import MetasChart from '../components/MetasChart'
 import { IconDashboard } from '../components/icons'
 import { BlueprintsExplorer } from '../blueprints'
+import { DashboardPanorama } from './Dashboard'
+import { TerceirizadosPainel } from './TerceirizadosDiagnostico'
 import {
   Bar,
   BarChart,
@@ -500,6 +502,7 @@ function ColaboraInput({
   const { pedirAjudaDlp } = useChat()
   const achados: DlpFinding[] = analisarDlp(entrada)
   const sigla = setor?.sigla || ''
+  const ehDirecao = sigla === 'VDDIG'
   const modoAtual = MODOS.find((m) => m.id === modo)!
 
   function enviar() {
@@ -546,8 +549,8 @@ function ColaboraInput({
       </div>
       <h2 className="colabhero-titulo">Por onde começamos?</h2>
       <p className="colabhero-sub">
-        Envie documentos internos e informações para a memória do setor {sigla}. O principal
-        input são documentos — protegidos pela camada de LGPD.
+        Envie documentos internos e informações para a memória {ehDirecao ? 'da VDDIG (Direção)' : `do setor ${sigla}`}. O
+        principal input são documentos — protegidos pela camada de LGPD.
       </p>
 
       <div className="colabhero-input">
@@ -672,6 +675,7 @@ function Repositorio({ setor, docs }: { setor: Setor | null; docs: Doc[] }) {
   const [pensando, setPensando] = useState(false)
   const [resposta, setResposta] = useState<{ texto: string; fontes: Doc[] } | null>(null)
   const sigla = setor?.sigla || ''
+  const ehDirecao = sigla === 'VDDIG'
 
   function consultar() {
     const q = pergunta.trim()
@@ -694,10 +698,13 @@ function Repositorio({ setor, docs }: { setor: Setor | null; docs: Doc[] }) {
   return (
     <div className="repo-wrap">
       <h2 className="repo-titulo">
-        <IconSearch /> Repositório do setor {sigla} · NotebookLM
+        <IconSearch /> {ehDirecao ? 'Notebook da Direção · NotebookLM' : `Repositório do setor ${sigla} · NotebookLM`}
       </h2>
       <p className="repo-sub">
-        Consulte os documentos do seu setor em linguagem natural. {docs.length} documento(s) na base.
+        {ehDirecao
+          ? 'Consulte os relatórios consolidados da VDDIG em linguagem natural.'
+          : 'Consulte os documentos do seu setor em linguagem natural.'}{' '}
+        {docs.length} documento(s) na base.
       </p>
 
       <div className="repo-busca">
@@ -1357,10 +1364,39 @@ function SetorDashboard({ setorId }: { setorId: number | null }) {
 
 /* ---------- Componente raiz (workspace com abas) ---------- */
 
+/* Espaço institucional da Direção (VDDIG) — o Colabora AI da Direção não é
+   de um setor, e sim da Vice-Direção como um todo. id negativo = sintético. */
+const VDDIG_SETOR: Setor = {
+  id: -1,
+  nome: 'VDDIG — Vice-Direção de Desenvolvimento Institucional e Gestão',
+  sigla: 'VDDIG',
+  responsavel: 'Direção',
+  missao:
+    'Coordenar o desenvolvimento institucional e a gestão da ENSP, integrando os serviços da VDDIG e apoiando a decisão estratégica da Direção.',
+  objetivos:
+    'Monitorar a saúde dos setores, consolidar relatórios e blueprints e articular o planejamento, o orçamento, as pessoas, a qualidade e a infraestrutura.',
+}
+
+/* Relatórios padrão consolidados que ficam no Notebook da Direção. */
+const DOCS_VDDIG: Doc[] = [
+  { id: 90001, tipo: 'documento', titulo: 'Panorama consolidado dos setores — 2026', texto: 'Saúde das metas dos 13 setores da VDDIG, com semáforo (no prazo / atenção / crítico) e evolução.', data: '09/07/2026' },
+  { id: 90002, tipo: 'documento', titulo: 'Blueprints de serviço — consolidado VDDIG', texto: 'Os 13 blueprints de serviço dos setores, com etapas, gargalos e oportunidades.', data: '08/07/2026' },
+  { id: 90003, tipo: 'documento', titulo: 'Diagnóstico de terceirizados — ENSP', texto: 'Terceirizados por setor (dados agregados, sem informações pessoais) — apoio ao planejamento.', data: '05/07/2026' },
+  { id: 90004, tipo: 'ata', titulo: 'Ata — Reunião de gestão da VDDIG', texto: 'Decisões e encaminhamentos da reunião de acompanhamento dos setores.', data: '02/07/2026' },
+]
+
 export default function CuradoriaIAs() {
   const { usuario, logout } = useAuth()
   const [aba, setAba] = useState<
-    'dashboard' | 'colabora' | 'ata' | 'repo' | 'ferramentas' | 'blueprint' | 'mapeamento'
+    | 'dashboard'
+    | 'colabora'
+    | 'ata'
+    | 'repo'
+    | 'ferramentas'
+    | 'blueprint'
+    | 'mapeamento'
+    | 'blueprints'
+    | 'terceirizados'
   >('colabora')
   const [selecionadaId, setSelecionadaId] = useState<string | null>(null)
   const iaSelecionada = IAS.find((ia) => ia.id === selecionadaId)
@@ -1373,21 +1409,29 @@ export default function CuradoriaIAs() {
   useEffect(() => {
     api.get('/api/setores').then((r) => {
       setSetores(r.data)
-      setSetorAtivoId(usuario?.setor_id ?? r.data[0]?.id ?? null)
+      setSetorAtivoId(usuario?.setor_id ?? (estrategico ? VDDIG_SETOR.id : r.data[0]?.id) ?? null)
     })
-  }, [usuario])
+  }, [usuario, estrategico])
 
-  const setorAtivo = setores.find((s) => s.id === setorAtivoId) ?? null
+  // Semeia os relatórios consolidados no Notebook da Direção (uma vez).
+  useEffect(() => {
+    if (estrategico) {
+      setDocs((prev) => (prev[VDDIG_SETOR.id] ? prev : { ...prev, [VDDIG_SETOR.id]: DOCS_VDDIG }))
+    }
+  }, [estrategico])
+
+  const setorAtivo =
+    setorAtivoId === VDDIG_SETOR.id ? VDDIG_SETOR : setores.find((s) => s.id === setorAtivoId) ?? null
   const docsSetor = setorAtivoId ? docs[setorAtivoId] ?? [] : []
   const ehPolem = setorAtivo?.sigla === 'POLEM'
   const ehQualidade = setorAtivo?.sigla === 'SGQ'
 
-  // Abas específicas de setor (Blueprint no POLEM, Mapeamento no SGQ):
-  // ao trocar de setor, volta para o Dashboard.
+  // Mantém a aba coerente com o perfil/setor.
   useEffect(() => {
     if (aba === 'blueprint' && !ehPolem) setAba('colabora')
     if (aba === 'mapeamento' && !ehQualidade) setAba('colabora')
-  }, [aba, ehPolem, ehQualidade])
+    if ((aba === 'blueprints' || aba === 'terceirizados') && !estrategico) setAba('colabora')
+  }, [aba, ehPolem, ehQualidade, estrategico])
 
   function adicionarDoc(d: Omit<Doc, 'id' | 'data'>) {
     if (!setorAtivoId) return
@@ -1401,8 +1445,12 @@ export default function CuradoriaIAs() {
         <div className="topbar-left">
           <span className="brand-badge">vddig</span>
           <div>
-            <strong>Colabora AI · Curadoria</strong>
-            <div className="topbar-sub">ENSP · Fiocruz — espaço de IA do seu setor</div>
+            <strong>{estrategico ? 'Sala de Situação · Direção' : 'Colabora AI · Curadoria'}</strong>
+            <div className="topbar-sub">
+              {estrategico
+                ? 'ENSP · Fiocruz — espaço de gestão da Direção'
+                : 'ENSP · Fiocruz — espaço de IA do seu setor'}
+            </div>
           </div>
         </div>
         <div className="topbar-right">
@@ -1418,23 +1466,11 @@ export default function CuradoriaIAs() {
 
       <main className="conteudo curad">
         <div className="setor-ativo-bar">
-          <span className="setor-ativo-label">Setor</span>
-          {estrategico ? (
-            <select
-              className="setor-ativo-sel"
-              value={setorAtivoId ?? ''}
-              onChange={(e) => setSetorAtivoId(Number(e.target.value))}
-            >
-              {setores.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {(s.sigla ? s.sigla + ' — ' : '') + s.nome}
-                </option>
-              ))}
-            </select>
-          ) : (
-            <strong className="setor-ativo-nome">{setorAtivo?.nome ?? '—'}</strong>
-          )}
-          <span className="setor-ativo-badge">{docsSetor.length} no repositório</span>
+          <span className="setor-ativo-label">{estrategico ? 'Espaço' : 'Setor'}</span>
+          <strong className="setor-ativo-nome">{setorAtivo?.nome ?? '—'}</strong>
+          <span className="setor-ativo-badge">
+            {docsSetor.length} no {estrategico ? 'notebook' : 'repositório'}
+          </span>
         </div>
 
         <div className="wkspace-tabs">
@@ -1450,6 +1486,22 @@ export default function CuradoriaIAs() {
           >
             <IconDashboard /> Dashboard
           </button>
+          {estrategico && (
+            <button
+              className={`wkspace-tab${aba === 'blueprints' ? ' ativo' : ''}`}
+              onClick={() => setAba('blueprints')}
+            >
+              <IconSearch /> Blueprints
+            </button>
+          )}
+          {estrategico && (
+            <button
+              className={`wkspace-tab${aba === 'terceirizados' ? ' ativo' : ''}`}
+              onClick={() => setAba('terceirizados')}
+            >
+              <IconFolder /> Terceirizados
+            </button>
+          )}
           {ehPolem && (
             <button
               className={`wkspace-tab${aba === 'blueprint' ? ' ativo' : ''}`}
@@ -1476,7 +1528,7 @@ export default function CuradoriaIAs() {
             className={`wkspace-tab${aba === 'repo' ? ' ativo' : ''}`}
             onClick={() => setAba('repo')}
           >
-            <IconSearch /> Repositório (NotebookLM)
+            <IconSearch /> {estrategico ? 'Notebook da Direção' : 'Repositório (NotebookLM)'}
           </button>
           <button
             className={`wkspace-tab${aba === 'ferramentas' ? ' ativo' : ''}`}
@@ -1486,7 +1538,10 @@ export default function CuradoriaIAs() {
           </button>
         </div>
 
-        {aba === 'dashboard' && <SetorDashboard setorId={setorAtivoId} />}
+        {aba === 'dashboard' &&
+          (estrategico ? <DashboardPanorama /> : <SetorDashboard setorId={setorAtivoId} />)}
+        {aba === 'blueprints' && estrategico && <BlueprintsExplorer modo="direcao" />}
+        {aba === 'terceirizados' && estrategico && <TerceirizadosPainel />}
         {aba === 'colabora' && (
           <ColaboraInput
             setor={setorAtivo}
