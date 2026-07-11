@@ -71,6 +71,20 @@ class RecursoItem(BaseModel):
     aplicado: float
 
 
+class ResumoSetorItem(BaseModel):
+    """Resumo consolidado de um setor para o painel de saúde da Direção."""
+    setor_id: int
+    sigla: str
+    nome: str
+    total_metas: int
+    metas_concluidas: int
+    pct_metas_concluidas: float
+    metas_em_risco: int
+    valor_previsto: float
+    valor_aplicado: float
+    pct_recursos_aplicados: float
+
+
 class DemandaTimelineItem(BaseModel):
     periodo: str
     concluidas: int

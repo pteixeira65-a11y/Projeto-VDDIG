@@ -34,6 +34,19 @@ export interface Recurso {
   aplicado: number
 }
 
+export interface ResumoSetor {
+  setor_id: number
+  sigla: string
+  nome: string
+  total_metas: number
+  metas_concluidas: number
+  pct_metas_concluidas: number
+  metas_em_risco: number
+  valor_previsto: number
+  valor_aplicado: number
+  pct_recursos_aplicados: number
+}
+
 export interface DemandaTimeline {
   periodo: string
   concluidas: number

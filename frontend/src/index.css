@@ -2259,6 +2259,23 @@ body {
 .bp-info-seg.status-pronto { background: var(--verde); }
 .bp-info-seg.status-revisao { background: #c6924b; }
 .bp-info-seg.status-andamento { background: var(--azul); }
+
+/* Saúde do setor — semáforo padrão (verde / amarelo / vermelho) */
+.bp-status.saude-verde { background: #e3efe0; color: #2f6b34; }
+.bp-status.saude-amarelo { background: #f8efd2; color: #866312; }
+.bp-status.saude-vermelho { background: #f6e2de; color: #8f3325; }
+.bp-progress-fill.saude-verde { background: #4e9350; }
+.bp-progress-fill.saude-amarelo { background: #d99e14; }
+.bp-progress-fill.saude-vermelho { background: #bd4436; }
+.bp-info-num.saude-verde { color: #2f6b34; }
+.bp-info-num.saude-amarelo { color: #866312; }
+.bp-info-num.saude-vermelho { color: #8f3325; }
+.bp-info-dot.saude-verde { background: #4e9350; }
+.bp-info-dot.saude-amarelo { background: #d99e14; }
+.bp-info-dot.saude-vermelho { background: #bd4436; }
+.bp-info-seg.saude-verde { background: #4e9350; }
+.bp-info-seg.saude-amarelo { background: #d99e14; color: #4a3600; }
+.bp-info-seg.saude-vermelho { background: #bd4436; }
 .bp-info-legenda {
   display: flex;
   flex-wrap: wrap;
@@ -2358,6 +2375,10 @@ body {
 .bp-progress-fill.status-pronto { background: var(--verde); }
 .bp-progress-fill.status-revisao { background: #c6924b; }
 .bp-progress-fill.status-andamento { background: var(--azul); }
+.bp-setor-stat {
+  font-size: 12px;
+  color: var(--texto-fraco);
+}
 .bp-setor-link {
   font-size: 12px;
   font-weight: 600;

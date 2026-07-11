@@ -15,6 +15,7 @@ from ..schemas import (
     MetaRiscoItem,
     MetasPorSetorItem,
     RecursoItem,
+    ResumoSetorItem,
 )
 
 router = APIRouter(
@@ -83,6 +84,32 @@ def metas_por_setor(setor_id: Optional[int] = Query(None), session: Session = De
             if m.status in counts:
                 counts[m.status] += 1
         out.append(MetasPorSetorItem(setor=setor.sigla or setor.nome, **counts))
+    return out
+
+
+@router.get("/resumo-setores", response_model=list[ResumoSetorItem])
+def resumo_setores(session: Session = Depends(get_session)):
+    """Resumo consolidado por setor — alimenta o painel de saúde da Direção."""
+    out = []
+    for setor in session.exec(select(Setor)).all():
+        metas = list(session.exec(select(Meta).where(Meta.setor_id == setor.id)).all())
+        recursos = list(session.exec(select(RecursoLOAS).where(RecursoLOAS.setor_id == setor.id)).all())
+        total = len(metas)
+        concluidas = sum(1 for m in metas if m.status == "concluida")
+        previsto = sum(r.valor_previsto for r in recursos)
+        aplicado = sum(r.valor_aplicado for r in recursos)
+        out.append(ResumoSetorItem(
+            setor_id=setor.id,
+            sigla=setor.sigla or setor.nome,
+            nome=setor.nome,
+            total_metas=total,
+            metas_concluidas=concluidas,
+            pct_metas_concluidas=round(concluidas / total * 100, 1) if total else 0.0,
+            metas_em_risco=sum(1 for m in metas if _em_risco(m)),
+            valor_previsto=previsto,
+            valor_aplicado=aplicado,
+            pct_recursos_aplicados=round(aplicado / previsto * 100, 1) if previsto else 0.0,
+        ))
     return out
 
 
