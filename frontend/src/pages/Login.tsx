@@ -59,6 +59,9 @@ export default function Login() {
         <button disabled={enviando} type="submit">
           {enviando ? 'Entrando…' : 'Entrar'}
         </button>
+        <button type="button" className="link esqueci-senha" onClick={() => nav('/recuperar-senha')}>
+          Esqueci minha senha
+        </button>
         <p className="dica">
           Setor: servidor.compras@ensp.fiocruz.br
           <br />

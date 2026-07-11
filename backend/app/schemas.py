@@ -23,6 +23,23 @@ class UserOut(BaseModel):
     setor_id: Optional[int] = None
 
 
+class RecuperarSenhaRequest(BaseModel):
+    email: str
+
+
+class RecuperarSenhaResponse(BaseModel):
+    ok: bool = True
+    # Código que, em produção, iria por e-mail. Exposto apenas no protótipo
+    # (ainda sem servidor de e-mail/SMTP). None quando o e-mail não existe.
+    codigo_dev: Optional[str] = None
+
+
+class RedefinirSenhaRequest(BaseModel):
+    email: str
+    codigo: str
+    nova_senha: str
+
+
 class SetorOut(BaseModel):
     id: int
     nome: str

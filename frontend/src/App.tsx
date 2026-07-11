@@ -10,6 +10,7 @@ import BancoPrompts from './pages/BancoPrompts'
 import TerceirizadosDiagnostico from './pages/TerceirizadosDiagnostico'
 import BlueprintsSetores from './pages/BlueprintsSetores'
 import ColaboraAI from './pages/ColaboraAI'
+import RecuperarSenha from './pages/RecuperarSenha'
 import BoasVindas from './components/BoasVindas'
 import Chatbot from './components/Chatbot'
 
@@ -40,6 +41,7 @@ export default function App() {
       <BoasVindas />
       <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/recuperar-senha" element={<RecuperarSenha />} />
       <Route path="/colabora" element={<ColaboraAI />} />
       <Route
         path="/dashboard"

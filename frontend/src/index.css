@@ -90,6 +90,42 @@ body {
   border-radius: 10px;
 }
 
+/* ---------- Recuperação de senha ---------- */
+.esqueci-senha {
+  align-self: center;
+  font-size: 13px;
+}
+.recuperar-passo {
+  font-size: 13px;
+  color: var(--texto-fraco);
+  margin: 0;
+  line-height: 1.5;
+}
+.recuperar-dev {
+  font-size: 13px;
+  line-height: 1.5;
+  background: var(--info-bg);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 10px 12px;
+  color: var(--texto);
+}
+.recuperar-ok {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #e3efe0;
+  border: 1px solid #cfe0c8;
+  border-radius: var(--raio);
+  padding: 14px;
+  color: #2f6b34;
+  font-size: 14px;
+}
+.recuperar-voltar {
+  align-self: center;
+  font-size: 13px;
+}
+
 /* ---------- Login ---------- */
 .login-wrap {
   min-height: 100vh;
