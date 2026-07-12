@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react'
+import { Hotword, ManualShell, Print, SumarioItem } from './kit'
 
 /* ------------------------------------------------------------------ *
  * Manual do Usuário — Espaço do Setor.
@@ -7,84 +7,12 @@ import { ReactNode, useState } from 'react'
  * reais (que o usuário insere em /public/manual/). Botão Exportar PDF
  * usa a impressão do navegador (Salvar como PDF).
  *
- * Construção incremental: começa por Introdução + Primeiro acesso.
+ * A "casca" (capa, sumário, barra PDF) e os componentes Hotword/Print
+ * vêm do kit compartilhado (./kit), reusado também pelo Manual da Direção.
  * ------------------------------------------------------------------ */
 
-/* Termo destacado que revela a definição ao clicar (estilo Bússola do Saber). */
-function Hotword({ termo, children }: { termo: string; children: ReactNode }) {
-  const [aberto, setAberto] = useState(false)
-  return (
-    <span className="hotword-wrap">
-      <button
-        type="button"
-        className={`hotword${aberto ? ' aberto' : ''}`}
-        aria-expanded={aberto}
-        onClick={() => setAberto((v) => !v)}
-      >
-        {termo}
-      </button>
-      {aberto && <span className="hotword-def">{children}</span>}
-    </span>
-  )
-}
-
-/* Print de uma tela: mostra a imagem real se existir em /public/manual/,
-   senão um espaço reservado com a legenda (a inserir depois). */
-function Print({ arquivo, legenda }: { arquivo: string; legenda: string }) {
-  const [ok, setOk] = useState(true)
-  const [zoom, setZoom] = useState(false)
-  return (
-    <figure className="manual-print">
-      {ok ? (
-        <button type="button" className="manual-print-btn" onClick={() => setZoom(true)}>
-          <img src={`/manual/${arquivo}`} alt={legenda} onError={() => setOk(false)} />
-        </button>
-      ) : (
-        <div className="manual-print-ph">
-          <span className="manual-print-ph-tit">Imagem da tela</span>
-          <span className="manual-print-ph-sub">{legenda}</span>
-          <span className="manual-print-ph-hint">print a inserir · /public/manual/{arquivo}</span>
-        </div>
-      )}
-      <figcaption>
-        {legenda}
-        {ok && <span className="manual-print-zoom"> · clique para ampliar</span>}
-      </figcaption>
-      {zoom && ok && (
-        <div
-          className="manual-lightbox no-print"
-          role="dialog"
-          aria-label={legenda}
-          onClick={() => setZoom(false)}
-        >
-          <img src={`/manual/${arquivo}`} alt={legenda} />
-        </div>
-      )}
-    </figure>
-  )
-}
-
-/* Logotipo institucional da capa — usa a imagem real se existir em
-   /public/manual/, senão cai para um selo tipográfico (nunca quebra). */
-function LogoInst({ arquivo, sigla, nome }: { arquivo: string; sigla: string; nome: string }) {
-  const [ok, setOk] = useState(true)
-  return ok ? (
-    <img
-      className="manual-logo-inst"
-      src={`/manual/${arquivo}`}
-      alt={nome}
-      title={nome}
-      onError={() => setOk(false)}
-    />
-  ) : (
-    <span className="manual-selo" title={nome}>
-      {sigla}
-    </span>
-  )
-}
-
 /* Seções do manual, na ordem — alimenta o sumário clicável. */
-const SUMARIO = [
+const SUMARIO: SumarioItem[] = [
   { id: 'cap-intro', num: '•', titulo: 'Apresentação' },
   { id: 'cap-mapa', num: '•', titulo: 'Mapa da plataforma' },
   { id: 'cap-1', num: '1', titulo: 'Primeiro acesso: como entrar' },
@@ -102,68 +30,8 @@ const SUMARIO = [
 ]
 
 export default function ManualSetor() {
-  const irPara = (id: string) =>
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-
   return (
-    <div className="manual-wrap">
-      <div className="manual-barra no-print">
-        <button type="button" className="manual-pdf" onClick={() => window.print()}>
-          Exportar PDF
-        </button>
-      </div>
-
-      {/* ----- Capa ----- */}
-      <section className="manual-capa">
-        <div className="manual-capa-logos">
-          <LogoInst arquivo="logo-fiocruz.png" sigla="FIOCRUZ" nome="Fundação Oswaldo Cruz" />
-          <LogoInst
-            arquivo="logo-ensp.png"
-            sigla="ENSP"
-            nome="Escola Nacional de Saúde Pública Sergio Arouca"
-          />
-        </div>
-        <span className="marca marca-completo">
-          <span className="marca-plat">Plataforma</span>
-          <span className="marca-adauto">Adauto</span>
-        </span>
-        <h1 className="manual-capa-titulo">Manual do Usuário</h1>
-        <p className="manual-capa-sub">Espaço do Setor</p>
-        <p className="manual-capa-nomes">
-          Fundação Oswaldo Cruz · Escola Nacional de Saúde Pública Sergio Arouca
-          <br />
-          Vice-Direção de Desenvolvimento Institucional e Gestão (VDDIG)
-        </p>
-        <p className="manual-capa-ano">2026</p>
-        <button
-          type="button"
-          className="manual-capa-btn no-print"
-          onClick={() => irPara('manual-sumario')}
-        >
-          Abrir o manual ↓
-        </button>
-      </section>
-
-      {/* ----- Sumário ----- */}
-      <nav id="manual-sumario" className="manual-sumario">
-        <h2>Conteúdo</h2>
-        <ol>
-          {SUMARIO.map((s) => (
-            <li key={s.id}>
-              <button type="button" onClick={() => irPara(s.id)}>
-                <span className="manual-sumario-num">{s.num}</span>
-                <span>{s.titulo}</span>
-              </button>
-            </li>
-          ))}
-        </ol>
-        <p className="manual-sumario-dica">
-          Dica: clique nas palavras <span className="hotword-exemplo">destacadas</span> ao longo do
-          manual para ver o que significam.
-        </p>
-      </nav>
-
-      <article className="manual-doc">
+    <ManualShell subtitulo="Espaço do Setor" sumario={SUMARIO}>
         {/* ----- Introdução ----- */}
         <section id="cap-intro" className="manual-sec">
           <h2>Bem-vindo(a) à Plataforma Adauto</h2>
@@ -800,7 +668,6 @@ export default function ManualSetor() {
           <strong>mapa da plataforma</strong> — um diagrama que mostra, de relance, como todas essas
           ferramentas se conectam.
         </p>
-      </article>
-    </div>
+    </ManualShell>
   )
 }
