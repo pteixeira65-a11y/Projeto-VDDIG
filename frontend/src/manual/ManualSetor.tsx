@@ -86,6 +86,7 @@ function LogoInst({ arquivo, sigla, nome }: { arquivo: string; sigla: string; no
 /* Seções do manual, na ordem — alimenta o sumário clicável. */
 const SUMARIO = [
   { id: 'cap-intro', num: '•', titulo: 'Apresentação' },
+  { id: 'cap-mapa', num: '•', titulo: 'Mapa da plataforma' },
   { id: 'cap-1', num: '1', titulo: 'Primeiro acesso: como entrar' },
   { id: 'cap-2', num: '2', titulo: 'Esqueci minha senha' },
   { id: 'cap-3', num: '3', titulo: 'Colabora AI: o coração do seu setor' },
@@ -181,6 +182,73 @@ export default function ManualSetor() {
           <p>
             Este manual mostra, passo a passo, como fazer cada coisa. Você pode ler na tela ou{' '}
             <strong>exportar em PDF</strong> (botão no topo) para imprimir ou guardar.
+          </p>
+        </section>
+
+        {/* ----- Mapa da plataforma ----- */}
+        <section id="cap-mapa" className="manual-sec">
+          <h2>Mapa da plataforma</h2>
+          <p>
+            Antes de ver ferramenta por ferramenta, veja como tudo se conecta. Em resumo: você{' '}
+            <strong>guarda</strong> informações, elas viram a <strong>memória do setor</strong>, e a
+            partir dela você <strong>consulta</strong> e <strong>acompanha</strong> — sempre com a
+            proteção da LGPD.
+          </p>
+
+          <div className="manual-mapa">
+            <div className="mapa-trilha">
+              <span className="mapa-trilha-rot">Conhecimento do setor</span>
+              <div className="mapa-fluxo">
+                <div className="mapa-grupo">
+                  <span className="mapa-ferr">Colabora AI</span>
+                  <span className="mapa-ferr">Gravação → Ata</span>
+                </div>
+                <span className="mapa-seta" aria-hidden="true">→</span>
+                <div className="mapa-no mapa-no-destaque">
+                  <strong>Repositório</strong>
+                  <small>a memória do setor — documentos, notas e atas</small>
+                </div>
+                <span className="mapa-seta" aria-hidden="true">→</span>
+                <div className="mapa-no">
+                  <strong>Consultar</strong>
+                  <small>no Colabora AI ou no Repositório, com as fontes</small>
+                </div>
+              </div>
+            </div>
+
+            <div className="mapa-trilha">
+              <span className="mapa-trilha-rot">Metas do setor</span>
+              <div className="mapa-fluxo">
+                <div className="mapa-no">
+                  <strong>Espaço Setorial</strong>
+                  <small>cadastrar e atualizar metas</small>
+                </div>
+                <span className="mapa-seta" aria-hidden="true">→</span>
+                <div className="mapa-no">
+                  <strong>Dashboard</strong>
+                  <small>os números do setor, automáticos</small>
+                </div>
+              </div>
+            </div>
+
+            <div className="mapa-apoio">
+              <span className="mapa-trilha-rot">Apoio no dia a dia</span>
+              <div className="mapa-apoio-chips">
+                <span className="mapa-ferr">Ferramentas de IA</span>
+                <span className="mapa-ferr">Banco de Prompts</span>
+                <span className="mapa-ferr">Bússola do Saber</span>
+                <span className="mapa-ferr">Manual</span>
+              </div>
+            </div>
+
+            <div className="mapa-lgpd">
+              🛡️ Camada LGPD — protege os dados pessoais em toda a plataforma
+            </div>
+          </div>
+
+          <p className="manual-dica">
+            <strong>Dica:</strong> na dúvida de por onde começar, vá ao <strong>Colabora AI</strong> —
+            é a porta de entrada do setor.
           </p>
         </section>
 

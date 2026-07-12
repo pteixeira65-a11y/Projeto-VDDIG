@@ -224,6 +224,111 @@ body {
   white-space: nowrap;
 }
 
+/* ---- Mapa da plataforma (diagrama do manual) ---- */
+.manual-mapa {
+  background: var(--card);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  padding: 18px 16px;
+  margin: 8px 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.mapa-trilha {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mapa-trilha-rot {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--texto-fraco);
+}
+.mapa-fluxo {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.mapa-grupo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+.mapa-ferr {
+  display: inline-flex;
+  align-items: center;
+  background: var(--info-bg);
+  border: 1px solid var(--info-borda);
+  color: var(--info-texto);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.mapa-no {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  background: var(--fundo);
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  padding: 8px 14px;
+  min-width: 128px;
+  max-width: 220px;
+}
+.mapa-no strong {
+  color: var(--azul-escuro);
+  font-size: 14px;
+}
+.mapa-no small {
+  color: var(--texto-fraco);
+  font-size: 12px;
+  line-height: 1.35;
+}
+.mapa-no-destaque {
+  background: var(--info-bg);
+  border: 1.5px solid var(--azul);
+}
+.mapa-seta {
+  align-self: center;
+  color: var(--azul);
+  font-size: 20px;
+  font-weight: 700;
+  padding: 0 2px;
+}
+.mapa-apoio {
+  border-top: 1px dashed var(--borda);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mapa-apoio-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.mapa-lgpd {
+  background: var(--ocre-bg);
+  border: 1px solid var(--ocre-borda);
+  color: var(--ocre-texto);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}
+
 /* ---- Barra superior (só Exportar PDF) ---- */
 .manual-barra {
   display: flex;
