@@ -217,6 +217,12 @@ body {
   font-style: italic;
   font-size: 13px;
 }
+.manual-opcional {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--texto-fraco);
+  white-space: nowrap;
+}
 
 /* ---- Barra superior (só Exportar PDF) ---- */
 .manual-barra {
