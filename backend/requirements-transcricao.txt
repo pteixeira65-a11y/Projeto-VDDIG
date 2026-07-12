@@ -1,0 +1,11 @@
+# Dependências da TRANSCRIÇÃO REAL (na agulha) — NÃO são necessárias para a
+# demonstração, que roda em modo simulado.
+#
+# Quando a coordenação aprovar, ligue o modo real:
+#   1) pip install -r requirements-transcricao.txt
+#   2) defina a variável de ambiente  MODO_TRANSCRICAO=real
+#      (opcional: WHISPER_MODELO=small|medium)
+#
+# faster-whisper roda 100% local (CPU, sem GPU obrigatória) — o áudio nunca sai
+# da máquina.
+faster-whisper

@@ -170,6 +170,32 @@ const IconDoc = () => (
   </svg>
 )
 
+const IconUpload = () => (
+  <svg {...iconBase}>
+    <path d="M12 16V4" />
+    <polyline points="7 9 12 4 17 9" />
+    <path d="M5 20h14" />
+  </svg>
+)
+
+/* Logotipo institucional real (mesmo arquivo da capa do Manual), no timbre dos
+   documentos (ata, POP). Se a imagem faltar, cai para o selo tipográfico —
+   nunca quebra o documento. */
+function LogoDoc({ arquivo, sigla, nome }: { arquivo: string; sigla: string; nome: string }) {
+  const [ok, setOk] = useState(true)
+  return ok ? (
+    <img
+      className="ata-logo-img"
+      src={`/manual/${arquivo}`}
+      alt={nome}
+      title={nome}
+      onError={() => setOk(false)}
+    />
+  ) : (
+    <div className="ata-logo" title={nome}>{sigla}</div>
+  )
+}
+
 const IconSparkTab = () => (
   <svg {...iconBase}>
     <path d="M12 4 L13.2 9.4 L18 11 L13.2 12.6 L12 18 L10.8 12.6 L6 11 L10.8 9.4 Z" />
@@ -770,14 +796,39 @@ function Repositorio({ setor, docs }: { setor: Setor | null; docs: Doc[] }) {
   )
 }
 
-/* ---------- Reunião → Ata (transcrição simulada) ---------- */
+/* ---------- Reunião → Ata (transcrição real + validação humana) ----------
+ * Ferramenta transversal (todos os setores). Fluxo: gravar OU enviar áudio →
+ * transcrição (backend; motor real faster-whisper na agulha) → VALIDAÇÃO HUMANA
+ * (texto editável) → gerar a ata pelo backend → salvar no repositório do setor.
+ * O áudio é descartado após a transcrição; só o texto persiste. */
 
-type EstadoGrav = 'idle' | 'gravando' | 'processando' | 'pronto'
+type EstadoGrav = 'idle' | 'gravando' | 'processando' | 'validacao' | 'pronto'
 const ONDA = Array.from({ length: 32 })
 
-function ReuniaoAta({ onSalvar }: { onSalvar: (titulo: string, texto: string) => void }) {
+/* Amostra usada só na gravação ao vivo em modo simulado (o envio de arquivo já
+ * recebe o texto do backend). Reflete a fala "picada" de uma transcrição real. */
+const AMOSTRA_LIVE =
+  'Então, o processo começa quando o setor requisitante manda a solicitação pra gente, ' +
+  'geralmente por e-mail ou pelo sistema interno. A gente confere se a documentação está ' +
+  'completa, registra no protocolo e encaminha pra análise técnica. Depois volta pra ' +
+  'coordenação pra aprovação, e só então segue pro setor de compras ou pro arquivo. O maior ' +
+  'gargalo hoje é essa conferência inicial, porque é manual e depende de uma pessoa só.'
+
+function ReuniaoAta({
+  setor,
+  onSalvar,
+}: {
+  setor: string
+  onSalvar: (titulo: string, texto: string) => void
+}) {
   const [estado, setEstado] = useState<EstadoGrav>('idle')
   const [seg, setSeg] = useState(0)
+  const [nomeArquivo, setNomeArquivo] = useState('')
+  const [transcricao, setTranscricao] = useState('')
+  const [modo, setModo] = useState('simulado')
+  const [documento, setDocumento] = useState('')
+  const [gerando, setGerando] = useState(false)
+  const [erro, setErro] = useState('')
   const timer = useRef<number | null>(null)
 
   useEffect(() => {
@@ -793,96 +844,184 @@ function ReuniaoAta({ onSalvar }: { onSalvar: (titulo: string, texto: string) =>
 
   const mmss = `${String(Math.floor(seg / 60)).padStart(2, '0')}:${String(seg % 60).padStart(2, '0')}`
 
-  return (
-    <>
-      <div className="rec-box">
-        {estado === 'idle' && (
-          <>
-            <button className="rec-btn" onClick={() => { setSeg(0); setEstado('gravando') }}>
-              <IconMic /> Gravar reunião em tempo real
-            </button>
-            <span className="rec-dica">
-              A IA transcreve e formata automaticamente na Ata padrão da VDDIG.
-            </span>
-          </>
-        )}
-        {estado === 'gravando' && (
-          <>
-            <div className="rec-wave">
-              {ONDA.map((_, i) => (
-                <span
-                  key={i}
-                  style={{
-                    animationDelay: `${(i % 8) * 0.09}s`,
-                    animationDuration: `${0.7 + (i % 5) * 0.12}s`,
-                  }}
-                />
-              ))}
-            </div>
-            <button className="rec-btn gravando" onClick={() => { setEstado('processando'); setTimeout(() => setEstado('pronto'), 2400) }}>
-              <IconStop /> Parar e transcrever · {mmss}
-            </button>
-          </>
-        )}
-        {estado === 'processando' && (
-          <div className="rec-proc">
-            <span className="rec-spin" /> Transcrevendo o áudio e formatando a ata…
-          </div>
-        )}
-        {estado === 'pronto' && (
-          <button className="rec-btn" onClick={() => { setSeg(0); setEstado('idle') }}>
-            <IconMic /> Nova gravação
+  function iniciar() {
+    setErro('')
+    setNomeArquivo('')
+    setSeg(0)
+    setEstado('gravando')
+  }
+
+  function parar() {
+    setEstado('processando')
+    // Ao vivo fica simulado nesta fase; o motor real vem pelo envio de arquivo.
+    window.setTimeout(() => {
+      setTranscricao(AMOSTRA_LIVE)
+      setModo('simulado')
+      setEstado('validacao')
+    }, 1800)
+  }
+
+  async function aoEnviar(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setErro('')
+    setNomeArquivo(file.name)
+    setEstado('processando')
+    try {
+      const form = new FormData()
+      form.append('arquivo', file)
+      const { data } = await api.post('/api/transcricao/arquivo', form)
+      setTranscricao(data.texto)
+      setModo(data.modo)
+      setEstado('validacao')
+    } catch {
+      setErro('Não consegui falar com o servidor de transcrição. O backend está rodando?')
+      setEstado('idle')
+    } finally {
+      e.target.value = '' // permite reenviar o mesmo arquivo
+    }
+  }
+
+  async function gerarAta() {
+    setGerando(true)
+    setErro('')
+    try {
+      const { data } = await api.post('/api/transcricao/documento', {
+        tipo: 'ata',
+        transcricao,
+        setor,
+      })
+      setDocumento(data.documento)
+      setEstado('pronto')
+    } catch {
+      setErro('Falha ao gerar a ata.')
+    } finally {
+      setGerando(false)
+    }
+  }
+
+  function recomecar() {
+    setEstado('idle')
+    setSeg(0)
+    setTranscricao('')
+    setDocumento('')
+    setNomeArquivo('')
+    setErro('')
+  }
+
+  if (estado === 'validacao') {
+    return (
+      <div className="card rec-valida">
+        <div className="rec-valida-topo">
+          <h3 className="mq-passo" style={{ margin: 0 }}>Transcrição · validação humana</h3>
+          <span className="ia-badge">IA · transcrição {modo}</span>
+        </div>
+        <p className="rec-nota">
+          Revise e corrija o texto antes de gerar a ata. Nada vira registro oficial sem a sua
+          conferência.
+        </p>
+        <textarea
+          className="rec-transcricao"
+          value={transcricao}
+          onChange={(e) => setTranscricao(e.target.value)}
+        />
+        <div className="ata-acoes">
+          <button className="rec-btn" onClick={gerarAta} disabled={!transcricao.trim() || gerando}>
+            <IconDoc /> {gerando ? 'Gerando ata…' : 'Gerar ata'}
           </button>
-        )}
+          <button className="ata-btn" onClick={recomecar}>Descartar</button>
+        </div>
+        {erro && <div className="rec-erro">{erro}</div>}
       </div>
-      {estado === 'pronto' && <Ata onSalvar={onSalvar} />}
-    </>
+    )
+  }
+
+  if (estado === 'pronto') {
+    return <Ata setor={setor} corpo={documento} onNova={recomecar} onSalvar={onSalvar} />
+  }
+
+  return (
+    <div className="rec-box">
+      {estado === 'idle' && (
+        <>
+          <div className="rec-opcoes">
+            <button className="rec-btn" onClick={iniciar}>
+              <IconMic /> Gravar reunião ao vivo
+            </button>
+            <label className="rec-btn sec">
+              <IconUpload /> Enviar áudio (entrevista)
+              <input type="file" accept="audio/*" hidden onChange={aoEnviar} />
+            </label>
+          </div>
+          <span className="rec-dica">
+            A IA transcreve localmente e você valida o texto antes de gerar a ata. O áudio é
+            descartado após a transcrição — só o texto é guardado.
+          </span>
+          {erro && <div className="rec-erro">{erro}</div>}
+        </>
+      )}
+      {estado === 'gravando' && (
+        <>
+          <div className="rec-wave">
+            {ONDA.map((_, i) => (
+              <span
+                key={i}
+                style={{
+                  animationDelay: `${(i % 8) * 0.09}s`,
+                  animationDuration: `${0.7 + (i % 5) * 0.12}s`,
+                }}
+              />
+            ))}
+          </div>
+          <button className="rec-btn gravando" onClick={parar}>
+            <IconStop /> Parar e transcrever · {mmss}
+          </button>
+        </>
+      )}
+      {estado === 'processando' && (
+        <div className="rec-proc">
+          <span className="rec-spin" /> Transcrevendo o áudio{nomeArquivo ? ` (${nomeArquivo})` : ''}…
+        </div>
+      )}
+    </div>
   )
 }
 
-function Ata({ onSalvar }: { onSalvar: (titulo: string, texto: string) => void }) {
+function Ata({
+  setor,
+  corpo,
+  onNova,
+  onSalvar,
+}: {
+  setor: string
+  corpo: string
+  onNova: () => void
+  onSalvar: (titulo: string, texto: string) => void
+}) {
   const [salvo, setSalvo] = useState(false)
+  const hoje = new Date().toLocaleDateString('pt-BR')
   return (
     <article className="ata-doc">
       <div className="ata-cab">
-        <div className="ata-logo">FIOCRUZ</div>
+        <LogoDoc arquivo="logo-fiocruz.png" sigla="FIOCRUZ" nome="Fundação Oswaldo Cruz" />
         <div className="ata-cab-tit">
           <strong>Fundação Oswaldo Cruz — ENSP</strong>
           <span>Vice-Direção de Desenvolvimento Institucional e Gestão (VDDIG)</span>
         </div>
-        <div className="ata-logo">ENSP</div>
+        <LogoDoc arquivo="logo-ensp.png" sigla="ENSP" nome="Escola Nacional de Saúde Pública Sergio Arouca" />
       </div>
 
       <h1>ATA DE REUNIÃO</h1>
 
       <div className="ata-grid">
-        <div><b>Data:</b> 07/07/2026</div>
-        <div><b>Horário:</b> 10h00 – 11h20</div>
-        <div><b>Local:</b> Sala da VDDIG / videoconferência</div>
-        <div><b>Nº da ata:</b> 014/2026</div>
+        <div><b>Data:</b> {hoje}</div>
+        <div><b>Setor:</b> {setor || '—'}</div>
         <div><b>Modalidade:</b> Híbrida</div>
-        <div><b>Secretariado por:</b> Assistente (transcrição automática)</div>
+        <div><b>Secretariado por:</b> Colabora AI (transcrição automática)</div>
       </div>
 
-      <h3>Participantes</h3>
-      <p>Representantes de SEPLAN, SEOF, GESCON e SGTI; convidados de Compras e SGPAT.</p>
-
-      <h3>Pauta</h3>
-      <ul>
-        <li>Consolidação do Plano de Contratações Anual (PCA) 2026.</li>
-        <li>Andamento das metas setoriais em risco.</li>
-        <li>Diagnóstico de terceirizados por setor.</li>
-      </ul>
-
-      <h3>Deliberações e encaminhamentos</h3>
-      <ul>
-        <li>SEPLAN consolidará os indicadores até <b>18/07</b> — resp. Rodrigo Sá de Alverga.</li>
-        <li>Compras revisará o PCA com as áreas requisitantes — resp. Tatiana Moreira da Silva.</li>
-        <li>SGTI apresentará o plano de help desk na próxima reunião — resp. Marcus Vinicius Del Sarto.</li>
-      </ul>
-
-      <h3>Próximos passos</h3>
-      <p>Nova reunião em 21/07/2026. A minuta segue para validação humana antes da publicação.</p>
+      <h3>Conteúdo e deliberações</h3>
+      <div className="ata-corpo">{corpo}</div>
 
       <div className="ata-acoes">
         <button className="ata-btn primario"><IconDoc /> Exportar ata (PDF)</button>
@@ -890,15 +1029,13 @@ function Ata({ onSalvar }: { onSalvar: (titulo: string, texto: string) => void }
         <button
           className="ata-btn"
           onClick={() => {
-            onSalvar(
-              `Ata de reunião · ${new Date().toLocaleDateString('pt-BR')}`,
-              'Ata de reunião da VDDIG com pauta, deliberações e encaminhamentos (gerada pela transcrição).',
-            )
+            onSalvar(`Ata de reunião · ${setor} · ${hoje}`, corpo)
             setSalvo(true)
           }}
         >
           {salvo ? '✓ Salvo no repositório' : 'Salvar no repositório'}
         </button>
+        <button className="ata-btn" onClick={onNova}>Nova gravação</button>
       </div>
     </article>
   )
@@ -1089,12 +1226,12 @@ function POPDocument() {
     <>
       <article className="ata-doc">
         <div className="ata-cab">
-          <div className="ata-logo">FIOCRUZ</div>
+          <LogoDoc arquivo="logo-fiocruz.png" sigla="FIOCRUZ" nome="Fundação Oswaldo Cruz" />
           <div className="ata-cab-tit">
             <strong>Fundação Oswaldo Cruz — ENSP · Departamento de Ciências Biológicas</strong>
             <span>Serviço de Gestão da Qualidade (SGQ)</span>
           </div>
-          <div className="ata-logo">ENSP</div>
+          <LogoDoc arquivo="logo-ensp.png" sigla="ENSP" nome="Escola Nacional de Saúde Pública Sergio Arouca" />
         </div>
 
         <h1>POP — Processamento de amostras para pesquisa em bactérias patogênicas</h1>
@@ -1562,6 +1699,7 @@ export default function CuradoriaIAs() {
         )}
         {aba === 'ata' && (
           <ReuniaoAta
+            setor={setorAtivo?.sigla || ''}
             onSalvar={(titulo, texto) => {
               adicionarDoc({ tipo: 'ata', titulo, texto })
               setAba('repo')

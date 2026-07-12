@@ -95,3 +95,100 @@ def responder(pergunta: str, contexto: str = "") -> str:
         "Ainda estou aprendendo sobre esse tema. Posso ajudar com: cadastro de metas, "
         "significado dos status e métricas, e proteção de dados (LGPD). Pode reformular a pergunta?"
     )
+
+
+# --------------------------------------------------------------------------- #
+# Geração de documentos a partir de uma transcrição VALIDADA por um humano.    #
+# Versão simulada (templates) — a troca por Claude API mantém esta assinatura. #
+# --------------------------------------------------------------------------- #
+from datetime import datetime  # noqa: E402
+
+
+def _frases(texto: str) -> list[str]:
+    """Quebra o texto em frases (heurística simples) para montar os tópicos."""
+    bruto = (texto or "").replace("\n", " ")
+    partes = []
+    atual = ""
+    for ch in bruto:
+        atual += ch
+        if ch in ".!?" and len(atual.strip()) > 25:
+            partes.append(atual.strip())
+            atual = ""
+    if atual.strip():
+        partes.append(atual.strip())
+    return partes
+
+
+_NOTA_VALIDACAO = (
+    "\n\n---\n_Documento gerado por IA a partir da transcrição e sujeito a "
+    "validação humana antes de virar registro oficial._"
+)
+
+
+def gerar_documento(tipo: str, transcricao: str, meta: dict | None = None) -> str:
+    """Gera um documento padronizado a partir da transcrição (versão simulada).
+
+    tipo: 'resumo' | 'ata' | 'relatorio' | 'mapeamento_processo'.
+
+    Para plugar a Claude real depois, esta função vira uma chamada
+    client.messages.create(...) com um prompt por tipo — a assinatura e o
+    retorno (str) continuam iguais, então rotas e frontend não mudam.
+    """
+    meta = meta or {}
+    hoje = datetime.now().strftime("%d/%m/%Y")
+    frases = _frases(transcricao)
+    topicos = frases[:5] if frases else ["(transcrição vazia)"]
+
+    if tipo == "resumo":
+        corpo = " ".join(frases[:3]) if frases else "(sem conteúdo)"
+        pontos = "\n".join(f"- {f}" for f in topicos[:3])
+        return (
+            f"RESUMO EXECUTIVO — {hoje}\n\n{corpo}\n\n"
+            f"Pontos principais:\n{pontos}" + _NOTA_VALIDACAO
+        )
+
+    if tipo == "ata":
+        # Corpo apenas — o timbre (FIOCRUZ/ENSP), título e a grade de metadados
+        # são renderizados pela folha .ata-doc no frontend, para não duplicar.
+        deliberacoes = "\n".join(f"- {f}" for f in topicos)
+        return (
+            "Participantes: conforme lista de presença.\n\n"
+            "Deliberações e registros:\n"
+            f"{deliberacoes}\n\n"
+            "Próximos passos: a minuta segue para validação humana antes da publicação."
+            + _NOTA_VALIDACAO
+        )
+
+    if tipo == "relatorio":
+        desenvolvimento = " ".join(frases) if frases else "(sem conteúdo)"
+        return (
+            f"RELATÓRIO — {hoje}\n\n"
+            "1. Objetivo\n"
+            "Registrar e organizar o conteúdo tratado na gravação.\n\n"
+            "2. Desenvolvimento\n"
+            f"{desenvolvimento}\n\n"
+            "3. Conclusão\n"
+            "Conteúdo consolidado; recomenda-se revisão pela área responsável."
+            + _NOTA_VALIDACAO
+        )
+
+    if tipo == "mapeamento_processo":
+        etapas = "\n".join(f"{i}. {f}" for i, f in enumerate(topicos, 1))
+        return (
+            f"MAPEAMENTO DE PROCESSO — {hoje}\n"
+            f"Setor: {meta.get('setor', 'Gestão da Qualidade')}\n\n"
+            "Nome do processo: (a confirmar na validação)\n\n"
+            "Objetivo do processo:\n"
+            "Descrever o fluxo conforme relatado, para padronização e melhoria.\n\n"
+            "Etapas identificadas:\n"
+            f"{etapas}\n\n"
+            "Entradas: documentos/solicitações que iniciam o processo.\n"
+            "Saídas: resultado entregue ao final do fluxo.\n"
+            "Responsáveis: a confirmar com a área na validação.\n\n"
+            "Pontos de atenção / oportunidades de melhoria:\n"
+            "- Revisar gargalos relatados e etapas manuais dependentes de uma só pessoa.\n\n"
+            "Indicadores sugeridos: tempo médio por etapa; retrabalho por documentação incompleta."
+            + _NOTA_VALIDACAO
+        )
+
+    return "Tipo de documento não reconhecido." + _NOTA_VALIDACAO

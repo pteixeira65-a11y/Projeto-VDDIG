@@ -1,5 +1,5 @@
 """Schemas Pydantic de entrada/saída da API."""
-from datetime import date
+from datetime import date, datetime
 from typing import Optional
 
 from pydantic import BaseModel, ConfigDict
@@ -175,3 +175,41 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     resposta: str
+
+
+# ---------- Transcrição e documentos (Gestão da Qualidade e demais setores) ----------
+class TranscricaoOut(BaseModel):
+    texto: str
+    modo: str  # "simulado" | "real" — transparência para a demonstração
+
+
+class GerarDocRequest(BaseModel):
+    tipo: str  # resumo | ata | relatorio | mapeamento_processo
+    transcricao: str
+    setor: Optional[str] = None
+
+
+class DocumentoOut(BaseModel):
+    tipo: str
+    documento: str
+
+
+class RegistroCreate(BaseModel):
+    titulo: str
+    origem: str = "reuniao"
+    setor: str = ""
+    documento_tipo: str = ""
+    transcricao: str = ""
+    documento: str = ""
+
+
+class RegistroOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    titulo: str
+    origem: str
+    setor: str
+    documento_tipo: str
+    transcricao: str
+    documento: str
+    criado_em: datetime

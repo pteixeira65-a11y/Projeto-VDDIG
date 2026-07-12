@@ -1,5 +1,5 @@
 """Modelos de dados (tabelas SQLModel)."""
-from datetime import date
+from datetime import date, datetime
 from typing import Optional
 
 from sqlmodel import Field, SQLModel
@@ -62,3 +62,19 @@ class Termo(SQLModel, table=True):
     exemplo: str = Field(default="")
     fonte: str = Field(default="")
     sinonimos: str = Field(default="")  # variações p/ busca, separadas por vírgula
+
+
+class RegistroTranscricao(SQLModel, table=True):
+    """Repositório histórico e pesquisável de transcrições e documentos gerados.
+
+    Guarda apenas o TEXTO (transcrição validada + documento). O áudio bruto nunca
+    é persistido — é apagado logo após a transcrição (ver transcricao.py).
+    """
+    id: Optional[int] = Field(default=None, primary_key=True)
+    titulo: str
+    origem: str = Field(default="reuniao")   # "reuniao" | "entrevista"
+    setor: str = Field(default="")
+    documento_tipo: str = Field(default="")  # resumo | ata | relatorio | mapeamento_processo
+    transcricao: str = Field(default="")     # texto validado por um humano
+    documento: str = Field(default="")       # documento padronizado gerado
+    criado_em: datetime = Field(default_factory=datetime.now)
