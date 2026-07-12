@@ -179,6 +179,7 @@ body {
 }
 .manual-sec {
   margin-bottom: 22px;
+  scroll-margin-top: 20px;
 }
 .manual-sec h2 {
   font-size: 17px;
@@ -189,6 +190,12 @@ body {
 .manual-sec p {
   line-height: 1.6;
   margin: 0 0 10px;
+}
+.manual-subtitulo {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--texto);
+  margin: 16px 0 6px;
 }
 .manual-passos {
   margin: 0 0 12px;
@@ -209,6 +216,164 @@ body {
   color: var(--texto-fraco);
   font-style: italic;
   font-size: 13px;
+}
+
+/* ---- Barra superior (só Exportar PDF) ---- */
+.manual-barra {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 14px;
+}
+
+/* ---- Capa (bege claro, paleta nórdica) ---- */
+.manual-capa {
+  background: linear-gradient(158deg, #f8f2e4 0%, #f1e8d4 100%);
+  border: 1px solid var(--ocre-borda);
+  border-radius: 16px;
+  box-shadow: var(--sombra);
+  padding: 52px 40px 44px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.manual-capa-inst {
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 11px;
+  color: var(--texto-fraco);
+  margin: 0 0 22px;
+}
+.manual-capa .marca-completo {
+  font-size: 32px;
+}
+.manual-capa-titulo {
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--azul-escuro);
+  margin: 26px 0 2px;
+}
+.manual-capa-sub {
+  font-size: 16px;
+  color: var(--texto-fraco);
+  margin: 0 0 28px;
+}
+.manual-capa-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin: 0 0 26px;
+}
+.manual-logo-inst {
+  height: 76px;
+  width: auto;
+  /* Remove o fundo branco do PNG sobre o bege da capa. */
+  mix-blend-mode: multiply;
+}
+.manual-capa-selos {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin: 4px 0 26px;
+}
+.manual-selo {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  border: 1.5px solid var(--azul);
+  background: var(--card);
+  color: var(--azul-escuro);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.manual-capa-nomes {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--texto);
+  max-width: 48ch;
+  margin: 0 auto;
+}
+.manual-capa-ano {
+  margin: 18px 0 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--texto-fraco);
+}
+.manual-capa-btn {
+  margin-top: 26px;
+  border: 1px solid var(--azul);
+  background: var(--azul);
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: var(--raio);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+.manual-capa-btn:hover {
+  background: var(--azul-escuro);
+  border-color: var(--azul-escuro);
+}
+
+/* ---- Sumário (índice clicável) ---- */
+.manual-sumario {
+  background: var(--card);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  padding: 18px 22px;
+  margin-bottom: 20px;
+  scroll-margin-top: 20px;
+}
+.manual-sumario h2 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--texto-fraco);
+  margin: 0 0 8px;
+}
+.manual-sumario ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.manual-sumario li:not(:last-child) button {
+  border-bottom: 1px solid var(--borda);
+}
+.manual-sumario button {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 9px 4px;
+  font: inherit;
+  color: var(--texto);
+  cursor: pointer;
+}
+.manual-sumario button:hover {
+  color: var(--azul);
+}
+.manual-sumario-num {
+  color: var(--azul);
+  font-weight: 700;
+  min-width: 18px;
+}
+.manual-sumario-dica {
+  font-size: 13px;
+  color: var(--texto-fraco);
+  margin: 12px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--borda);
 }
 .hotword {
   border: none;
@@ -235,13 +400,43 @@ body {
   line-height: 1.5;
 }
 .manual-print {
-  margin: 12px 0;
+  margin: 14px 0;
+}
+.manual-print-btn {
+  display: block;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: zoom-in;
 }
 .manual-print img {
   width: 100%;
   border: 1px solid var(--borda);
   border-radius: 8px;
   display: block;
+}
+.manual-print-zoom {
+  color: var(--azul);
+}
+.manual-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(45, 52, 58, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  cursor: zoom-out;
+}
+.manual-lightbox img {
+  max-width: 92vw;
+  max-height: 92vh;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
 }
 .manual-print-ph {
   border: 1px dashed #cdc6ba;
@@ -284,6 +479,14 @@ body {
     border: none;
     box-shadow: none;
     padding: 0;
+  }
+  .manual-capa {
+    box-shadow: none;
+    break-after: page;
+  }
+  .manual-sumario {
+    box-shadow: none;
+    break-after: page;
   }
 }
 
