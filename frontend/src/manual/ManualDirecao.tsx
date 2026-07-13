@@ -1,4 +1,5 @@
 import { Hotword, ManualShell, Print, SumarioItem } from './kit'
+import FluxoAudioDoc from '../components/FluxoAudioDoc'
 
 /* ------------------------------------------------------------------ *
  * Manual do Usuário — Sala de Situação · Direção.
@@ -418,38 +419,50 @@ export default function ManualDirecao() {
       <section id="cap-5" className="manual-sec">
         <h2>5. Gravação → Ata: reuniões viram ata</h2>
         <p>
-          A aba <strong>Gravação → Ata</strong> grava a reunião e usa a IA para{' '}
+          A aba <strong>Gravação → Ata</strong> registra a fala — <strong>gravando a reunião ao
+          vivo</strong> ou <strong>importando o áudio de uma entrevista</strong> já gravada — e usa a
+          IA para{' '}
           <Hotword termo="transcrever">
             Passar a fala para texto automaticamente — em vez de alguém digitar tudo o que foi dito.
           </Hotword>{' '}
-          o áudio e montar uma{' '}
+          o áudio. Você <strong>revisa o texto</strong> (validação humana) e a plataforma monta a{' '}
           <Hotword termo="ata">
             O documento oficial que registra uma reunião: participantes, pauta, decisões,
             responsáveis e prazos.
           </Hotword>{' '}
-          já no modelo padrão da VDDIG. É a mesma ferramenta dos setores, aqui para as reuniões de
-          gestão da Direção.
+          no modelo padrão da VDDIG, com o timbre Fiocruz/ENSP. É a mesma ferramenta dos setores,
+          aqui para as reuniões de gestão da Direção.
         </p>
+
+        <h3 className="manual-subtitulo">Como funciona, em um olhar</h3>
+        <FluxoAudioDoc />
+
         <Print
           arquivo="ata-direcao.png"
-          legenda="Aba Gravação → Ata — gravar e gerar a ata da VDDIG"
+          legenda="Aba Gravação → Ata — gravar ou importar áudio e gerar a ata da VDDIG"
         />
 
         <h3 className="manual-subtitulo">Passo a passo</h3>
         <ol className="manual-passos">
           <li>
-            Abra a aba <strong>Gravação → Ata</strong> (ou o modo <strong>Reunião → Ata</strong> do
-            Colabora AI) e clique em <strong>Gravar reunião em tempo real</strong>.
+            Abra a aba <strong>Gravação → Ata</strong>.
           </li>
           <li>
-            Ao terminar, clique em <strong>Parar e transcrever</strong>. A IA transcreve o áudio e
-            organiza a ata: data, participantes, pauta, deliberações (com responsáveis e prazos) e
-            próximos passos.
+            Escolha a entrada: <strong>Gravar reunião ao vivo</strong> (grava pelo microfone) ou{' '}
+            <strong>Enviar áudio (entrevista)</strong> para transcrever um arquivo já gravado.
           </li>
           <li>
-            <strong>Revise</strong> o texto — a decisão é sempre humana. Depois você pode{' '}
-            <strong>Exportar ata (PDF)</strong>, <strong>Copiar texto</strong> ou{' '}
-            <strong>Salvar no repositório</strong>.
+            A IA <strong>transcreve o áudio</strong> — localmente, no computador. O texto aparece
+            numa <strong>caixa editável</strong>.
+          </li>
+          <li>
+            <strong>Validação humana:</strong> revise e corrija a transcrição. Nada vira registro
+            oficial sem a sua conferência.
+          </li>
+          <li>
+            Clique em <strong>Gerar ata</strong>: a plataforma monta a ata no modelo da VDDIG, com o
+            timbre Fiocruz/ENSP. Depois você pode <strong>Exportar (PDF)</strong>,{' '}
+            <strong>Copiar texto</strong> ou <strong>Salvar no repositório</strong>.
           </li>
           <li>
             Ao salvar, a ata vai para o <strong>Notebook da Direção</strong> e passa a ser
@@ -457,8 +470,9 @@ export default function ManualDirecao() {
           </li>
         </ol>
         <p className="manual-dica">
-          <strong>Observação:</strong> na fase de testes, a ata aparece preenchida como exemplo. Em
-          uso oficial, a IA transcreve o áudio real da reunião.
+          <strong>Observação:</strong> na demonstração, a transcrição vem de um exemplo. Em uso
+          oficial, a IA transcreve o <strong>áudio real</strong> — 100% no computador, e o áudio é{' '}
+          <strong>descartado</strong> após a transcrição (só o texto é guardado).
         </p>
       </section>
 
