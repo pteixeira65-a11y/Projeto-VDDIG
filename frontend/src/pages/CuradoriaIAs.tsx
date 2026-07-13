@@ -13,6 +13,7 @@ import { DashboardPanorama } from './Dashboard'
 import { TerceirizadosPainel } from './TerceirizadosDiagnostico'
 import ManualSetor from '../manual/ManualSetor'
 import ManualDirecao from '../manual/ManualDirecao'
+import FluxoAudioDoc from '../components/FluxoAudioDoc'
 import {
   Bar,
   BarChart,
@@ -941,7 +942,9 @@ function ReuniaoAta({
   }
 
   return (
-    <div className="rec-box">
+    <>
+      {estado === 'idle' && <FluxoAudioDoc />}
+      <div className="rec-box">
       {estado === 'idle' && (
         <>
           <div className="rec-opcoes">
@@ -983,7 +986,8 @@ function ReuniaoAta({
           <span className="rec-spin" /> Transcrevendo o áudio{nomeArquivo ? ` (${nomeArquivo})` : ''}…
         </div>
       )}
-    </div>
+      </div>
+    </>
   )
 }
 

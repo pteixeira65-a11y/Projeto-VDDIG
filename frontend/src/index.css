@@ -3767,6 +3767,21 @@ body {
   mix-blend-mode: multiply;
 }
 
+/* Fluxo "do áudio ao documento" (SVG nativo) — abertura da aba e figura do Manual. */
+.fluxo-doc {
+  overflow-x: auto;
+  margin: 4px 0 18px;
+  border-radius: 18px;
+  box-shadow: var(--sombra);
+}
+.fluxo-doc svg {
+  display: block;
+  width: 100%;
+  min-width: 600px;
+  height: auto;
+  border-radius: 18px;
+}
+
 /* ---------- Responsivo ---------- */
 @media (max-width: 900px) {
   .conteudo {
