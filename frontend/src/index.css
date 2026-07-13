@@ -3782,6 +3782,126 @@ body {
   border-radius: 18px;
 }
 
+/* ---------- Conecta VDDIG (portal de setores · acento terracota) ---------- */
+.conecta-head {
+  max-width: 660px;
+  margin: 0 0 24px;
+}
+.conecta-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8f4d3b;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.conecta-titulo {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
+  color: var(--texto);
+}
+.conecta-sub {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--texto-fraco);
+  margin: 0;
+  max-width: 62ch;
+}
+.conecta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(258px, 1fr));
+  gap: 16px;
+}
+.conecta-card {
+  background: var(--card);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 20px;
+  box-shadow: var(--sombra);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+.conecta-card:hover {
+  transform: translateY(-3px);
+  border-color: #d8cabf;
+}
+.conecta-card-topo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.conecta-badge {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: #f2e2db;
+  color: #8f4d3b;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.conecta-badge svg {
+  width: 22px;
+  height: 22px;
+}
+.conecta-sigla {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #8f4d3b;
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: 6px;
+  padding: 2px 8px;
+}
+.conecta-nome {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
+  line-height: 1.3;
+  color: var(--texto);
+}
+.conecta-desc {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--texto-fraco);
+  margin: 0 0 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.conecta-rodape {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--borda);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.conecta-quem {
+  font-size: 12px;
+  color: var(--texto-fraco);
+}
+.conecta-quem strong {
+  color: var(--texto);
+}
+.conecta-link {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #8f4d3b;
+  text-decoration: none;
+  align-self: flex-start;
+}
+.conecta-link:hover {
+  text-decoration: underline;
+}
+
 /* ---------- Responsivo ---------- */
 @media (max-width: 900px) {
   .conteudo {

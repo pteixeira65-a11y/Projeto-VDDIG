@@ -72,3 +72,12 @@ export const IconTerceirizados = ({ className }: IconProps) => (
     <path d="M17 13.5 a5.5 5.5 0 0 1 3.5 5.1" />
   </svg>
 )
+
+export const IconConecta = ({ className }: IconProps) => (
+  <svg {...base} className={className}>
+    <circle cx="6" cy="6" r="2.2" />
+    <circle cx="18" cy="6" r="2.2" />
+    <circle cx="12" cy="18" r="2.2" />
+    <path d="M7.7 7.4 11.3 15.6 M16.3 7.4 12.7 15.6 M8.2 6 h7.6" />
+  </svg>
+)

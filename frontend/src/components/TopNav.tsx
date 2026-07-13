@@ -5,6 +5,7 @@ import {
   IconPrompt,
   IconCuradoria,
   IconBussola,
+  IconConecta,
 } from './icons'
 
 /* Navegação principal — consistente em todas as telas.
@@ -25,6 +26,7 @@ const ITENS: Item[] = [
   { to: '/prompts', label: 'Prompts', full: 'Banco de Prompts', Icone: IconPrompt },
   { to: '/curadoria', label: 'Curadoria', full: 'Curadoria de IAs', Icone: IconCuradoria },
   { to: '/bussola', label: 'Bússola', full: 'Bússola do Saber', Icone: IconBussola },
+  { to: '/conecta', label: 'Conecta', full: 'Conecta — setores e serviços', Icone: IconConecta },
 ]
 
 export default function TopNav() {

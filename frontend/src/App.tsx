@@ -10,6 +10,7 @@ import BancoPrompts from './pages/BancoPrompts'
 import TerceirizadosDiagnostico from './pages/TerceirizadosDiagnostico'
 import BlueprintsSetores from './pages/BlueprintsSetores'
 import ColaboraAI from './pages/ColaboraAI'
+import Conecta from './pages/Conecta'
 import RecuperarSenha from './pages/RecuperarSenha'
 import BoasVindas from './components/BoasVindas'
 import Chatbot from './components/Chatbot'
@@ -96,6 +97,14 @@ export default function App() {
         element={
           <Protegido roles={['estrategico']}>
             <BlueprintsSetores />
+          </Protegido>
+        }
+      />
+      <Route
+        path="/conecta"
+        element={
+          <Protegido>
+            <Conecta />
           </Protegido>
         }
       />
