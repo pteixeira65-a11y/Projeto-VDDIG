@@ -56,6 +56,58 @@ def responder(pergunta: str, contexto: str = "") -> str:
             "revise um trecho específico?"
         )
 
+    # Identidade da Duca (homenagem — sem se passar pela pessoa real).
+    if any(t in p for t in ("quem é você", "quem e voce", "quem é voce", "quem e você",
+                            "quem é a duca", "quem e a duca", "sobre a duca", "por que duca",
+                            "porque duca", "quem e duca", "quem é duca")):
+        return (
+            "Sou a Duca, a assistente da Plataforma Adauto — batizada em homenagem a Maria do "
+            "Carmo, a “Duca”, ex-diretora da ENSP. Levo o nome e o jeito acolhedor dela para "
+            "te ajudar no dia a dia. Sou uma assistente de IA, então a decisão é sempre humana. 🙂"
+        )
+
+    # Colabora AI
+    if "colabora" in p:
+        return (
+            "No Colabora AI você reúne o conhecimento do setor: envie documentos e peça um resumo, "
+            "uma minuta ou a organização por área. Também dá para gravar uma reunião e gerar a ata, "
+            "e depois consultar tudo no Repositório. Quer ajuda com resumo, minuta ou transcrição?"
+        )
+
+    # Bússola do Saber
+    if any(t in p for t in ("bússola", "bussola", "glossário", "glossario", "o que significa",
+                            "significado")):
+        return (
+            "A Bússola do Saber é o glossário da plataforma: você busca um termo ou sigla e recebe "
+            "a explicação em linguagem simples, com exemplo. Ótima para destravar aquele jargão. "
+            "Qual termo você quer entender?"
+        )
+
+    # Banco de Prompts
+    if "prompt" in p:
+        return (
+            "O Banco de Prompts traz modelos prontos de pedidos para a IA — é só buscar pelo tema, "
+            "copiar com um clique e colar na ferramenta que você usa. Bom para redigir ofícios, "
+            "resumir normas e padronizar textos. Quer um modelo para alguma tarefa?"
+        )
+
+    # Manual
+    if "manual" in p:
+        return (
+            "O Manual fica na aba Manual, no alto do seu espaço. Ele explica, passo a passo e em "
+            "linguagem simples, cada parte da plataforma — inclusive a Gravação → Ata. Dá para ler "
+            "na tela ou exportar em PDF. Quer que eu explique alguma tela específica?"
+        )
+
+    # Gravação → Ata / transcrição
+    if any(t in p for t in ("gravar", "gravação", "gravacao", "transcri", "áudio", "audio",
+                            "entrevista", "reunião", "reuniao")) or ("ata" in p and "data" not in p):
+        return (
+            "Na aba Gravação → Ata você grava a reunião ao vivo ou envia o áudio de uma entrevista. "
+            "A IA transcreve, você revisa o texto (validação humana) e a plataforma gera a ata no "
+            "modelo da VDDIG. O áudio é descartado após a transcrição — só o texto fica guardado."
+        )
+
     if "meta" in p and any(t in p for t in ("criar", "cadastr", "inserir", "adicion", "nova", "registr")):
         return (
             "Para cadastrar uma meta: preencha o título e uma descrição objetiva, escolha "
@@ -84,16 +136,18 @@ def responder(pergunta: str, contexto: str = "") -> str:
             "aplicado no setor e mostram o percentual de execução."
         )
 
-    if p.strip() == "" or any(t in p for t in ("oi", "olá", "ola", "ajuda", "dúvida", "duvida", "como usar")):
+    if p.strip() == "" or any(t in p for t in ("oi", "olá", "ola", "ajuda", "dúvida", "duvida",
+                                               "como usar", "o que você faz", "o que voce faz")):
         return (
-            "Olá! Sou o assistente do Espaço Setorial. Posso ajudar a cadastrar metas, "
-            "entender os status e as métricas, e orientar sobre proteção de dados (LGPD). "
-            "Sobre o que você tem dúvida?"
+            "Oi! Eu sou a Duca, a assistente da Plataforma Adauto. Posso te guiar pelo Colabora AI, "
+            "pela Bússola do Saber, pelo Banco de Prompts e pelo Manual, ajudar com metas e "
+            "métricas, e orientar sobre proteção de dados (LGPD). Sobre o que você tem dúvida?"
         )
 
     return (
-        "Ainda estou aprendendo sobre esse tema. Posso ajudar com: cadastro de metas, "
-        "significado dos status e métricas, e proteção de dados (LGPD). Pode reformular a pergunta?"
+        "Ainda estou aprendendo sobre esse tema. Posso ajudar com: Colabora AI, Bússola do Saber, "
+        "Banco de Prompts, Manual, cadastro de metas e métricas, e proteção de dados (LGPD). "
+        "Pode reformular a pergunta?"
     )
 
 

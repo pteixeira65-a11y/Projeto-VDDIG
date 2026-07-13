@@ -1265,7 +1265,7 @@ body {
 }
 
 .chat-topo {
-  background: var(--azul-escuro);
+  background: var(--azul);
   color: #fff;
   padding: 13px 15px;
   display: flex;

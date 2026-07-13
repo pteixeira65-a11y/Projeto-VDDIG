@@ -7,20 +7,30 @@ import RobotIcon from './RobotIcon'
 
 const escaparRegex = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
-const BOAS_VINDAS: ChatMsg = {
-  autor: 'bot',
-  texto: 'Olá! Sou o assistente do vddig. Posso ajudar a usar a plataforma, entender status e métricas, orientar sobre proteção de dados (LGPD) e explicar termos. Sobre o que você tem dúvida?',
+/* Saudação inicial da Duca — muda pela hora do dia. */
+function saudacaoInicial(): ChatMsg {
+  const h = new Date().getHours()
+  const saud = h < 5 ? 'Boa noite' : h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite'
+  const emoji = h >= 5 && h < 12 ? '☀️' : h >= 12 && h < 18 ? '🌤️' : '🌙'
+  return {
+    autor: 'bot',
+    texto:
+      `${saud}! ${emoji} Eu sou a Duca, a assistente da Plataforma Adauto. No que posso te ajudar hoje? ` +
+      'Te guio pelo Colabora AI, pela Bússola, pelo Banco de Prompts e pelo Manual — e cuido da proteção de dados (LGPD).',
+  }
 }
 
 const PERGUNTAS_RAPIDAS = [
-  'Como faço para criar uma meta?',
-  'O que significa cada status?',
-  'Quando uma meta fica em risco?',
+  'Como uso o Colabora AI?',
+  'Como funciona a Bússola do Saber?',
+  'O que é o Banco de Prompts?',
+  'Onde fica o Manual?',
+  'Proteção de dados (LGPD)',
 ]
 
 export default function Chatbot() {
   const { aberto, gatilhoDlp, toggle } = useChat()
-  const [mensagens, setMensagens] = useState<ChatMsg[]>([BOAS_VINDAS])
+  const [mensagens, setMensagens] = useState<ChatMsg[]>(() => [saudacaoInicial()])
   const [texto, setTexto] = useState('')
   const [pensando, setPensando] = useState(false)
   const [siglas, setSiglas] = useState<string[]>([])
@@ -96,9 +106,9 @@ export default function Chatbot() {
 
   if (!aberto) {
     return (
-      <button className="chat-fab" onClick={toggle} aria-label="Abrir assistente">
+      <button className="chat-fab" onClick={toggle} aria-label="Abrir a Duca (assistente)">
         <RobotIcon size={26} />
-        <span className="chat-fab-label">Assistente</span>
+        <span className="chat-fab-label">Duca</span>
       </button>
     )
   }
@@ -108,8 +118,8 @@ export default function Chatbot() {
       <header className="chat-topo">
         <div className="chat-titulo">
           <RobotIcon size={20} />
-          <strong>Assistente</strong>
-          <span className="chat-badge">IA</span>
+          <strong>Duca</strong>
+          <span className="chat-badge">Assistente</span>
         </div>
         <button className="chat-fechar" onClick={toggle} aria-label="Fechar">
           ×
