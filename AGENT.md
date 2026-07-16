@@ -157,8 +157,11 @@ Todas as rotas (menos `/login`, `/recuperar-senha`, `/colabora`) exigem login. R
 - **Gestão de Riscos (Compras)** — aba que reproduz, no design nórdico, a lógica de uma suíte de
   indicadores de *sourcing* (referência ILOS/Bio-Manguinhos), com painel do **PCA 2026**. Página em
   `frontend/src/pages/GestaoRiscos.tsx`. Números hoje são **fixos no componente** (extraídos do CSV do PCA).
-- **Conecta (`/conecta`, `Conecta.tsx`)** — portal institucional "quem é quem na VDDIG",
-  **data-driven** (puxa `/api/setores`). Espaço **editorial humano** (SECOM) — separado da Duca.
+- **Conecta (`/conecta`, `Conecta.tsx`)** — publicação institucional da Vice-Direção, em duas
+  seções no topo: **Informativo** (alerta de segurança + avisos dos setores, cada um abrindo sua
+  "matéria"; hero com a "trama" de nós no estilo nórdico) e **Quem é quem** (os setores reais,
+  **data-driven** de `/api/setores`). Espaço **editorial humano** (SECOM) — separado da Duca. Os
+  avisos/alerta são **mock** ("na agulha") — depois viram publicação real mantida pelo SECOM.
 - **Duca (`components/Chatbot.tsx`)** — assistente/guia da plataforma (FAB no canto). Robô nórdico,
   saudação por horário, atalhos para as partes subutilizadas, `responder()` por regras (mock). Não
   autora comunicados institucionais (isso é papel humano/SECOM).

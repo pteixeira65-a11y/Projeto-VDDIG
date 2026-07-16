@@ -55,19 +55,25 @@ O chatbot "Assistente" (`frontend/src/components/Chatbot.tsx`, FAB no canto, lig
   **Comunicação** (SECOM), espaço editorial com dono humano que assina o que publica. A Duca não
   autora nem "anuncia" comunicados.
 
-## Conecta VDDIG (commit `db38fd7`)
+## Conecta VDDIG (commits `db38fd7`, `1d1a7e0`)
 
-Porta de entrada institucional "quem é quem na gestão da VDDIG". Origem: esboço do dono
-(`conecta-vddig.html`, estilo coral/glassmorphism/Apple) → **adaptado ao design nórdico** com
-acento **terracota** (`--vermelho` / `#8f4d3b` / soft `#f2e2db`).
+Publicação institucional da Vice-Direção. Origem: esboço do dono (`conecta-vddig.html`, estilo
+coral/glassmorphism/Apple) → **adaptado ao design nórdico** com acento **terracota** (`--vermelho`
+/ `#8f4d3b` / soft `#f2e2db`).
 
 - Item "Conecta" no `TopNav` (`IconConecta`), rota `/conecta` (todos os papéis), página
-  `frontend/src/pages/Conecta.tsx`. Estilos `.conecta-*`.
-- **Data-driven:** puxa setores reais de `/api/setores` (sigla, nome, missão, objetivos,
-  responsável). Cartão = sigla · nome · o que faz (missão) · a quem procurar (responsável) + link
-  "Ver no site da VDDIG ↗".
+  `frontend/src/pages/Conecta.tsx`. Estilos `.conecta-*` em `index.css`.
+- **Duas seções no topo** (commit `1d1a7e0`), com *hero* da "trama" de nós (`TramaHero`) no estilo
+  nórdico:
+  - **Informativo** — um **alerta de segurança** (Nível 3, ex.: operação policial perto do campus,
+    com "O que fazer") + **avisos dos setores** (cards por setor: SEINFRA, SEBIO, POLEM…). Cada
+    aviso e o alerta abrem uma **matéria** própria (`SecaoInformativo`). Conteúdo é **mock** (`AVISOS`,
+    `ALERTA` no topo do arquivo) — **"na agulha"**: depois vira publicação real mantida pelo SECOM.
+  - **Quem é quem** — os setores reais (`SecaoSetores`), **data-driven** de `/api/setores` (sigla,
+    nome, missão, objetivos, responsável). Cartão = sigla · nome · o que faz (missão) · a quem
+    procurar (responsável) + link "Ver no site da VDDIG ↗".
 - Dentro da plataforma, o Conecta **perde o masthead gigante** do esboço (para não competir com a
-  marca Adauto) e vira seção nativa.
+  marca Adauto) e vira seção nativa, com o cabeçalho "Conecta · publicação da Vice-Direção".
 - **Ownership:** espaço **editorial humano** (SECOM/cada setor), separado da Duca.
 - **Site oficial de referência** (vddig.ensp.fiocruz.br): cada serviço tem menu Competência ·
   Equipe · O que Fazemos · Leis e Normas · Documentos · Relatórios · Avisos · Links Úteis.
