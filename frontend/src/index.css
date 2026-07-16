@@ -126,6 +126,45 @@ body {
   font-size: 13px;
 }
 
+/* ---------- Gestão de Riscos (aba do setor de Compras) ---------- */
+.gr-wrap { max-width: 960px; }
+.gr-head { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+.gr-logo { height: 64px; width: auto; }
+.gr-logo-fb { display: flex; flex-direction: column; font-weight: 700; color: var(--azul-escuro); font-size: 15px; line-height: 1.1; border: 1px dashed #cdc6ba; border-radius: 10px; padding: 10px 14px; }
+.gr-logo-fb span { font-size: 11px; color: var(--texto-fraco); font-weight: 600; }
+.gr-head-tit { flex: 1; }
+.gr-head-tit h2 { font-size: 18px; font-weight: 600; color: var(--azul-escuro); margin: 0 0 2px; }
+.gr-head-tit p { font-size: 12px; color: var(--texto-fraco); margin: 0; }
+.gr-nav { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.gr-navitem { font-size: 12px; color: var(--texto-fraco); background: var(--card); border: 1px solid var(--borda); border-radius: 99px; padding: 5px 12px; }
+.gr-navitem.ativo { background: var(--azul); color: #fff; border-color: var(--azul); font-weight: 600; }
+.gr-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
+.gr-kpi { background: var(--card); border: 1px solid var(--borda); border-radius: var(--raio); padding: 12px 14px; box-shadow: var(--sombra); }
+.gr-kpi-v { font-size: 22px; font-weight: 700; color: var(--azul-escuro); }
+.gr-kpi-l { font-size: 12px; color: var(--texto-fraco); margin-top: 2px; }
+.gr-grid2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 10px; margin-bottom: 10px; }
+.gr-grid2b { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.gr-card { background: var(--card); border: 1px solid var(--borda); border-radius: var(--raio); padding: 14px; box-shadow: var(--sombra); }
+.gr-card h3 { font-size: 13px; font-weight: 600; margin: 0 0 10px; }
+.gr-card h3 small { color: var(--texto-fraco); font-weight: 400; }
+.gr-bar { margin-bottom: 8px; font-size: 12px; }
+.gr-bar-row { display: flex; justify-content: space-between; }
+.gr-bar-val { color: var(--texto-fraco); }
+.gr-track { height: 8px; background: #ece7de; border-radius: 99px; margin-top: 3px; }
+.gr-fill { height: 100%; border-radius: 99px; }
+.gr-donut-row { display: flex; align-items: center; gap: 14px; }
+.gr-donut { width: 96px; height: 96px; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center; }
+.gr-donut-hole { width: 58px; height: 58px; border-radius: 50%; background: var(--card); display: grid; place-items: center; font-size: 11px; color: var(--texto-fraco); text-align: center; line-height: 1.2; }
+.gr-leg { font-size: 12px; display: flex; flex-direction: column; gap: 8px; }
+.gr-sq { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 6px; }
+.gr-leg-obs { color: var(--texto-fraco); font-size: 11px; }
+.gr-tab { width: 100%; border-collapse: collapse; font-size: 12px; }
+.gr-tab th { color: var(--texto-fraco); font-weight: 500; text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--borda); }
+.gr-tab td { padding: 6px 8px; border-bottom: 1px solid #f0ece4; }
+.gr-tab-mais { color: var(--texto-fraco); }
+.gr-aviso { background: #fbf1ef; border: 1px solid #e7cfc9; border-left: 3px solid #b0473a; border-radius: 8px; padding: 10px 12px; font-size: 12px; color: var(--texto); line-height: 1.5; margin-top: 10px; }
+@media (max-width: 760px) { .gr-kpis { grid-template-columns: repeat(2, 1fr); } .gr-grid2, .gr-grid2b { grid-template-columns: 1fr; } }
+
 /* ---------- Manual do usuário ---------- */
 .manual-wrap {
   max-width: 780px;
@@ -3901,6 +3940,170 @@ body {
 .conecta-link:hover {
   text-decoration: underline;
 }
+
+/* Conecta — publicação editorial (masthead, trama, seções, informativo) */
+.conecta-mast-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--texto-fraco);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--borda);
+}
+.conecta-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 0 4px;
+}
+.conecta-mark {
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  background: #b06a56;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  box-shadow: 0 8px 18px rgba(176, 106, 86, 0.28);
+}
+.conecta-mark svg { width: 24px; height: 24px; }
+.conecta-word { font-size: clamp(26px, 4vw, 36px); font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
+.conecta-word b { color: #8f4d3b; font-weight: 800; }
+.conecta-tag { text-align: center; font-size: 14px; color: var(--texto-fraco); margin: 6px 0 12px; }
+
+.conecta-hero { border-radius: 14px; overflow: hidden; border: 1px solid #ecd9cf; margin: 0 0 14px; }
+.conecta-hero svg { display: block; width: 100%; height: auto; }
+
+.conecta-secs { display: flex; gap: 6px; border-bottom: 2px solid var(--borda); margin-bottom: 24px; }
+.conecta-sec {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 14px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--texto-fraco);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+}
+.conecta-sec svg { width: 17px; height: 17px; }
+.conecta-sec:hover { color: var(--texto); }
+.conecta-sec.on { color: #8f4d3b; border-bottom-color: #b06a56; }
+.conecta-livedot { width: 7px; height: 7px; border-radius: 50%; background: #c1604a; animation: conecta-pulse 2s ease-in-out infinite; }
+@keyframes conecta-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+@media (prefers-reduced-motion: reduce) { .conecta-livedot { animation: none; } }
+
+.conecta-alerta {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  background: #f7e6e1;
+  border: 1px solid #ecccc3;
+  border-left: 4px solid #b0503b;
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+}
+.conecta-alerta-ic { width: 46px; height: 46px; border-radius: 12px; background: #f0d0c7; color: #8f3325; display: grid; place-items: center; flex-shrink: 0; }
+.conecta-alerta-ic svg { width: 24px; height: 24px; }
+.conecta-alerta-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #8f3325; margin-bottom: 6px; }
+.conecta-alerta h3 { font-size: 20px; font-weight: 800; margin: 0 0 6px; color: #5c2a20; letter-spacing: -0.01em; }
+.conecta-alerta p { font-size: 14px; line-height: 1.55; color: #6b3a30; margin: 0 0 8px; }
+.conecta-alerta-meta { font-size: 12px; color: #a06a5e; font-weight: 600; }
+.conecta-alerta-mais { display: inline-block; margin-top: 10px; font-size: 12.5px; font-weight: 700; color: #8f3325; text-decoration: none; }
+.conecta-alerta-mais:hover { text-decoration: underline; }
+
+.conecta-secttl { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--texto-fraco); margin: 6px 0 12px; }
+
+.conecta-aviso { background: var(--card); border: 1px solid var(--borda); border-radius: 14px; padding: 18px; box-shadow: var(--sombra); display: flex; flex-direction: column; }
+.conecta-aviso-top { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.conecta-aviso-badge { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; flex-shrink: 0; }
+.conecta-aviso-badge svg { width: 20px; height: 20px; }
+.conecta-aviso-tag { font-size: 10.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+.conecta-aviso h4 { font-size: 15px; font-weight: 700; margin: 0 0 8px; line-height: 1.3; color: var(--texto); letter-spacing: -0.01em; }
+.conecta-aviso p { font-size: 12.5px; line-height: 1.55; color: var(--texto-fraco); margin: 0 0 14px; }
+.conecta-aviso-rod { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--borda); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.conecta-aviso-quando { font-size: 12px; color: var(--texto-fraco); font-weight: 600; }
+.conecta-aviso-mais { font-size: 12px; font-weight: 700; white-space: nowrap; text-decoration: none; }
+.conecta-aviso-mais:hover { text-decoration: underline; }
+.conecta-aviso.azul .conecta-aviso-badge { background: #e9edf0; color: #4a6b82; }
+.conecta-aviso.azul .conecta-aviso-tag, .conecta-aviso.azul .conecta-aviso-mais { color: #456178; }
+.conecta-aviso.verde .conecta-aviso-badge { background: #e6ece1; color: #556b4f; }
+.conecta-aviso.verde .conecta-aviso-tag, .conecta-aviso.verde .conecta-aviso-mais { color: #556b4f; }
+.conecta-aviso.roxo .conecta-aviso-badge { background: #efeaf3; color: #6c5c7c; }
+.conecta-aviso.roxo .conecta-aviso-tag, .conecta-aviso.roxo .conecta-aviso-mais { color: #6c5c7c; }
+
+.conecta-teaser {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+  padding: 16px 18px;
+  background: #f2e2db;
+  border: 1px solid #ecd9cf;
+  border-radius: 14px;
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.conecta-teaser:hover { border-color: #d8b9ab; }
+.conecta-teaser-ic { width: 40px; height: 40px; border-radius: 11px; background: #fff; color: #8f4d3b; display: grid; place-items: center; flex-shrink: 0; }
+.conecta-teaser-ic svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.conecta-teaser-txt b { font-size: 14.5px; color: #5c2a20; }
+.conecta-teaser-txt span { font-size: 12.5px; color: #8a5647; display: block; margin-top: 2px; }
+.conecta-teaser-go { margin-left: auto; font-size: 13px; font-weight: 700; color: #8f4d3b; white-space: nowrap; }
+
+/* Conecta — matéria completa (Saiba mais / Ver orientações) */
+.conecta-voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-bottom: 18px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto-fraco);
+  cursor: pointer;
+}
+.conecta-voltar:hover { color: var(--texto); }
+.conecta-voltar svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.conecta-materia { max-width: 720px; }
+.conecta-materia-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+  background: #e9edf0;
+  color: #456178;
+}
+.conecta-materia-tag.verde { background: #e6ece1; color: #556b4f; }
+.conecta-materia-tag.roxo { background: #efeaf3; color: #6c5c7c; }
+.conecta-materia-tag.red { background: #f2d3ca; color: #8f3325; }
+.conecta-materia-titulo { font-size: 26px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; margin: 0 0 8px; color: var(--texto); }
+.conecta-materia.alerta .conecta-materia-titulo { color: #5c2a20; }
+.conecta-materia-meta { font-size: 12.5px; color: var(--texto-fraco); font-weight: 600; margin-bottom: 18px; }
+.conecta-materia-corpo p { font-size: 15px; line-height: 1.7; color: var(--texto); margin: 0 0 14px; }
+.conecta-materia h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: #8f3325; margin: 18px 0 8px; }
+.conecta-materia ul { margin: 0; padding-left: 20px; }
+.conecta-materia li { font-size: 14.5px; line-height: 1.7; color: var(--texto); margin-bottom: 4px; }
 
 /* ---------- Responsivo ---------- */
 @media (max-width: 900px) {

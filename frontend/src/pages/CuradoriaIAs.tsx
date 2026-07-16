@@ -12,6 +12,7 @@ import { BlueprintsExplorer } from '../blueprints'
 import { DashboardPanorama } from './Dashboard'
 import { TerceirizadosPainel } from './TerceirizadosDiagnostico'
 import ManualSetor from '../manual/ManualSetor'
+import GestaoRiscos from './GestaoRiscos'
 import ManualDirecao from '../manual/ManualDirecao'
 import FluxoAudioDoc from '../components/FluxoAudioDoc'
 import {
@@ -1541,6 +1542,7 @@ export default function CuradoriaIAs() {
     | 'blueprints'
     | 'terceirizados'
     | 'manual'
+    | 'gestaoriscos'
   >('colabora')
   const [selecionadaId, setSelecionadaId] = useState<string | null>(null)
   const iaSelecionada = IAS.find((ia) => ia.id === selecionadaId)
@@ -1569,13 +1571,15 @@ export default function CuradoriaIAs() {
   const docsSetor = setorAtivoId ? docs[setorAtivoId] ?? [] : []
   const ehPolem = setorAtivo?.sigla === 'POLEM'
   const ehQualidade = setorAtivo?.sigla === 'SGQ'
+  const ehCompras = setorAtivo?.sigla === 'Compras'
 
   // Mantém a aba coerente com o perfil/setor.
   useEffect(() => {
     if (aba === 'blueprint' && !ehPolem) setAba('colabora')
     if (aba === 'mapeamento' && !ehQualidade) setAba('colabora')
+    if (aba === 'gestaoriscos' && !ehCompras) setAba('colabora')
     if ((aba === 'blueprints' || aba === 'terceirizados') && !estrategico) setAba('colabora')
-  }, [aba, ehPolem, ehQualidade, estrategico])
+  }, [aba, ehPolem, ehQualidade, ehCompras, estrategico])
 
   function adicionarDoc(d: Omit<Doc, 'id' | 'data'>) {
     if (!setorAtivoId) return
@@ -1662,6 +1666,14 @@ export default function CuradoriaIAs() {
               <IconDoc /> Mapeamento · Qualidade
             </button>
           )}
+          {ehCompras && (
+            <button
+              className={`wkspace-tab${aba === 'gestaoriscos' ? ' ativo' : ''}`}
+              onClick={() => setAba('gestaoriscos')}
+            >
+              <IconSearch /> Gestão de Riscos
+            </button>
+          )}
           <button
             className={`wkspace-tab${aba === 'ata' ? ' ativo' : ''}`}
             onClick={() => setAba('ata')}
@@ -1713,6 +1725,7 @@ export default function CuradoriaIAs() {
         {aba === 'repo' && <Repositorio setor={setorAtivo} docs={docsSetor} />}
         {aba === 'blueprint' && ehPolem && <BlueprintsExplorer modo="polem" />}
         {aba === 'mapeamento' && ehQualidade && <MapeamentoQualidade />}
+        {aba === 'gestaoriscos' && ehCompras && <GestaoRiscos />}
         {aba === 'ferramentas' &&
           (iaSelecionada ? (
             <DetalheIA ia={iaSelecionada} onVoltar={() => setSelecionadaId(null)} />
