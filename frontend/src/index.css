@@ -132,6 +132,10 @@ body {
 .gr-logo { height: 64px; width: auto; }
 .gr-logo-fb { display: flex; flex-direction: column; font-weight: 700; color: var(--azul-escuro); font-size: 15px; line-height: 1.1; border: 1px dashed #cdc6ba; border-radius: 10px; padding: 10px 14px; }
 .gr-logo-fb span { font-size: 11px; color: var(--texto-fraco); font-weight: 600; }
+.gr-logo-svg { display: flex; align-items: center; gap: 10px; }
+.gr-logo-txt { display: flex; flex-direction: column; line-height: 1.05; }
+.gr-logo-txt strong { color: #22303a; font-size: 15px; font-weight: 700; }
+.gr-logo-txt span { color: var(--texto-fraco); font-size: 11px; font-weight: 600; letter-spacing: 0.04em; }
 .gr-head-tit { flex: 1; }
 .gr-head-tit h2 { font-size: 18px; font-weight: 600; color: var(--azul-escuro); margin: 0 0 2px; }
 .gr-head-tit p { font-size: 12px; color: var(--texto-fraco); margin: 0; }

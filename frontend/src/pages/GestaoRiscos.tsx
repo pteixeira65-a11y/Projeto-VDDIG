@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 /* ------------------------------------------------------------------ *
  * Gestão de Riscos — aba do setor de Compras.
  * Painel de indicadores de sourcing do PCA 2026 (dados reais do SECOM),
@@ -31,15 +29,21 @@ const PRIORIDADE: Barra[] = [
 ]
 const NAV = ['Painel do PCA 2026', 'Processos', 'Etapas', 'Fornecedores', 'Segmentação de categorias', 'Mapa de Riscos']
 
-/* Logo da Gestão de Riscos — mostra a imagem real se existir em
-   /public/demo/gestao-riscos.png; senão, um texto de reserva. */
+/* Logo da Gestão de Riscos — desenhado em SVG (círculo de melhoria contínua
+   + seta), no estilo da logomarca. Não depende de arquivo de imagem. */
 function GrLogo() {
-  const [ok, setOk] = useState(true)
-  return ok ? (
-    <img src="/demo/gestao-riscos.png" alt="Gestão de Riscos VDDIG" className="gr-logo" onError={() => setOk(false)} />
-  ) : (
-    <div className="gr-logo-fb">
-      Gestão de Riscos<span>VDDIG</span>
+  return (
+    <div className="gr-logo-svg" aria-label="Gestão de Riscos VDDIG">
+      <svg width="52" height="52" viewBox="0 0 64 64" role="img" aria-hidden="true">
+        <path d="M 47 15 A 22 22 0 1 0 52 26" fill="none" stroke="#22303a" strokeWidth="3" strokeLinecap="round" />
+        <path d="M 17 49 A 22 22 0 0 0 26 52" fill="none" stroke="#22303a" strokeWidth="3" strokeLinecap="round" />
+        <line x1="17" y1="32" x2="43" y2="32" stroke="#c0392b" strokeWidth="3" strokeLinecap="round" />
+        <path d="M 37 26 L 46 32 L 37 38" fill="none" stroke="#c0392b" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+      <div className="gr-logo-txt">
+        <strong>Gestão de Riscos</strong>
+        <span>VDDIG</span>
+      </div>
     </div>
   )
 }
