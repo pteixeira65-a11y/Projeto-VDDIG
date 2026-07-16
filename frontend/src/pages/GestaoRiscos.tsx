@@ -29,7 +29,7 @@ const PRIORIDADE: Barra[] = [
   { k: 'Médio', v: 'R$ 34,3 mi', pct: 25, cor: '#c6924b' },
   { k: 'Baixo', v: 'R$ 117,4 mi', pct: 85, cor: 'var(--verde)' },
 ]
-const NAV = ['Painel do PCA 2026', 'Processos', 'Etapas', 'Fornecedores', 'Segmentação (Kraljic)', 'Mapa de Riscos']
+const NAV = ['Painel do PCA 2026', 'Processos', 'Etapas', 'Fornecedores', 'Segmentação de categorias', 'Mapa de Riscos']
 
 /* Logo da Gestão de Riscos — mostra a imagem real se existir em
    /public/demo/gestao-riscos.png; senão, um texto de reserva. */
@@ -65,7 +65,7 @@ export default function GestaoRiscos() {
         <GrLogo />
         <div className="gr-head-tit">
           <h2>Gestão de Riscos — Compras</h2>
-          <p>Indicadores de sourcing do PCA 2026 · dados reais do SECOM</p>
+          <p>Indicadores de compras do PCA 2026 · dados reais do SECOM</p>
         </div>
         <span className="bp-tag">Compras · demonstração</span>
       </div>
@@ -129,8 +129,8 @@ export default function GestaoRiscos() {
 
       <div className="gr-aviso">
         <strong>Sobre a demonstração:</strong> os números vêm do <strong>PCA 2026</strong> (planejamento). As telas de{' '}
-        <strong>Saving, Etapas, Fornecedores e Kraljic</strong> entram quando ligarmos as bases do SEI e das avaliações —
-        aqui elas aparecem no menu para mostrar a visão completa.
+        <strong>Economia, Etapas, Fornecedores e Segmentação de categorias</strong> entram quando ligarmos as bases do
+        SEI e das avaliações — aqui elas aparecem no menu para mostrar a visão completa.
       </div>
     </div>
   )
